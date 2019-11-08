@@ -1,6 +1,6 @@
-# bsv
+# VeChain explorer
 
-> My first-class Nuxt.js project
+> VeChain explorer
 
 ## Build Setup
 
