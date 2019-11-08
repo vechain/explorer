@@ -1,10 +1,8 @@
 <template>
-    <b-container>
         <h2>
             Example heading
             <b-badge>New</b-badge>
         </h2>
-    </b-container>
 </template>
 
 <script lang="ts">
