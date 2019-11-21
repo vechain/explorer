@@ -23,13 +23,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@fortawesome/fontawesome-svg-core/styles.css'],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    '~/plugins/filters.ts'
-  ],
+  plugins: ['~/plugins/filters.ts', '~/plugins/fontawesome.ts'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -58,8 +56,7 @@ export default {
   },
   proxy: {
     '/api/': {
-      target: 'https://sync-mainnet.vechain.org/',
-      pathRewrite: { '^/api/': '' }
+      target: 'http://localhost:4000'
     }
   },
   /*

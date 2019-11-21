@@ -13,5 +13,6 @@ import { Context } from '@nuxt/types'
         return 'default'
     }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+}
 </script>

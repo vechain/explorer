@@ -9,17 +9,30 @@ Vue.filter('shortAddress', (v: string) => {
 Vue.filter('balance', (val: number) => {
   return Number(val).toLocaleString(undefined, {
     style: 'decimal',
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 4,
     minimumFractionDigits: 2
   })
 })
 
+Vue.filter('bNum', (val: string) => {
+  return parseInt(val.substr(0, 10), 16)
+})
+
 Vue.filter('hexToVal', (hex: string, decimals?: number) => {
   const temp = new BigNumber(hex)
-  // console.log(hex, temp.div().toString())
+
   return temp.isGreaterThan(0)
     ? temp.div(new BigNumber('1e+' + (decimals || 18))).toString()
     : 0
+})
+
+Vue.filter('countVal', (clauses: any[]) => {
+  const temp = clauses.map((item) => {
+    return new BigNumber(item.value || '0x0')
+  }).reduce((prev, curr) => {
+    return prev.plus(curr)
+  })
+  return '0x' + temp.toString(16)
 })
 
 Vue.filter('valToHex', (val: string, decimals?: number) => {
@@ -30,4 +43,12 @@ Vue.filter('valToHex', (val: string, decimals?: number) => {
 
 Vue.filter('toChecksumAddress', (val: string) => {
   return toChecksumAddress(val)
+})
+
+Vue.filter('datetime', (val: number) => {
+  return new Date(val).toLocaleString()
+})
+
+Vue.filter('numFmt', (val: number) => {
+  return val.toLocaleString()
 })

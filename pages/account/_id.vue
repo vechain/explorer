@@ -5,8 +5,8 @@
             <b-nav-item
                 v-for="item in links"
                 :key="item.route.name"
-                exact
-                exact-active-class="active"
+                replace
+                active-class="active"
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
@@ -17,13 +17,14 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
+import { Route } from 'vue-router'
 @Component({
     async asyncData(ctx: Context) {
         const params = ctx.params
         const links = [{
             text: 'Summary',
             route: {
-                name: 'account-id-summary',
+                name: 'account-id',
                 params
             }
         }, {
