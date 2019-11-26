@@ -103,7 +103,6 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import InputData from '@/components/InputData.vue'
 import ListItem from '@/components/ListItem.vue'
 import { abi } from 'thor-devkit/dist/abi'
 @Component({
