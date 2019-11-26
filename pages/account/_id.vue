@@ -6,7 +6,7 @@
                 v-for="item in links"
                 :key="item.route.name"
                 replace
-                active-class="active"
+                :active="item.route.name === $route.name"
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>

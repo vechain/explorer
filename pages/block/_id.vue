@@ -23,7 +23,7 @@ import { Context } from '@nuxt/types'
 @Component(
     {
         async asyncData(ctx: Context) {
-            console.log(ctx.route)
+            console.log()
             const params = ctx.params
             const links = [{
                 text: 'Info',

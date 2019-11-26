@@ -26,7 +26,8 @@
     "types": [
       "@types/node",
       "@nuxtjs/axios/types",
-      "@nuxt/types"
+      "@nuxt/types",
+      "thor-devkit/dist"
     ]
   },
   "exclude": [

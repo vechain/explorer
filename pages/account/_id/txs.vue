@@ -1,6 +1,14 @@
 <template>
     <div>
-        <b-pagination-nav :number-of-pages="pageCount" v-model="currentPage" limit="20" use-router :link-gen="linkGen"></b-pagination-nav>
+        <b-pagination-nav
+            class="mt-3"
+            :number-of-pages="pageCount"
+            v-model="currentPage"
+            limit="20"
+            use-router
+            :link-gen="linkGen"
+            align="right"
+        ></b-pagination-nav>
         <b-table :fields="fields" :items="transactions">
             <template v-slot:cell(txID)="row">
                 <nuxt-link
@@ -23,14 +31,15 @@
                     v-if="row.item.clauses.length === 1"
                     class="text-monospace"
                     :to="{name: 'account-id', params: {
-                      id: row.item.origin
+                      id: row.item.clauses[0].to
                   }}"
                 >{{row.item.clauses[0].to | toChecksumAddress | shortAddress}}</nuxt-link>
                 <span v-else-if="row.item.clauses.length > 1">Mutiple</span>
                 <span v-else>None</span>
             </template>
             <template v-slot:cell(value)="row">
-                {{ row.item.clauses | countVal | hexToVal | balance}} <small class="text-secondary" >VET</small>
+                <span class="text-monospace">{{ row.item.clauses | countVal | hexToVal | balance}}</span>
+                <small class="text-secondary">VET</small>
             </template>
         </b-table>
     </div>
@@ -42,7 +51,7 @@ import { Context } from '@nuxt/types'
     async asyncData(ctx: Context) {
         const page = (ctx.query.page as string) || '1'
         const limit = parseInt(page, 10) * 20
-        
+
         const result = await ctx.$axios.$get(`/api/accounts/${ctx.params.id}/transactions`, {
             params: {
                 limit: 20,
@@ -50,11 +59,10 @@ import { Context } from '@nuxt/types'
             }
         })
 
-        console.log(result)
         return {
             ...result,
             currentPage: page,
-            pageCount:  result.count/20 + (result.count % 20 && 1)
+            pageCount: result.count / 20 + (result.count % 20 && 1)
         }
     }
 })
@@ -79,17 +87,17 @@ export default class AccountTxs extends Vue {
     ]
 
     linkGen(pageNum: number) {
-      return {
-        path: this.$route.path,
-        query: { page: pageNum }
-      }
+        return {
+            path: this.$route.path,
+            query: { page: pageNum }
+        }
     }
 
     @Watch('$route')
     async queryChange() {
         const page = (this.$route.query.page as string) || '1'
         const limit = parseInt(page, 10) * 20
-        
+
         const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id}/transactions`, {
             params: {
                 limit: 20,
@@ -98,7 +106,7 @@ export default class AccountTxs extends Vue {
         })
         this.transactions = result.transactions
         this.count = result.count
-        
+
     }
 }
 </script>

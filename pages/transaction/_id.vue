@@ -11,21 +11,25 @@
                 :to="item.hash"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <TxInfo v-show="tab === 'info'" :tx="tx" />
-        <TxClause v-show="tab === 'clause'" />
+        <TxInfo v-show="tab === 'info'" :tx="tx" :transfers="transfers"/>
+        <TxClauses :clauseList="clauseList" v-show="tab === 'clause'" />
     </div>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import TxInfo from '@/components/TxInfo.vue'
-import TxClause from '@/components/TxClause.vue'
+import TxClauses from '@/components/TxClauses.vue'
 import { Context } from '@nuxt/types'
 @Component(
     {
         middleware: 'txInfo',
         components: {
             TxInfo,
-            TxClause
+            TxClauses
+        },
+        async fetch(ctx: Context) {
+            const result = await ctx.$axios.$get(`https://vechain.github.io/token-registry/main.json`)
+            ctx.store.commit('setTokens', result)
         },
         async asyncData(ctx: Context) {
             const params = ctx.params
@@ -36,8 +40,15 @@ import { Context } from '@nuxt/types'
                 text: `Clause(${ctx.payload.clauses.length})`,
                 hash: '#clause'
             }]
+            const data = ctx.payload
+            const clauseList = data.clauses.map((item: any, index: number) => {
+                return {
+                    ...item,
+                    ...data.outputs[index]
+                }
+            })
 
-            return { links, ...ctx.payload }
+            return { links, ...data, clauseList }
         }
     }
 )

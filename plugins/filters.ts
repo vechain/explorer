@@ -1,9 +1,10 @@
 import { Vue } from 'vue-property-decorator'
 import BigNumber from 'bignumber.js'
+import { format as timeago } from 'timeago.js'
 import { toChecksumAddress } from 'thor-devkit/dist/cry/address'
 
 Vue.filter('shortAddress', (v: string) => {
-  return v.substring(0, 8) + '...' + v.substring(v.length - 6, v.length)
+  return v.substring(0, 8) + '...' + v.substring(v.length - 4, v.length)
 })
 
 Vue.filter('balance', (val: number) => {
@@ -13,6 +14,8 @@ Vue.filter('balance', (val: number) => {
     minimumFractionDigits: 2
   })
 })
+
+Vue.filter('ago', (timestamp: number) => timeago(timestamp * 1000))
 
 Vue.filter('bNum', (val: string) => {
   return parseInt(val.substr(0, 10), 16)
@@ -46,9 +49,11 @@ Vue.filter('toChecksumAddress', (val: string) => {
 })
 
 Vue.filter('datetime', (val: number) => {
-  return new Date(val).toLocaleString()
+  return new Date(val * 1000).toLocaleString()
 })
 
 Vue.filter('numFmt', (val: number) => {
-  return val.toLocaleString()
+  if (val !== null && val !== undefined) {
+    return val.toLocaleString()
+  }
 })

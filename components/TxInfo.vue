@@ -13,20 +13,22 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Timestamp</template>
-                <template slot="item-content"></template>
+                <template slot="item-content">{{tx.blockTimestamp | datetime}}</template>
             </ListItem>
             <ListItem>
                 <template slot="label">Total Transfer</template>
                 <template slot="item-content">
                     <span class="text-monospace">
-                    {{tx.clauses | countVal | hexToVal | balance}}
-                    <small class="text-secondary">VET</small>
+                        {{tx.clauses | countVal | hexToVal | balance}}
+                        <small
+                            class="text-secondary"
+                        >VET</small>
                     </span>
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Gas Used</template>
-                <template slot="item-content"></template>
+                <template slot="item-content"> <span class="text-monospace">{{tx.gasUsed}}</span></template>
             </ListItem>
             <ListItem>
                 <template slot="label">Origin</template>
@@ -40,17 +42,27 @@
                         class="text-monospace align-middle font-weight-lighter"
                         :to="{name: 'account-id', params: {id: tx.origin}}"
                     >
-                        <span>{{tx.origin}}</span>
+                        <span>{{tx.origin | toChecksumAddress}}</span>
                     </nuxt-link>
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Fee</template>
                 <template slot="item-content">
-                    <span class="text-monospace"> 
-                    {{tx.paid | hexToVal | balance}}
-                    <small class="text-secondary">VEHO</small>
+                    <span class="text-monospace">
+                        {{tx.paid | hexToVal | balance}}
+                        <small class="text-secondary">VTHO</small>
                     </span>
+                </template>
+            </ListItem>
+            <ListItem>
+                <template slot="label">Token Transferred</template>
+                <template slot="item-content">
+                    <ul class="ul pl-0">
+                        <li v-for="(item, i) in transfersList" :key="i">
+                            <TokenTransferItem :transfer="item" /> 
+                        </li>
+                    </ul>
                 </template>
             </ListItem>
             <ListItem>
@@ -99,15 +111,38 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import IdentBox from '@/components/IdentBox.vue'
+import TokenTransferItem from '@/components/TokenTransferItem.vue'
 import { Context } from '@nuxt/types'
 @Component({
     components: {
         ListItem,
-        IdentBox
+        IdentBox,
+        TokenTransferItem
     }
 })
 export default class TxInfo extends Vue {
     @Prop(Object)
     tx!: Object
+
+    @Prop()
+    transfers!: any[]
+
+    get transfersList() {
+        return this.transfers.map(item => {
+            return {
+                sender: item.sender,
+                recipient: item.recipient,
+                amount: item.amount,
+                symbol: item.token
+            }
+        })
+    }
 }
 </script>
+<style scoped>
+.ul {
+    list-style: none;
+}
+</style>
+
+

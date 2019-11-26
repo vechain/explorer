@@ -8,36 +8,36 @@
                         size="sm"
                         variant="outline-secondary"
                         :to="{name: 'block-id-info', params: {
-                        id: item.number - 1
+                        id: prev
                     }}"
                     >
                         <font-awesome-icon icon="arrow-left" />
                     </b-button>
-                    <span class="align-middle text-monospace">{{item.number.toLocaleString()}}</span>
+                    <span class="align-middle text-monospace">{{item.number | numFmt}}</span>
                     <b-button
                         size="sm"
                         variant="outline-secondary"
                         :to="{name: 'block-id-info', params: {
-                        id: item.number + 1
+                        id: next
                     }}"
                     >
                         <font-awesome-icon icon="arrow-right" />
                     </b-button>
                     <small
                         class="ml-2 align-middle text-muted text-secondary"
-                    >@ {{item.timestamp*1000 | datetime}}</small>
+                    >@ {{item.timestamp | datetime}}</small>
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Gas Used</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{item.gasUsed.toLocaleString()}}</span>
+                    <span class="text-monospace">{{item.gasUsed | numFmt}}</span>
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Total Score</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{item.totalScore.toLocaleString()}}</span>
+                    <span class="text-monospace">{{item.totalScore | numFmt}}</span>
                 </template>
             </ListItem>
             <ListItem>
@@ -129,7 +129,9 @@ import { Context } from '@nuxt/types'
     },
     async asyncData(ctx: Context) {
         return {
-            item: ctx.payload
+            item: ctx.payload.block,
+            next: ctx.payload.next,
+            prev: ctx.payload.prev
         }
     }
 })

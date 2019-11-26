@@ -22,7 +22,8 @@
     "bootstrap": "^4.1.3",
     "bootstrap-vue": "^2.0.0",
     "nuxt": "^2.0.0",
-    "thor-devkit": "1.2.2"
+    "thor-devkit": "1.2.2",
+    "timeago.js": "4.0.1"
   },
   "devDependencies": {
     "@nuxt/types": "0.3.4",

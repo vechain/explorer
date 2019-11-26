@@ -1,6 +1,6 @@
 <template>
-    <b-list-group-item>
-        <b-container fluid>
+    <b-list-group-item class="pl-0">
+        <b-container class="pl-1" fluid>
             <b-row no-gutters>
                 <b-col cols="3 align-self-center">
                     <span class="text-left font-weight-bold align-middle">

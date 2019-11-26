@@ -41,7 +41,9 @@
             </ListItem>
             <ListItem v-if="account.code">
                 <template slot="label">Code</template>
-                <template slot="item-content">{{account.code}}</template>
+                <template slot="item-content">
+                    <b-form-textarea class="text-monospace" readonly v-model="account.code" rows="3" max-rows="8"></b-form-textarea>
+                </template>
             </ListItem>
             <ListItem v-if="account.isAuthority">
                 <template slot="label">Signed block</template>

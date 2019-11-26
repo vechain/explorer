@@ -8,19 +8,22 @@
             <template v-slot:cell(txID)="row">
                 <nuxt-link
                     class="text-monospace"
-                    :to="{name: 'transaction-id-info', params: {
+                    :to="{name: 'transaction-id', params: {
                     id: row.item.txID
                 }}"
                 >{{row.item.txID | shortAddress}}</nuxt-link>
             </template>
             <template v-slot:cell(clauses)="row">{{row.item.clauses.length}}</template>
             <template v-slot:cell(from-to)="row">
-                <nuxt-link :to="{
+                <nuxt-link
+                    :to="{
                     name: 'account-id-summary',
                     params: {
                         id: row.item.origin
                     }
-                }" class="text-monospace">{{row.item.origin | toChecksumAddress | shortAddress}}</nuxt-link>
+                }"
+                    class="text-monospace"
+                >{{row.item.origin | toChecksumAddress | shortAddress}}</nuxt-link>
             </template>
         </b-table>
     </div>
@@ -30,11 +33,11 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 @Component({
     async asyncData(ctx: Context) {
-        const txs = await ctx.$axios.$get(`/api/blocks/${ctx.params.id}/transactions`)
-        console.log(txs)
+        const result = await ctx.$axios.$get(`/api/blocks/${ctx.params.id}/transactions`)
+
         return {
-            txs,
-            rows: txs.length
+            txs: result.txs,
+            rows: result.txs.length
         }
     }
 })
