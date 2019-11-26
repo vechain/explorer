@@ -29,7 +29,7 @@
         <small>
             <span class="mx-3">For</span>
             <span class="text-monospace">
-                <strong>{{transfer.amount}}</strong>
+                <strong>{{transfer.amount | hexToVal | balance}}</strong>
                 <strong>{{transfer.symbol}}</strong>
             </span>
         </small>

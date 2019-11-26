@@ -84,7 +84,12 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Rewards</template>
-                <template slot="item-content">{{item.reward}}</template>
+                <template slot="item-content">
+                    <span>
+                        {{item.reward | hexToVal | balance}}
+                        <small class="text-secondary">VTHO</small>
+                    </span>
+                </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Size</template>

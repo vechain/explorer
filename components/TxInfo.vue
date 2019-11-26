@@ -73,6 +73,7 @@
                 <template slot="label">Reward</template>
                 <template slot="item-content">
                     <span class="text-monospace">{{tx.reward | hexToVal | balance}}</span>
+                    <small class="text-secondary">VTHO</small>
                 </template>
             </ListItem>
             <ListItem>
