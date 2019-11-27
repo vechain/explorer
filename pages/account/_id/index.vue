@@ -20,7 +20,7 @@
             <ListItem>
                 <template slot="label">VTHO</template>
                 <template slot="item-content">
-                    <Balance :balance="account.energy" token="vet" />
+                    <Balance :balance="account.energy" token="vtho" />
                 </template>
             </ListItem>
             <ListItem>
