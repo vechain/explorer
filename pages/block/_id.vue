@@ -23,7 +23,6 @@ import { Context } from '@nuxt/types'
 @Component(
     {
         async asyncData(ctx: Context) {
-            console.log()
             const params = ctx.params
             const links = [{
                 text: 'Info',
@@ -39,7 +38,7 @@ import { Context } from '@nuxt/types'
                 }
             }]
 
-            return { links, id: ctx.payload.number }
+            return { links, id: ctx.payload.block.number }
         }
     }
 )
