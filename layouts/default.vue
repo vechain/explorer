@@ -2,7 +2,7 @@
     <div>
         <Navbar />
         <b-container>
-        <nuxt />
+        <nuxt class="pb-4" />
         </b-container>
     </div>
 </template>
