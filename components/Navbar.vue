@@ -1,13 +1,12 @@
 <template>
     <b-navbar toggleable="sm" type="dark" variant="primary">
-        <b-navbar-brand href="#">VeChain Explorer</b-navbar-brand>
+        <b-navbar-brand href="/">
+            <span class="font-weight-lighter">VeChain</span>
+            <strong>Explorer</strong>
+        </b-navbar-brand>
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
-                <b-nav-item-dropdown text="Main" right>
-                    <b-dropdown-item href="#">Test</b-dropdown-item>
-                </b-nav-item-dropdown>
-                <b-nav-item href="#">Home</b-nav-item>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto mr-5">
                 <b-nav-form>
