@@ -119,7 +119,7 @@ export default class TxInfo extends Vue {
                 sender: item.sender,
                 recipient: item.recipient,
                 amount: item.amount,
-                symbol: item.token
+                symbol: item.symbol
             }
         })
     }
