@@ -79,13 +79,12 @@
                                     </small>
                                 </td>
                                 <td class="p-1">
-                                    <nuxt-link
-                                        class="text-monospace align-middle font-weight-lighter"
+                                    <AccountLink
                                         v-if="param.type==='address'"
-                                        :to="{name: 'account-id', params: {id: param.value}}"
-                                    >
-                                        <small>{{param.value}}</small>
-                                    </nuxt-link>
+                                        :address="param.value"
+                                        :short="false"
+                                        size="sm"
+                                    />
                                     <template v-else>
                                         <small>{{param.value}}</small>
                                     </template>
@@ -104,10 +103,12 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
+import AccountLink from '@/components/AccountLink.vue'
 import { abi } from 'thor-devkit/dist/abi'
 @Component({
     components: {
-        ListItem
+        ListItem,
+        AccountLink
     }
 })
 export default class Decoded extends Vue {

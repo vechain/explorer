@@ -30,12 +30,7 @@
                             </b-col>
                             <b-col cols="4" title="Signer" class="text-right small">
                                 <span class="text-secondary">Singer</span>
-                                <router-link
-                                    class="text-monospace"
-                                    :to="{name:'account-id', params: {id: b.signer}}"
-                                >{{b.signer | toChecksumAddress | shortAddress}}</router-link>
-
-                                <!-- <AccountLink :address="b.signer" abbr class="text-truncate" /> -->
+                                <AccountLink :address="b.signer" :icon="false" />
                             </b-col>
                         </b-row>
                     </b-card>
@@ -71,38 +66,13 @@
                             </b-row>
                             <b-row class="align-items-center mt-2" no-gutters>
                                 <b-col cols="5">
-                                    <IdentBox
-                                        class="d-inline-block mr-1 rounded align-middle"
-                                        style="width: 30px; height: 17px"
-                                        :address="t.sender"
-                                    ></IdentBox>
-                                    <nuxt-link
-                                        :to="{
-                                        name: 'account-id',
-                                        params: {
-                                            id: t.sender
-                                        }
-                                    }"
-                                    >{{t.sender | toChecksumAddress | shortAddress}}</nuxt-link>
-                                    
+                                    <AccountLink :address="t.sender" size="sm" />
                                 </b-col>
                                 <b-col cols="2" class="justify-content-end">
                                     <font-awesome-icon small icon="arrow-right" />
                                 </b-col>
                                 <b-col cols="5" class="text-right">
-                                    <IdentBox
-                                        class="d-inline-block mr-1 rounded align-middle"
-                                        style="width: 30px; height: 17px"
-                                        :address="t.recipient"
-                                    ></IdentBox>
-                                    <nuxt-link
-                                        :to="{
-                                        name: 'account-id',
-                                        params: {
-                                            id: t.recipient
-                                        }
-                                    }"
-                                    >{{t.recipient | toChecksumAddress | shortAddress}}</nuxt-link>
+                                    <AccountLink :address="t.recipient" size="sm" />
                                 </b-col>
                             </b-row>
                             <div>
@@ -111,8 +81,6 @@
                                     <span class="text-monospace">{{t.amount | hexToVal | balance}}</span>
                                     <span class="text-secondary">{{t.token}}</span>
                                 </span>
-
-                                <!-- <Amount sym="VET" class="float-right">{{t.amount}}</Amount> -->
                             </div>
                         </b-list-group-item>
                     </transition-group>
@@ -125,10 +93,12 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
+import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
 @Component({
     components: {
-        IdentBox
+        IdentBox,
+        AccountLink
     },
     async asyncData(ctx: Context) {
         const result = await ctx.$axios.$get(`/api/blocks/recent`, {

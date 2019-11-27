@@ -9,7 +9,7 @@
             :link-gen="linkGen"
             align="right"
         ></b-pagination-nav>
-        <b-table :fields="fields" :items="transactions">
+        <b-table responsive :fields="fields" :items="transactions">
             <template v-slot:cell(txID)="row">
                 <nuxt-link
                     class="text-monospace"
@@ -19,21 +19,13 @@
                 >{{row.item.txID | shortAddress}}</nuxt-link>
             </template>
             <template v-slot:cell(time)="row">
-                <nuxt-link
-                    class="text-monospace"
-                    :to="{name: 'block-id', params: {
-                      id: row.item.blockID
-                  }}"
-                >{{row.item.blockID | bNum}}</nuxt-link>
+                {{row.item.meta.blockTimestamp | datetime}}
             </template>
             <template v-slot:cell(to)="row">
-                <nuxt-link
+                <AccountLink
                     v-if="row.item.clauses.length === 1"
-                    class="text-monospace"
-                    :to="{name: 'account-id', params: {
-                      id: row.item.clauses[0].to
-                  }}"
-                >{{row.item.clauses[0].to | toChecksumAddress | shortAddress}}</nuxt-link>
+                    :address="row.item.clauses[0].to"
+                />
                 <span v-else-if="row.item.clauses.length > 1">Mutiple</span>
                 <span v-else>None</span>
             </template>
@@ -47,7 +39,11 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
+import AccountLink from '@/components/AccountLink.vue'
 @Component({
+    components: {
+        AccountLink
+    },
     async asyncData(ctx: Context) {
         const page = (ctx.query.page as string) || '1'
         const limit = parseInt(page, 10) * 20
@@ -76,13 +72,14 @@ export default class AccountTxs extends Vue {
             label: 'TXID',
         }, {
             key: 'time',
-            label: 'Time/Block#'
+            label: 'Time'
         }, {
             key: 'to',
             label: 'To'
         }, {
             key: 'value',
-            label: 'Totla VET'
+            label: 'Total VET',
+            class: 'text-right'
         }
     ]
 

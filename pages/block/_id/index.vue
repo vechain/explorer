@@ -43,43 +43,13 @@
             <ListItem>
                 <template slot="label">Signer</template>
                 <template slot="item-content">
-                    <IdentBox
-                        class="d-inline-block mr-2 rounded align-middle"
-                        style="width: 55px; height: 30px"
-                        :address="item.signer"
-                    ></IdentBox>
-                    <nuxt-link
-                        class="text-monospace align-middle font-weight-lighter"
-                        :to="{
-                        name: 'account-id',
-                        params: {
-                            id: item.signer
-                        }
-                    }"
-                    >
-                        <span>{{item.signer}}</span>
-                    </nuxt-link>
+                    <AccountLink :address="item.signer" :short="false" />
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Beneficiary</template>
                 <template slot="item-content">
-                    <IdentBox
-                        class="d-inline-block mr-2 rounded align-middle"
-                        style="width: 55px; height: 30px"
-                        :address="item.beneficiary"
-                    ></IdentBox>
-                    <nuxt-link
-                        class="text-monospace align-middle font-weight-lighter"
-                        :to="{
-                        name: 'account-id',
-                        params: {
-                            id: item.beneficiary
-                        }
-                    }"
-                    >
-                        <span>{{item.beneficiary}}</span>
-                    </nuxt-link>
+                    <AccountLink :address="item.beneficiary" :short="false" />
                 </template>
             </ListItem>
             <ListItem>
@@ -124,13 +94,15 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
+import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
 import { Context } from '@nuxt/types'
 @Component({
     middleware: 'blockInfo',
     components: {
         ListItem,
-        IdentBox
+        IdentBox,
+        AccountLink
     },
     async asyncData(ctx: Context) {
         return {

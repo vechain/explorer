@@ -18,26 +18,16 @@
                   }}"
                 >{{row.item.txID | shortAddress}}</nuxt-link>
             </template>
-            <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp * 1000 | datetime}}</template>
+            <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(from-to)="row">
                 <div>
                     <div v-if="account !== row.item.sender" class="text-monospace">
                         From:
-                        <nuxt-link
-                            class="text-monospace"
-                            :to="{name: 'account-id', params: {
-                      id: row.item.sender
-                  }}"
-                        >{{ row.item.sender | toChecksumAddress | shortAddress }}</nuxt-link>
+                        <AccountLink :address="row.item.sender" />
                     </div>
                     <div v-if="account !== row.item.recipient" class="text-monospace">
                         To:
-                        <nuxt-link
-                            class="text-monospace"
-                            :to="{name: 'account-id', params: {
-                      id: row.item.recipient
-                  }}"
-                        >{{ row.item.recipient | toChecksumAddress | shortAddress }}</nuxt-link>
+                        <AccountLink :address="row.item.recipient" />
                     </div>
                 </div>
             </template>
@@ -49,8 +39,12 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
+import AccountLink from '@/components/AccountLink.vue'
 import { Context } from '@nuxt/types'
 @Component({
+    components: {
+        AccountLink
+    },
     async asyncData(ctx: Context) {
         const page = (ctx.query.page as string) || '1'
         const limit = parseInt(page, 10) * 20
@@ -60,7 +54,6 @@ import { Context } from '@nuxt/types'
                 offset: limit - 20
             }
         })
-        console.log(result)
         return {
             account: ctx.params.id.toLowerCase(),
             ...result,

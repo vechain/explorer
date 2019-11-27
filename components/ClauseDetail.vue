@@ -22,13 +22,7 @@
                             <span class="mr-4">{{'# ' + i}}</span>
                             <span class="ml-4">
                                 emitter
-                                <nuxt-link
-                                    :to="{name: 'account-id', params: {
-                                id: item.address
-                            }}"
-                                >
-                                    <small>{{item.address | toChecksumAddress | shortAddress}}</small>
-                                </nuxt-link>
+                                <AccountLink :address="item.address" size="sm" :icon="false"/>
                             </span>
                         </b-card-header>
                         <b-card-body>
@@ -47,11 +41,13 @@
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import Decoded from '@/components/Decoded.vue'
+import AccountLink from '@/components/AccountLink.vue'
 import TransferItem from '@/components/TransferItem.vue'
 @Component({
     components: {
         Decoded,
-        TransferItem
+        TransferItem,
+        AccountLink
     }
 })
 export default class ClauseDetail extends Vue {

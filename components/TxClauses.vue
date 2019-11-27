@@ -6,20 +6,7 @@
                 <b-badge variant="primary">{{row.item.type}}</b-badge>
             </template>
             <template v-slot:cell(to)="row">
-                <IdentBox
-                    class="d-inline-block mr-2 rounded align-middle"
-                    style="width: 55px; height: 30px"
-                    :address="row.item.to"
-                ></IdentBox>
-                <nuxt-link
-                    :to="{
-                    name: 'account-id',
-                    params: {
-                        id: row.item.to
-                    }
-                }"
-                    class="text-monospace"
-                >{{row.item.to | toChecksumAddress | shortAddress}}</nuxt-link>
+                <AccountLink :address="row.item.to" />
             </template>
             <template v-slot:cell(value)="row">
                 <template>
@@ -47,11 +34,13 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import ClauseDetail from '@/components/ClauseDetail.vue'
 import IdentBox from '@/components/IdentBox.vue'
+import AccountLink from '@/components/AccountLink.vue'
 
 @Component({
     components: {
         ClauseDetail,
-        IdentBox
+        IdentBox,
+        AccountLink
     }
 })
 export default class TxClause extends Vue {

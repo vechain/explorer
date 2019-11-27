@@ -33,17 +33,7 @@
             <ListItem>
                 <template slot="label">Origin</template>
                 <template slot="item-content">
-                    <IdentBox
-                        class="d-inline-block mr-2 rounded align-middle"
-                        style="width: 55px; height: 30px"
-                        :address="tx.origin"
-                    ></IdentBox>
-                    <nuxt-link
-                        class="text-monospace align-middle font-weight-lighter"
-                        :to="{name: 'account-id', params: {id: tx.origin}}"
-                    >
-                        <span>{{tx.origin | toChecksumAddress}}</span>
-                    </nuxt-link>
+                    <AccountLink :address="tx.origin" :short="false"/>
                 </template>
             </ListItem>
             <ListItem>
@@ -58,7 +48,7 @@
             <ListItem>
                 <template slot="label">Token Transferred</template>
                 <template slot="item-content">
-                    <ul class="ul pl-0">
+                    <ul class="ul mb-0 pl-0">
                         <li v-for="(item, i) in transfersList" :key="i">
                             <TokenTransferItem :transfer="item" /> 
                         </li>
@@ -112,13 +102,15 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import IdentBox from '@/components/IdentBox.vue'
+import AccountLink from '@/components/AccountLink.vue'
 import TokenTransferItem from '@/components/TokenTransferItem.vue'
 import { Context } from '@nuxt/types'
 @Component({
     components: {
         ListItem,
         IdentBox,
-        TokenTransferItem
+        TokenTransferItem,
+        AccountLink
     }
 })
 export default class TxInfo extends Vue {
