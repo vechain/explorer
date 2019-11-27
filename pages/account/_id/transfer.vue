@@ -4,7 +4,7 @@
             class="mt-3"
             :number-of-pages="pageCount"
             v-model="currentPage"
-            limit="20"
+            limit="7"
             use-router
             :link-gen="linkGen"
             align="right"
@@ -86,7 +86,7 @@ export default class AccountTransfer extends Vue {
             label: 'Value',
             class: 'text-right'
         }, {
-            key: 'token',
+            key: 'symbol',
             label: 'Token',
             class: 'text-right'
         }
@@ -102,6 +102,7 @@ export default class AccountTransfer extends Vue {
     async queryChange() {
         const page = (this.$route.query.page as string) || '1'
         const limit = parseInt(page, 10) * 20
+        this.currentPage = parseInt(page)
 
         const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id}/transfers`, {
             params: {
