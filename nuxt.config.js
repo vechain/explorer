@@ -56,7 +56,7 @@ export default {
   },
   proxy: {
     '/api/': {
-      target: 'http://localhost:4000'
+      target: 'https://explore.digonchain.com/'
     }
   },
   /*

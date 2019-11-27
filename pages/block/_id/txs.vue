@@ -10,15 +10,7 @@
             </template>
             <template v-slot:cell(clauses)="row">{{row.item.clauses.length}}</template>
             <template v-slot:cell(from-to)="row">
-                <nuxt-link
-                    :to="{
-                    name: 'account-id-summary',
-                    params: {
-                        id: row.item.origin
-                    }
-                }"
-                    class="text-monospace"
-                >{{row.item.origin | toChecksumAddress | shortAddress}}</nuxt-link>
+                <AccountLink :address="row.item.origin" :icon="false"/>
             </template>
         </b-table>
     </div>
@@ -27,22 +19,23 @@
 import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import TxLink from '@/components/TxLink.vue'
+import AccountLink from '@/components/AccountLink.vue'
 @Component({
+    middleware: 'blockTxs',
     components: {
-        TxLink
+        TxLink,
+        AccountLink
     },
     async asyncData(ctx: Context) {
-        const result = await ctx.$axios.$get(`/api/blocks/${ctx.params.id}/transactions`)
-
         return {
-            txs: result.txs,
-            rows: result.txs.length
+            txs: ctx.payload.txs,
+            rows: ctx.payload.txs.length
         }
     }
 })
 export default class BlockTxs extends Vue {
     currentPage = 1
-    rows = 220
+    rows = 0
     perPage = 10
     fields = [
         {
