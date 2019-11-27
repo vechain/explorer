@@ -6,12 +6,7 @@
         <b-table id="block-txs" :fields="fields" :items="txs">
             <template v-slot:cell(index)="row">{{row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
-                <nuxt-link
-                    class="text-monospace"
-                    :to="{name: 'transaction-id', params: {
-                    id: row.item.txID
-                }}"
-                >{{row.item.txID | shortAddress}}</nuxt-link>
+                <TxLink :id="row.item.txID" />
             </template>
             <template v-slot:cell(clauses)="row">{{row.item.clauses.length}}</template>
             <template v-slot:cell(from-to)="row">
@@ -31,7 +26,11 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
+import TxLink from '@/components/TxLink.vue'
 @Component({
+    components: {
+        TxLink
+    },
     async asyncData(ctx: Context) {
         const result = await ctx.$axios.$get(`/api/blocks/${ctx.params.id}/transactions`)
 

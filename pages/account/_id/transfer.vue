@@ -11,12 +11,7 @@
         ></b-pagination-nav>
         <b-table :fields="fields" :items="transfers">
             <template v-slot:cell(txID)="row">
-                <nuxt-link
-                    class="text-monospace"
-                    :to="{name: 'transaction-id', params: {
-                      id: row.item.txID
-                  }}"
-                >{{row.item.txID | shortAddress}}</nuxt-link>
+                <TxLink :id="row.item.txID" />
             </template>
             <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(from-to)="row">
@@ -48,10 +43,12 @@ import { Vue, Component, Watch } from 'vue-property-decorator'
 import AccountLink from '@/components/AccountLink.vue'
 import { Context } from '@nuxt/types'
 import Amount from '@/components/Amount.vue'
+import TxLink from '@/components/TxLink.vue'
 @Component({
     components: {
         AccountLink,
-        Amount
+        Amount,
+        TxLink
     },
     async asyncData(ctx: Context) {
         const page = (ctx.query.page as string) || '1'

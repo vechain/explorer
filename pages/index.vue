@@ -52,16 +52,7 @@
                             <b-row>
                                 <b-col cols="7" class="text-truncate">
                                     TXID:
-                                    <nuxt-link
-                                        :to="{
-                                            name: 'transaction-id',
-                                            params: {
-                                                id: t.txID
-                                            },
-                                            hash: '#info'
-                                        }"
-                                        class="text-monospace"
-                                    >{{t.txID}}</nuxt-link>
+                                    <TxLink :id="t.txID" :short="false" />
                                 </b-col>
                             </b-row>
                             <b-row class="align-items-center mt-2" no-gutters>
@@ -93,11 +84,13 @@ import { Context } from '@nuxt/types'
 import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
+import TxLink from '@/components/TxLink.vue'
 @Component({
     components: {
         IdentBox,
         AccountLink,
-        Amount
+        Amount,
+        TxLink
     },
     async asyncData(ctx: Context) {
         const result = await ctx.$axios.$get(`/api/blocks/recent`, {
