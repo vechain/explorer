@@ -10,8 +10,7 @@
             </template>
             <template v-slot:cell(value)="row">
                 <template>
-                    <span class="text-monospace">{{row.item.value | hexToVal | balance}}</span>
-                    <small class="text-secondary">VET</small>
+                    <Amount :amount="row.item.value" sym="VET"/>
                 </template>
             </template>
             <template v-slot:cell(action)="row">
@@ -35,12 +34,14 @@ import { Context } from '@nuxt/types'
 import ClauseDetail from '@/components/ClauseDetail.vue'
 import IdentBox from '@/components/IdentBox.vue'
 import AccountLink from '@/components/AccountLink.vue'
+import Amount from '@/components/Amount.vue'
 
 @Component({
     components: {
         ClauseDetail,
         IdentBox,
-        AccountLink
+        AccountLink,
+        Amount
     }
 })
 export default class TxClause extends Vue {

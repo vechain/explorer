@@ -52,7 +52,7 @@
             <ListItem v-if="account.isAuthority">
                 <template slot="label">Block rewards</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{account.reward | hexToVal | balance}}</span>
+                    <Amount :amount="account.reward" sym="VTHO" />
                 </template>
             </ListItem>
         </b-list-group>
@@ -63,10 +63,12 @@ import { Vue, Component } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import Balance from '@/components/Balance.vue'
 import { Context } from '@nuxt/types'
+import Amount from '@/components/Amount.vue'
 @Component({
     components: {
         ListItem,
-        Balance
+        Balance,
+        Amount
     },
     middleware: 'summary',
     async asyncData(ctx: Context) {

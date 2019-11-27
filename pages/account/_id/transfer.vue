@@ -22,17 +22,23 @@
             <template v-slot:cell(from-to)="row">
                 <div>
                     <div v-if="account !== row.item.sender" class="text-monospace">
-                        From:
+                        <font-awesome-icon style="color: green" small icon="arrow-left" />
                         <AccountLink :address="row.item.sender" />
                     </div>
                     <div v-if="account !== row.item.recipient" class="text-monospace">
-                        To:
+                        <font-awesome-icon style="color: red" small icon="arrow-right" />
                         <AccountLink :address="row.item.recipient" />
                     </div>
                 </div>
             </template>
             <template v-slot:cell(value)="row">
-                <span class="text-monospace">{{row.item.amount | hexToVal | balance}}</span>
+                <span
+                    :class="account === row.item.sender? 'text-danger': 'text-success'"
+                    class="text-monospace"
+                >
+                    <span>{{account !== row.item.sender ? '+' : '-'}}</span>
+                    <Amount :amount="row.item.amount" />
+                </span>
             </template>
         </b-table>
     </div>
@@ -41,9 +47,11 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import AccountLink from '@/components/AccountLink.vue'
 import { Context } from '@nuxt/types'
+import Amount from '@/components/Amount.vue'
 @Component({
     components: {
-        AccountLink
+        AccountLink,
+        Amount
     },
     async asyncData(ctx: Context) {
         const page = (ctx.query.page as string) || '1'
@@ -77,11 +85,13 @@ export default class AccountTransfer extends Vue {
             key: 'from-to',
             label: 'From/To'
         }, {
-            key: 'token',
-            label: 'Token'
-        }, {
             key: 'value',
-            label: 'Value'
+            label: 'Value',
+            class: 'text-right'
+        }, {
+            key: 'token',
+            label: 'Token',
+            class: 'text-right'
         }
     ]
 

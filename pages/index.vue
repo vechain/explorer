@@ -77,10 +77,7 @@
                             </b-row>
                             <div>
                                 <span class="text-muted small">{{t.meta.blockTimestamp | ago}}</span>
-                                <span class="float-right">
-                                    <span class="text-monospace">{{t.amount | hexToVal | balance}}</span>
-                                    <span class="text-secondary">{{t.token}}</span>
-                                </span>
+                                <Amount class="float-right" :amount="t.amount" :sym="t.token" />
                             </div>
                         </b-list-group-item>
                     </transition-group>
@@ -95,10 +92,12 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
+import Amount from '@/components/Amount.vue'
 @Component({
     components: {
         IdentBox,
-        AccountLink
+        AccountLink,
+        Amount
     },
     async asyncData(ctx: Context) {
         const result = await ctx.$axios.$get(`/api/blocks/recent`, {

@@ -55,10 +55,7 @@
             <ListItem>
                 <template slot="label">Rewards</template>
                 <template slot="item-content">
-                    <span>
-                        {{item.reward | hexToVal | balance}}
-                        <small class="text-secondary">VTHO</small>
-                    </span>
+                    <Amount :amount="item.reward" sym="VTHO" />
                 </template>
             </ListItem>
             <ListItem>
@@ -96,13 +93,15 @@ import { Vue, Component } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
+import Amount from '@/components/Amount.vue'
 import { Context } from '@nuxt/types'
 @Component({
     middleware: 'blockInfo',
     components: {
         ListItem,
         IdentBox,
-        AccountLink
+        AccountLink,
+        Amount
     },
     async asyncData(ctx: Context) {
         return {

@@ -14,7 +14,7 @@
             </b-row>
         </b-col>
         <b-col lg="4" class="text-right">
-            <small class="text-monospace">{{transfer.amount | hexToVal | balance}}</small>
+            <Amount :sm="true" :amount="transfer.amount"/>
         </b-col>
     </b-row>
 </template>
@@ -23,10 +23,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import IdentBox from '@/components/IdentBox.vue'
 import AccountLink from '@/components/AccountLink.vue'
+import Amount from '@/components/Amount.vue'
 @Component({
     components: {
         IdentBox,
-        AccountLink
+        AccountLink,
+        Amount
     }
 })
 export default class TransferItem extends Vue {

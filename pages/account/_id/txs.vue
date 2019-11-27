@@ -30,8 +30,7 @@
                 <span v-else>None</span>
             </template>
             <template v-slot:cell(value)="row">
-                <span class="text-monospace">{{ row.item.clauses | countVal | hexToVal | balance}}</span>
-                <small class="text-secondary">VET</small>
+                <Amount :amount="row.item.clauses | countVal" sym="VET" />
             </template>
         </b-table>
     </div>
@@ -40,9 +39,11 @@
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import AccountLink from '@/components/AccountLink.vue'
+import Amount from '@/components/Amount.vue'
 @Component({
     components: {
-        AccountLink
+        AccountLink,
+        Amount
     },
     async asyncData(ctx: Context) {
         const page = (ctx.query.page as string) || '1'

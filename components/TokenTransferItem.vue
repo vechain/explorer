@@ -1,14 +1,18 @@
 <template>
     <div v-if="transfer">
         <small class="mr-3">From</small>
-        <AccountLink :address="transfer.sender" size="sm" />
+        <AccountLink v-if="origin !== transfer.sender" :address="transfer.sender" size="sm" />
+        <span v-else>
+            <strong>Origin</strong>
+        </span>
         <small class="mx-3">To</small>
         <AccountLink :address="transfer.recipient" size="sm" />
         <small>
             <span class="mx-3">For</span>
             <span class="text-monospace">
-                <strong>{{transfer.amount | hexToVal | balance}}</strong>
-                <strong>{{transfer.symbol}}</strong>
+                <strong>
+                    <Amount :amount="transfer.amount" :sym="transfer.symbol" />
+                </strong>
             </span>
         </small>
     </div>
@@ -17,10 +21,12 @@
 import { Vue, Component, Prop } from 'vue-property-decorator'
 import IdentBox from '@/components/IdentBox.vue'
 import AccountLink from '@/components/AccountLink.vue'
+import Amount from '@/components/Amount.vue'
 @Component({
     components: {
         IdentBox,
-        AccountLink
+        AccountLink,
+        Amount
     }
 })
 export default class TokenTransferItem extends Vue {
@@ -31,5 +37,8 @@ export default class TokenTransferItem extends Vue {
         amount: string
         symbol: string
     }
+
+    @Prop(String)
+    origin!: string
 }
 </script>

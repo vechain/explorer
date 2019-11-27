@@ -18,12 +18,7 @@
             <ListItem>
                 <template slot="label">Total Transfer</template>
                 <template slot="item-content">
-                    <span class="text-monospace">
-                        {{tx.clauses | countVal | hexToVal | balance}}
-                        <small
-                            class="text-secondary"
-                        >VET</small>
-                    </span>
+                    <Amount :amount="tx.clauses | countVal" sym="VET" />
                 </template>
             </ListItem>
             <ListItem>
@@ -39,10 +34,7 @@
             <ListItem>
                 <template slot="label">Fee</template>
                 <template slot="item-content">
-                    <span class="text-monospace">
-                        {{tx.paid | hexToVal | balance}}
-                        <small class="text-secondary">VTHO</small>
-                    </span>
+                    <Amount :amount="tx.paid" sym="VTHO" />
                 </template>
             </ListItem>
             <ListItem>
@@ -50,7 +42,7 @@
                 <template slot="item-content">
                     <ul class="ul mb-0 pl-0">
                         <li v-for="(item, i) in transfersList" :key="i">
-                            <TokenTransferItem :transfer="item" /> 
+                            <TokenTransferItem :origin="tx.origin" :transfer="item" /> 
                         </li>
                     </ul>
                 </template>
@@ -62,8 +54,7 @@
             <ListItem>
                 <template slot="label">Reward</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{tx.reward | hexToVal | balance}}</span>
-                    <small class="text-secondary">VTHO</small>
+                    <Amount :amount="tx.reward" sym="VTHO" />
                 </template>
             </ListItem>
             <ListItem>
@@ -104,13 +95,15 @@ import ListItem from '@/components/ListItem.vue'
 import IdentBox from '@/components/IdentBox.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import TokenTransferItem from '@/components/TokenTransferItem.vue'
+import Amount from '@/components/Amount.vue'
 import { Context } from '@nuxt/types'
 @Component({
     components: {
         ListItem,
         IdentBox,
         TokenTransferItem,
-        AccountLink
+        AccountLink,
+        Amount
     }
 })
 export default class TxInfo extends Vue {
