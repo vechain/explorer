@@ -46,7 +46,7 @@
                         <b-list-group-item
                             style="font-size:95%"
                             v-for="(t) in recentTransfers"
-                            :key="t.id"
+                            :key="t.txID"
                             class="stack-item"
                         >
                             <b-row>
@@ -68,7 +68,7 @@
                             </b-row>
                             <div>
                                 <span class="text-muted small">{{t.meta.blockTimestamp | ago}}</span>
-                                <Amount class="float-right" :amount="t.amount" :sym="t.token" />
+                                <Amount class="float-right" :amount="t.amount" :sym="t.symbol" />
                             </div>
                         </b-list-group-item>
                     </transition-group>
@@ -107,6 +107,64 @@ import TxLink from '@/components/TxLink.vue'
     }
 })
 export default class App extends Vue {
+    recentBlocks: any[] = []
+    recentTransfers: any[] = []
 
+    timer: any = null
+
+    async getRecents() {
+        const result = await this.$axios.$get(`/api/blocks/recent`, {
+            params: {
+                limit: 10
+            }
+        })
+        const txs = await this.$axios.$get(`/api/transfers/recent`, {
+            params: {
+                limit: 10
+            }
+        })
+        this.recentBlocks = result.blocks
+        this.recentTransfers = txs.transfers
+    }
+
+    startTimer() {
+        this.timer = setInterval(() => {
+            this.getRecents()
+        }, 10000)
+    }
+
+    clearTimer() {
+        if (this.timer) {
+            clearInterval(this.timer)
+            this.timer = null
+        }
+    }
+
+    created() {
+        this.startTimer()
+    }
+
+    beforeDestroy() {
+        this.clearTimer()
+    }
 }
 </script>
+<style scoped>
+.stack-item {
+    transition: all 0.6s;
+    transition-timing-function: ease;
+}
+.stack-enter {
+    transform: scale(0.5, 0);
+    transform-origin: 50% 0%;
+    opacity: 0;
+}
+.stack-leave-active {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+}
+.stack-leave-to {
+    opacity: 0;
+}
+</style>
