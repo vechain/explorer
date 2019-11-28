@@ -9,8 +9,11 @@
                 <TxLink :id="row.item.txID" />
             </template>
             <template v-slot:cell(clauses)="row">{{row.item.clauses.length}}</template>
-            <template v-slot:cell(from-to)="row">
-                <AccountLink :address="row.item.origin" :icon="false"/>
+            <template v-slot:cell(origin)="row">
+                <AccountLink :address="row.item.origin"/>
+            </template>
+            <template v-slot:cell(value)="row">
+                <Amount :amount="row.item.clauses | countVal" sym="VET" />
             </template>
         </b-table>
     </div>
@@ -20,11 +23,13 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import TxLink from '@/components/TxLink.vue'
 import AccountLink from '@/components/AccountLink.vue'
+import Amount from '@/components/Amount.vue'
 @Component({
     middleware: 'blockTxs',
     components: {
         TxLink,
-        AccountLink
+        AccountLink,
+        Amount
     },
     async asyncData(ctx: Context) {
         return {
@@ -48,11 +53,12 @@ export default class BlockTxs extends Vue {
             key: 'clauses',
             label: '#Cl'
         }, {
-            key: 'from-to',
-            label: 'From/To'
+            key: 'origin',
+            label: 'Origin'
         }, {
             key: 'value',
-            label: 'Totla VET'
+            label: 'Totla VET',
+            class: 'text-right'
         }
     ]
 }
