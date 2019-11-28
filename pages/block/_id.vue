@@ -31,7 +31,7 @@ import { Context } from '@nuxt/types'
                     params
                 }
             }, {
-                text: 'Transaction',
+                text: `Transaction(${ctx.payload.block.txCount})`,
                 route: {
                     name: 'block-id-txs',
                     params
