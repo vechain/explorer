@@ -3,7 +3,7 @@
         <div class="mt-3">
             <b-pagination v-model="currentPage" :total-rows="rows" align="right"></b-pagination>
         </div>
-        <b-table id="block-txs" :fields="fields" :items="txs">
+        <b-table show-empty id="block-txs" :fields="fields" :items="txs">
             <template v-slot:cell(index)="row">{{row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
