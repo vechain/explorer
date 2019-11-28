@@ -1,4 +1,8 @@
 export default {
+  server: {
+    host: '0.0.0.0',
+    timing: true
+  },
   mode: 'universal',
   /*
    ** Headers of the page
@@ -27,7 +31,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/filters.ts', '~/plugins/fontawesome.ts'],
+  plugins: ['~/plugins/filters.ts', '~/plugins/fontawesome.ts','~/plugins/axios.ts'],
   /*
    ** Nuxt.js dev-modules
    */
