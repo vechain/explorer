@@ -1,6 +1,18 @@
 <template>
     <div>
-        <h1>Transaction</h1>
+        <p>
+            <span class="h1">Transaction</span>
+            <span class="h4 ml-3">
+                @block#
+                <nuxt-link
+                    :to="{
+            name: 'block-id', params: {
+                id: tx.blockID
+            }
+        }"
+                >{{tx.blockNumber | numFmt}}</nuxt-link>
+            </span>
+        </p>
         <b-nav tabs align="left">
             <b-nav-item
                 v-for="item in links"
@@ -11,8 +23,10 @@
                 :to="item.hash"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <TxInfo v-show="tab === 'info'" :tx="tx" :transfers="transfers"/>
-        <TxClauses :clauseList="clauseList" v-show="tab === 'clause'" />
+        <div v-show="isMounted">
+            <TxInfo v-show="tab === 'info'" :tx="tx" :transfers="transfers" />
+            <TxClauses :clauseList="clauseList" v-show="tab === 'clause'" />
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -47,18 +61,22 @@ import { Context } from '@nuxt/types'
                     ...data.outputs[index]
                 }
             })
-
             return { links, ...data, clauseList }
         }
     }
 )
 export default class Transaction extends Vue {
+    isMounted = false
     beforeMount() {
         const tabs = ['info', 'clause']
         const temp = this.$route.hash.substr(1).toLowerCase()
         if (!tabs.includes(temp)) {
             location.hash = '#info'
         }
+    }
+
+    mounted() {
+        this.isMounted = true
     }
 
     get tab() {
