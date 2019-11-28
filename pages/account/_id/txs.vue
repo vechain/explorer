@@ -9,7 +9,7 @@
             :link-gen="linkGen"
             align="right"
         ></b-pagination-nav>
-        <b-table responsive :fields="fields" :items="transactions">
+        <b-table show-empty responsive :fields="fields" :items="transactions">
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
