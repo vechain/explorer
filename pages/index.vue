@@ -12,7 +12,7 @@
                     class="position-relative"
                     v-if="recentBlocks"
                 >
-                    <b-card v-for="b in recentBlocks" :key="b.id">
+                    <b-card class="stack-item" v-for="b in recentBlocks" :key="b.id">
                         <b-row no-gutters>
                             <b-col cols="5">
                                 <div>
@@ -46,7 +46,7 @@
                         <b-list-group-item
                             style="font-size:95%"
                             v-for="(t) in recentTransfers"
-                            :key="t.txID"
+                            :key="t.txID + '' + t.moveIndex.clauseIndex"
                             class="stack-item"
                         >
                             <b-row>
@@ -109,22 +109,24 @@ import TxLink from '@/components/TxLink.vue'
 export default class App extends Vue {
     recentBlocks: any[] = []
     recentTransfers: any[] = []
-
+    loading = false
     timer: any = null
 
-    async getRecents() {
-        const result = await this.$axios.$get(`/api/blocks/recent`, {
+    getRecents() {
+        this.$axios.$get(`/api/blocks/recent`, {
             params: {
                 limit: 10
             }
+        }).then(r => {
+            this.recentBlocks = r.blocks
         })
-        const txs = await this.$axios.$get(`/api/transfers/recent`, {
+        this.$axios.$get(`/api/transfers/recent`, {
             params: {
                 limit: 10
             }
+        }).then(r => {
+            this.recentTransfers = r.transfers
         })
-        this.recentBlocks = result.blocks
-        this.recentTransfers = txs.transfers
     }
 
     startTimer() {
@@ -141,6 +143,7 @@ export default class App extends Vue {
     }
 
     created() {
+        this.loading = false
         this.startTimer()
     }
 
