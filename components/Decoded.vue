@@ -187,9 +187,9 @@ export default class Decoded extends Vue {
         } catch (error) {
             console.log(error)
         }
-        this.$store.commit('setAbi', { key, value: abi })
+        this.$store.commit('setAbi', { key, value: abi[0] })
 
-        return abi
+        return abi[0]
     }
 
     async created() {
