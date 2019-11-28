@@ -39,6 +39,12 @@ import { Route } from 'vue-router'
                 name: 'account-id-transfer',
                 params
             }
+        },{
+            text: 'Signed Blocks',
+            route: {
+                name: 'account-id-blocks',
+                params
+            }
         }]
 
         return { links }
