@@ -1,21 +1,31 @@
 <template>
     <div>
-        <b-pagination-nav
-            class="mt-3"
-            :number-of-pages="pageCount"
-            v-model="currentPage"
-            limit="7"
-            use-router
-            :link-gen="linkGen"
-            align="right"
-        ></b-pagination-nav>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-middle">
+                <div>
+                    {{transactions.length}}
+                    <span class="text-secondary">items</span>
+                    , {{currentPage}}
+                    <span class="text-secondary">of</span>
+                    {{pageCount | numFmt}}
+                    <span class="text-secondary">pages</span>
+                </div>
+            </div>
+            <b-pagination-nav
+                class="mt-3 d-flex"
+                :number-of-pages="pageCount"
+                v-model="currentPage"
+                limit="7"
+                use-router
+                :link-gen="linkGen"
+                align="right"
+            ></b-pagination-nav>
+        </div>
         <b-table show-empty responsive :fields="fields" :items="transactions">
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
-            <template v-slot:cell(time)="row">
-                {{row.item.meta.blockTimestamp | datetime}}
-            </template>
+            <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(to)="row">
                 <AccountLink
                     v-if="row.item.clauses.length === 1"
@@ -43,25 +53,27 @@ import TxLink from '@/components/TxLink.vue'
         TxLink
     },
     async asyncData(ctx: Context) {
+        const pageSize = 10
         const page = (ctx.query.page as string) || '1'
-        const limit = parseInt(page, 10) * 20
+        const end = parseInt(page, 10) * pageSize
 
         const result = await ctx.$axios.$get(`/api/accounts/${ctx.params.id}/transactions`, {
             params: {
-                limit: 20,
-                offset: limit - 20
+                limit: pageSize,
+                offset: end - pageSize
             }
         })
 
         return {
             ...result,
             currentPage: page,
-            pageCount: result.count / 20 + (result.count % 20 && 1)
+            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
         }
     }
 })
 export default class AccountTxs extends Vue {
     count = 0
+    pageCount = 0
     transactions = []
     currentPage = 1
     fields = [
@@ -90,16 +102,18 @@ export default class AccountTxs extends Vue {
 
     @Watch('$route')
     async queryChange() {
+        const pageSize = 10
         const page = (this.$route.query.page as string) || '1'
-        const limit = parseInt(page, 10) * 20
-        this.currentPage = parseInt(page)
+        const end = parseInt(page, 10) * pageSize
 
         const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id}/transactions`, {
             params: {
-                limit: 20,
-                offset: limit - 20
+                limit: pageSize,
+                offset: end - pageSize
             }
         })
+        this.currentPage = parseInt(page)
+        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
         this.transactions = result.transactions
         this.count = result.count
 
