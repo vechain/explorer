@@ -12,7 +12,6 @@ export default async function getAccountSummary(ctx: Context) {
       Object.assign(ctx.payload.account, result.authority)
       ctx.payload.isAuthority = true
     }
-    console.log(ctx.payload)
   } catch (error) {
     console.error(error)
   }
