@@ -23,7 +23,7 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Gas Used</template>
-                <template slot="item-content"> <span class="text-monospace">{{tx.gasUsed}}</span></template>
+                <template slot="item-content"> <span class="text-monospace">{{tx.gasUsed | numFmt}}/{{tx.gas | numFmt}} </span><sup> price coef {{tx.gasPriceCoef}}</sup></template>
             </ListItem>
             <ListItem>
                 <template slot="label">Origin</template>
