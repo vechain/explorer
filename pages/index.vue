@@ -38,15 +38,15 @@
             </b-col>
             <b-col cols="6">
                 <h5 class="ml-3">
-                    Recent Transfers
-                    <b-spinner v-if="!recentTransfers" type="grow" small class="ml-3" />
+                    Recent Transactions
+                    <b-spinner v-if="!recentTxs" type="grow" small class="ml-3" />
                 </h5>
-                <b-list-group v-if="recentTransfers" style="font-size:90%">
+                <b-list-group v-if="recentTxs" style="font-size:90%">
                     <transition-group tag="div" class="position-relative" name="stack">
                         <b-list-group-item
                             style="font-size:95%"
-                            v-for="(t) in recentTransfers"
-                            :key="t.txID + '' + t.moveIndex.clauseIndex"
+                            v-for="(t) in recentTxs"
+                            :key="t.txID"
                             class="stack-item"
                         >
                             <b-row>
@@ -54,21 +54,14 @@
                                     TXID:
                                     <TxLink :id="t.txID" :short="false" />
                                 </b-col>
-                            </b-row>
-                            <b-row class="align-items-center mt-2" no-gutters>
-                                <b-col cols="5">
-                                    <AccountLink :address="t.sender" size="sm" />
-                                </b-col>
-                                <b-col cols="2" class="justify-content-end">
-                                    <font-awesome-icon small icon="arrow-right" />
-                                </b-col>
                                 <b-col cols="5" class="text-right">
-                                    <AccountLink :address="t.recipient" size="sm" />
+                                    Origin
+                                    <AccountLink :icon="false" :address="t.origin"/>
                                 </b-col>
                             </b-row>
                             <div>
                                 <span class="text-muted small">{{t.meta.blockTimestamp | ago}}</span>
-                                <Amount class="float-right" :amount="t.amount" :sym="t.symbol" />
+                                <Amount class="float-right" :amount="t.clauses | countVal" sym="VET" />
                             </div>
                         </b-list-group-item>
                     </transition-group>
@@ -98,17 +91,17 @@ import TxLink from '@/components/TxLink.vue'
                 limit: 10
             }
         })
-        const txs = await ctx.$axios.$get(`/api/transfers/recent`, {
+        const txs = await ctx.$axios.$get(`/api/transactions/recent`, {
             params: {
                 limit: 10
             }
         })
-        return { recentBlocks: result.blocks, recentTransfers: txs.transfers }
+        return { recentBlocks: result.blocks, recentTxs: txs.txs }
     }
 })
 export default class App extends Vue {
     recentBlocks: any[] = []
-    recentTransfers: any[] = []
+    recentTxs: any[] = []
     loading = false
     timer: any = null
 
@@ -120,12 +113,12 @@ export default class App extends Vue {
         }).then(r => {
             this.recentBlocks = r.blocks
         })
-        this.$axios.$get(`/api/transfers/recent`, {
+        this.$axios.$get(`/api/transactions/recent`, {
             params: {
                 limit: 10
             }
         }).then(r => {
-            this.recentTransfers = r.transfers
+            this.recentTxs = r.txs
         })
     }
 
