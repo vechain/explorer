@@ -43,8 +43,12 @@ import { Context } from '@nuxt/types'
         },
         async fetch(ctx: Context) {
             if (!ctx.store.getters.tokenAddressList.length) {
-                const result = await ctx.$axios.$get(`https://vechain.github.io/token-registry/main.json`)
-                ctx.store.commit('setTokens', result)
+                try {
+                    const result = await ctx.$axios.$get(`https://vechain.github.io/token-registry/main.json`)
+                    ctx.store.commit('setTokens', result)
+                } catch (error) {
+                    console.log(error)
+                }
             }
         },
         async asyncData(ctx: Context) {
