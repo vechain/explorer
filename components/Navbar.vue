@@ -1,6 +1,6 @@
 <template>
     <b-navbar toggleable="sm" type="dark" variant="primary">
-        <b-navbar-brand href="/">
+        <b-navbar-brand :to="{name: 'index'}">
             <span class="font-weight-lighter">VeChain</span>
             <strong>Explorer</strong>
         </b-navbar-brand>
