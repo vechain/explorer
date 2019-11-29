@@ -56,12 +56,16 @@
                                 </b-col>
                                 <b-col cols="5" class="text-right">
                                     Origin
-                                    <AccountLink :icon="false" :address="t.origin"/>
+                                    <AccountLink :icon="false" :address="t.origin" />
                                 </b-col>
                             </b-row>
                             <div>
                                 <span class="text-muted small">{{t.meta.blockTimestamp | ago}}</span>
-                                <Amount class="float-right" :amount="t.clauses | countVal" sym="VET" />
+                                <Amount
+                                    class="float-right"
+                                    :amount="t.clauses | countVal"
+                                    sym="VET"
+                                />
                             </div>
                         </b-list-group-item>
                     </transition-group>
@@ -135,7 +139,7 @@ export default class App extends Vue {
         }
     }
 
-    created() {
+    mounted() {
         this.loading = false
         this.startTimer()
     }
