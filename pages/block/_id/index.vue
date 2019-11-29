@@ -7,7 +7,7 @@
                     <b-button
                         size="sm"
                         variant="outline-secondary"
-                        :to="{name: 'block-id-info', params: {
+                        :to="{name: 'block-id', params: {
                         id: prev
                     }}"
                     >
@@ -17,7 +17,7 @@
                     <b-button
                         size="sm"
                         variant="outline-secondary"
-                        :to="{name: 'block-id-info', params: {
+                        :to="{name: 'block-id', params: {
                         id: next
                     }}"
                     >
