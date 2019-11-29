@@ -183,7 +183,11 @@ export default class Decoded extends Vue {
     async queryAbi(key: string) {
         let abi
         try {
-            abi = await this.$axios.$get(`https://b32.vecha.in/q/${key}.json`)
+            const resp = await fetch(`https://b32.vecha.in/q/${key}.json`)
+            if (resp.status !== 200) {
+                return
+            }
+            abi = await resp.json()
         } catch (error) {
             console.log(error)
         }
