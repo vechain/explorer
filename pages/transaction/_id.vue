@@ -42,8 +42,10 @@ import { Context } from '@nuxt/types'
             TxClauses
         },
         async fetch(ctx: Context) {
-            const result = await ctx.$axios.$get(`https://vechain.github.io/token-registry/main.json`)
-            ctx.store.commit('setTokens', result)
+            if (!ctx.store.getters.tokenAddressList.length) {
+                const result = await ctx.$axios.$get(`https://vechain.github.io/token-registry/main.json`)
+                ctx.store.commit('setTokens', result)
+            }
         },
         async asyncData(ctx: Context) {
             const params = ctx.params
