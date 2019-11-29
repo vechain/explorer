@@ -1,8 +1,13 @@
+const morgan = require('morgan')
+
 export default {
   server: {
     host: '0.0.0.0',
     timing: true
   },
+  serverMiddleware: [
+    { path: "/", handler: morgan('combined') }
+  ],
   mode: 'universal',
   /*
    ** Headers of the page
