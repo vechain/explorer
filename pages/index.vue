@@ -6,42 +6,46 @@
                     Recent Blocks
                     <b-spinner v-if="!recentBlocks" type="grow" small class="ml-3" />
                 </h5>
-                <transition-group
-                    tag="div"
-                    name="stack"
-                    class="position-relative"
-                    v-if="recentBlocks"
-                >
-                    <b-card class="stack-item" v-for="b in recentBlocks" :key="b.id">
-                        <b-row no-gutters>
-                            <b-col cols="5">
-                                <div>
-                                    Block #
-                                    <router-link
-                                        class="text-monospace"
-                                        :to="{name:'block-id', params: {id: b.id}}"
-                                    >{{b.number | numFmt}}</router-link>
-                                </div>
-                                <div class="text-muted small text-truncate">{{b.timestamp | ago}}</div>
-                            </b-col>
-                            <b-col cols="3">
-                                <div>{{b.txCount}} Txs</div>
-                                <div class="small text-monospace">{{b.gasUsed | numFmt}} Gas</div>
-                            </b-col>
-                            <b-col cols="4" title="Signer" class="text-right small">
-                                <span class="text-secondary">Singer</span>
-                                <AccountLink :address="b.signer" :icon="false" />
-                            </b-col>
-                        </b-row>
-                    </b-card>
-                </transition-group>
+                <b-list-group class="shadow-sm" v-if="recentBlocks">
+                    <transition-group tag="div" name="stack" class="position-relative">
+                        <b-list-group-item
+                            style="font-size:95%"
+                            v-for="b in recentBlocks"
+                            :key="b.id"
+                            class="stack-item"
+                        >
+                            <b-row no-gutters>
+                                <b-col cols="5">
+                                    <div>
+                                        Block #
+                                        <router-link
+                                            class="text-monospace"
+                                            :to="{name:'block-id', params: {id: b.id}}"
+                                        >{{b.number | numFmt}}</router-link>
+                                    </div>
+                                    <div
+                                        class="text-muted small text-truncate"
+                                    >{{b.timestamp | ago}}</div>
+                                </b-col>
+                                <b-col cols="3">
+                                    <div>{{b.txCount}} Txs</div>
+                                    <div class="small text-monospace">{{b.gasUsed | numFmt}} Gas</div>
+                                </b-col>
+                                <b-col cols="4" title="Signer" class="text-right small">
+                                    <span class="text-secondary">Singer</span>
+                                    <AccountLink :address="b.signer" :icon="false" />
+                                </b-col>
+                            </b-row>
+                        </b-list-group-item>
+                    </transition-group>
+                </b-list-group>
             </b-col>
             <b-col cols="6">
                 <h5 class="ml-3">
                     Recent Transactions
                     <b-spinner v-if="!recentTxs" type="grow" small class="ml-3" />
                 </h5>
-                <b-list-group v-if="recentTxs" style="font-size:90%">
+                <b-list-group class="shadow-sm" v-if="recentTxs" >
                     <transition-group tag="div" class="position-relative" name="stack">
                         <b-list-group-item
                             style="font-size:95%"
