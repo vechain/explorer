@@ -76,7 +76,7 @@ import TxLink from '@/components/TxLink.vue'
             account: ctx.params.id.toLowerCase(),
             ...result,
             currentPage: page,
-            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
+            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
         }
     }
 })
@@ -125,7 +125,7 @@ export default class AccountTransfer extends Vue {
                 offset: end - pageSize
             }
         })
-        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
+        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
         this.currentPage = parseInt(page)
         this.transfers = result.transfers
         this.count = result.count

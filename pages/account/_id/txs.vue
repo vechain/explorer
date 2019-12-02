@@ -63,11 +63,10 @@ import TxLink from '@/components/TxLink.vue'
                 offset: end - pageSize
             }
         })
-
         return {
             ...result,
             currentPage: page,
-            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
+            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
         }
     }
 })
@@ -113,7 +112,7 @@ export default class AccountTxs extends Vue {
             }
         })
         this.currentPage = parseInt(page)
-        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
+        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
         this.transactions = result.transactions
         this.count = result.count
 

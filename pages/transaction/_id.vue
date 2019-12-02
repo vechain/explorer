@@ -6,10 +6,10 @@
                 @block#
                 <nuxt-link
                     :to="{
-            name: 'block-id', params: {
-                id: tx.blockID
-            }
-        }"
+                        name: 'block-id', params: {
+                            id: tx.blockID
+                        }
+                    }"
                 >{{tx.blockNumber | numFmt}}</nuxt-link>
             </span>
         </p>

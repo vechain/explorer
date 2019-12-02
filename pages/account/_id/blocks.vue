@@ -62,7 +62,7 @@ import { Context } from '@nuxt/types'
             account: ctx.params.id.toLowerCase(),
             ...result,
             currentPage: page,
-            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
+            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
         }
     }
 })
@@ -104,10 +104,9 @@ export default class AccountBlocks extends Vue {
             }
         })
         this.currentPage = parseInt(page)
-        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0)
+        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
         this.blocks = result.blocks
         this.count = result.count
     }
-
 }
 </script>
