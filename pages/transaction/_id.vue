@@ -24,7 +24,7 @@
             >{{item.text}}</b-nav-item>
         </b-nav>
         <div v-show="isMounted">
-            <TxInfo v-show="tab === 'info'" :tx="tx" :transfers="transfers" />
+            <TxInfo :bestNum="best.number" v-show="tab === 'info'" :tx="tx" :transfers="transfers" />
             <TxClauses :clauseList="clauseList" v-show="tab === 'clause'" />
         </div>
     </div>
@@ -88,7 +88,9 @@ export default class Transaction extends Vue {
     mounted() {
         this.isMounted = true
     }
-
+    get best(): Exp.Block {
+        return this.$store.state.best.block
+    }
     get tab() {
         const tabs = ['info', 'clause']
         const temp = this.$route.hash.substr(1).toLowerCase()

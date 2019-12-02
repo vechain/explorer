@@ -3,7 +3,7 @@
         <b-list-group flush>
             <ListItem>
                 <template slot="label">Status</template>
-                <template slot="item-content"></template>
+                <template slot="item-content"> <b-badge class="text-white" :variant="tx.reverted ? 'success' : 'warning'">{{tx.reverted ? 'Success' : 'Reverted'}}</b-badge> {{txStatus}}</template>
             </ListItem>
             <ListItem>
                 <template slot="label">ID</template>
@@ -110,8 +110,15 @@ export default class TxInfo extends Vue {
     @Prop(Object)
     tx!: Object
 
+    @Prop(Number)
+    bestNum!: number
+
     @Prop()
     transfers!: any[]
+
+    get txStatus() {
+        return `Confirmed (${this.bestNum - this.tx.blockNumber}/12)`
+    }
 
     get transfersList() {
         return this.transfers.map(item => {
