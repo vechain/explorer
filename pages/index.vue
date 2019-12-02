@@ -124,7 +124,7 @@ export default class App extends Vue {
             params: {
                 limit: 10
             }
-        }).then(r => {
+        }).then((r: {txs: Exp.Tx[]}) => {
             this.recentTxs = r.txs
         })
     }
