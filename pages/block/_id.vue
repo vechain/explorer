@@ -20,10 +20,21 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
+
 @Component(
     {
         async asyncData(ctx: Context) {
             const params = ctx.params
+            let bnum = 0
+            let txCount = 0
+            if (ctx.route.name === 'block-id') {
+                bnum = ctx.payload.block.number
+                txCount = ctx.payload.block.txCount
+            } else {
+                bnum = ctx.payload.meta.number
+                txCount = ctx.payload.txs.length
+            }
+
             const links = [{
                 text: 'Info',
                 route: {
@@ -31,14 +42,14 @@ import { Context } from '@nuxt/types'
                     params
                 }
             }, {
-                text: `Transaction(${ctx.payload.block.txCount})`,
+                text: `Transaction(${txCount})`,
                 route: {
                     name: 'block-id-txs',
                     params
                 }
             }]
 
-            return { links, id: ctx.payload.block.number }
+            return { links, id: bnum }
         }
     }
 )
