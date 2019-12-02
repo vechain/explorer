@@ -31,6 +31,15 @@
                     <b-badge pill variant="dark" v-if="account.isAuthority">Authority</b-badge>
                 </template>
             </ListItem>
+            <ListItem v-if="token.length">
+                <template slot="label">Tokens</template>
+                <template slot="item-content">
+                    <div v-for="(item, i) in token" :key="i">
+                        <img class="mr-3" style="width: 40px" :src="getImgUrl(item.symbol)" />
+                        <Amount :amount="item.balance" :sym="item.symbol" />
+                    </div>
+                </template>
+            </ListItem>
             <ListItem v-if="account.code">
                 <template slot="label">Master</template>
                 <template slot="item-content">{{account.master}}</template>
@@ -42,7 +51,13 @@
             <ListItem v-if="account.code">
                 <template slot="label">Code</template>
                 <template slot="item-content">
-                    <b-form-textarea class="text-monospace" readonly v-model="account.code" rows="3" max-rows="8"></b-form-textarea>
+                    <b-form-textarea
+                        class="text-monospace"
+                        readonly
+                        v-model="account.code"
+                        rows="3"
+                        max-rows="8"
+                    ></b-form-textarea>
                 </template>
             </ListItem>
             <ListItem v-if="account.isAuthority">
@@ -72,12 +87,19 @@ import Amount from '@/components/Amount.vue'
     },
     middleware: 'summary',
     async asyncData(ctx: Context) {
-
         return {
             ...ctx.payload
         }
     }
 })
 export default class Summary extends Vue {
+    getImgUrl(symbol: string) {
+        const token: Exp.Token = this.$store.state.tokens.find((item: Exp.Token) => {
+            return item.symbol === symbol
+        })
+        if (token) {
+            return token.imgUrl
+        }
+    }
 }
 </script>

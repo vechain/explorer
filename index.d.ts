@@ -4,6 +4,15 @@ declare namespace Exp {
     blockNumber: number
     blockTimestamp: number
   }
+  type Token = {
+    name: string
+    symbol: string
+    decimals: number
+    address: string
+    icon: string
+    desc: string
+    imgUrl: string
+  }
   type Output = {
     contractAddress: string | null
     events: []

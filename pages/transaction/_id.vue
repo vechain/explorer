@@ -41,20 +41,6 @@ import { Context } from '@nuxt/types'
             TxInfo,
             TxClauses
         },
-        async fetch(ctx: Context) {
-            if (!ctx.store.getters.tokenAddressList.length) {
-                try {
-                    const resp = await fetch(`https://vechain.github.io/token-registry/main.json`)
-                    if (resp.status !== 200) {
-                        return
-                    }
-                    const list = await resp.json()
-                    ctx.store.commit('setTokens', list)
-                } catch (error) {
-                    console.log(error)
-                }
-            }
-        },
         async asyncData(ctx: Context) {
             const params = ctx.params
             const links = [{

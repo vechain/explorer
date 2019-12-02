@@ -1,17 +1,10 @@
 import { Context } from '@nuxt/types'
 import { ActionContext, Plugin, Store } from 'vuex/types'
-type token = {
-  name: string
-  symbol: string
-  decimals: number
-  address: string
-  icon: string
-  desc: string
-}
+
 
 type State = {
   best: Exp.Block | null
-  tokens: token[]
+  tokens: Exp.Token[]
   abis: {
     [key: string]: any
   }
@@ -83,13 +76,29 @@ export const plugins: Plugin<State>[] = [fetchBest]
 
 export const actions = {
   async nuxtServerInit(actx: ActionContext<State, any>, ctx: Context) {
-    const best = await ctx.$axios.$get('/api/blocks/best')
-    actx.commit('setBest', best)
+    try {
+      const resp = await fetch(`https://vechain.github.io/token-registry/main.json`)
+      if (resp.status !== 200) {
+        return
+      }
+      const list = await resp.json()
+      actx.commit('setTokens', list)
+
+      const best = await ctx.$axios.$get('/api/blocks/best')
+      actx.commit('setBest', best)
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 export const mutations = {
-  setTokens(state: State, payload: token[]) {
-    state.tokens = payload
+  setTokens(state: State, payload: Exp.Token[]) {
+    state.tokens = payload.map(item => {
+      return {
+        ...item,
+        imgUrl: `https://vechain.github.io/token-registry/assets/${item.icon}`
+      }
+    })
   },
   setAbi(state: State, payload: { key: string, value: Object }) {
     state.abis[payload.key] = payload.value
