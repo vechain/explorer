@@ -9,7 +9,6 @@
                 <b-list-group class="shadow-sm" v-if="recentBlocks">
                     <transition-group tag="div" name="stack" class="position-relative">
                         <b-list-group-item
-                            style="font-size:95%"
                             v-for="b in recentBlocks"
                             :key="b.id"
                             class="stack-item"
