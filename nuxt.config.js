@@ -6,7 +6,7 @@ export default {
     timing: true
   },
   serverMiddleware: [
-    { path: "/", handler: morgan('combined') }
+    { path: "/", handler: morgan('tiny') }
   ],
   mode: 'universal',
   /*
