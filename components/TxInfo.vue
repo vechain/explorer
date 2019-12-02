@@ -108,13 +108,13 @@ import { Context } from '@nuxt/types'
 })
 export default class TxInfo extends Vue {
     @Prop(Object)
-    tx!: Object
+    tx!: Exp.Tx & Exp.Meta
 
     @Prop(Number)
     bestNum!: number
 
     @Prop()
-    transfers!: any[]
+    transfers!: Exp.Transfer[]
 
     get txStatus() {
         return `Confirmed (${this.bestNum - this.tx.blockNumber}/12)`

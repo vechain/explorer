@@ -4,6 +4,27 @@ declare namespace Exp {
     blockNumber: number
     blockTimestamp: number
   }
+  type Output = {
+    contractAddress: string | null
+    events: []
+    transfers: Transfer[]
+  }
+  type Transfer = {
+    sender: string
+    recipient: string
+    amount: string
+    symbol?: string
+  }
+  type Receipt = {
+    txID: string
+    txIndex: number
+    gasUsed: number
+    gasPayer: string
+    paid: string
+    reward: string
+    reverted: boolean
+    outputs: Output[]
+  }
   type Clause = {
     to: string
     value: string
@@ -27,7 +48,10 @@ declare namespace Exp {
 
   type TxDetail = {
     meta: Meta
-  } & Tx
+    receipt: Receipt
+    tx: Tx
+    transfers: Transfer[]
+  }
 
   type BlockTxs = {
     meta: Meta
