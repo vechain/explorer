@@ -27,7 +27,8 @@
       "@types/node",
       "@nuxtjs/axios/types",
       "@nuxt/types",
-      "thor-devkit/dist"
+      "thor-devkit/dist",
+      "vuex/types"
     ]
   },
   "exclude": [
