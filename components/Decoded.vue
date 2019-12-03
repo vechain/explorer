@@ -97,6 +97,9 @@
                     </table>
                 </div>
             </div>
+            <div v-else>
+                unable to decode data
+            </div>
         </div>
     </div>
 </template>

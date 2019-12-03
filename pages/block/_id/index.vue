@@ -5,6 +5,7 @@
                 <template slot="label">Block Number</template>
                 <template slot="item-content">
                     <b-button
+                        :disabled="!prev"
                         size="sm"
                         variant="outline-secondary"
                         :to="{name: 'block-id', params: {
@@ -13,8 +14,9 @@
                     >
                         <font-awesome-icon icon="arrow-left" />
                     </b-button>
-                    <span class="align-middle text-monospace">{{item.number | numFmt}}</span>
+                    <span class="align-middle mx-2 text-monospace">{{item.number | numFmt}}</span>
                     <b-button
+                        :disabled="!next"
                         size="sm"
                         variant="outline-secondary"
                         :to="{name: 'block-id', params: {
@@ -43,10 +45,9 @@
             <ListItem>
                 <template slot="label">Gas Used</template>
                 <template slot="item-content">
-                    <span
-                        class="text-monospace"
-                    >{{item.gasUsed | numFmt}}/{{item.gasLimit | numFmt}}
-                    <small>({{item.gasUsed/item.gasLimit | percent}} Used)</small>
+                    <span class="text-monospace">
+                        {{item.gasUsed | numFmt}}/{{item.gasLimit | numFmt}}
+                        <small>({{item.gasUsed/item.gasLimit | percent}} Used)</small>
                     </span>
                 </template>
             </ListItem>

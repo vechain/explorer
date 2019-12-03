@@ -4,7 +4,7 @@
             <small> <Amount :amount="balance" :sym="token" /></small>
         </p>
         <footer class="blockquote-footer text-monospace">
-            <small>1.2222BTC</small>
+            <small>0.00BTC</small>
         </footer>
     </blockquote>
 </template>

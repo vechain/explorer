@@ -8,8 +8,15 @@
                         <span
                             class="text-monospace font-weight-lighter"
                         >{{account.address | toChecksumAddress}}</span>
+                        <b-tooltip
+                            :triggers="[]"
+                            target="account-id-btn"
+                            ref="account-id-btn-tip"
+                        >Copied</b-tooltip>
                         <b-button
+                            id="account-id-btn"
                             v-clipboard:copy="checksumAddress(account.address)"
+                            v-clipboard:success="onCopy"
                             class="ml-3"
                             size="sm"
                             pill
@@ -125,6 +132,13 @@ export default class Summary extends Vue {
         if (token) {
             return token.imgUrl
         }
+    }
+    onCopy() {
+        const t = this.$refs['account-id-btn-tip'] as Vue
+        t.$emit('open')
+        setTimeout(() => {
+            t.$emit('close')
+        }, 1000)
     }
 }
 </script>

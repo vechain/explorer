@@ -21,7 +21,7 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty responsive :fields="fields" :items="blocks">
+        <b-table show-empty empty-text="no data" responsive :fields="fields" :items="blocks">
             <template v-slot:cell(blcok)="row">
                 <nuxt-link
                     class="text-monospace"

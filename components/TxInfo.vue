@@ -15,8 +15,11 @@
                 <template slot="label">ID</template>
                 <template slot="item-content">
                     <span class="text-monospace font-weight-lighter">{{tx.txID}}</span>
+                    <b-tooltip :triggers="[]" target="tx-id-btn" ref="tx-id-btn-tip">Copied</b-tooltip>
                     <b-button
+                        id="tx-id-btn"
                         v-clipboard:copy="tx.txID"
+                        v-clipboard:success="onCopy"
                         class="ml-3"
                         size="sm"
                         pill
@@ -79,7 +82,7 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Size</template>
-                <template slot="item-content">{{tx.size}} b</template>
+                <template slot="item-content">{{tx.size}} B</template>
             </ListItem>
             <ListItem>
                 <template slot="label">Reward</template>
@@ -149,6 +152,7 @@ export default class TxInfo extends Vue {
     @Prop()
     transfers!: Exp.Transfer[]
 
+    showTip = false
     get txStatus() {
         return `Confirmed (${this.bestNum - this.tx.blockNumber}/12)`
     }
@@ -162,6 +166,14 @@ export default class TxInfo extends Vue {
                 symbol: item.symbol
             }
         })
+    }
+
+    onCopy() {
+        const t = this.$refs['tx-id-btn-tip'] as Vue
+        t.$emit('open')
+        setTimeout(() => {
+            t.$emit('close')
+        }, 1000)
     }
 }
 </script>

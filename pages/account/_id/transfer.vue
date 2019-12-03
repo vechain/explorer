@@ -21,7 +21,7 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty :fields="fields" :items="transfers">
+        <b-table show-empty empty-text="no data" :fields="fields" :items="transfers">
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>

@@ -1,6 +1,6 @@
 <template>
     <div class="mt-4">
-        <b-table hover :fields="fields" :items="clauses">
+        <b-table show-empty empty-text="no data" hover :fields="fields" :items="clauses">
             <template v-slot:cell(index)="row"># {{row.index + 1}}</template>
             <template v-slot:cell(type)="row">
                 <b-badge variant="primary">{{row.item.type}}</b-badge>

@@ -31,7 +31,7 @@
                                     <div class="small text-monospace">{{b.gasUsed | numFmt}} Gas</div>
                                 </b-col>
                                 <b-col cols="4" title="Signer" class="text-right small">
-                                    <span class="text-secondary">Singer</span>
+                                    <span class="text-secondary">Signer</span>
                                     <AccountLink :address="b.signer" :icon="false" />
                                 </b-col>
                             </b-row>
