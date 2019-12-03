@@ -7,7 +7,7 @@
                         <slot name="label" />
                     </span>
                 </b-col>
-                <b-col cols="9">
+                <b-col cols="9" class="text-break">
                     <slot name="item-content" />
                 </b-col>
             </b-row>
