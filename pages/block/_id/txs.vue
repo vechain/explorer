@@ -51,7 +51,7 @@ export default class BlockTxs extends Vue {
             label: 'TxID',
         }, {
             key: 'clauses',
-            label: '#Cl'
+            label: 'Clauses'
         }, {
             key: 'origin',
             label: 'Origin'

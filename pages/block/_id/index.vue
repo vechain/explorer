@@ -29,9 +29,25 @@
                 </template>
             </ListItem>
             <ListItem>
+                <template slot="label">ID</template>
+                <template slot="item-content">
+                    <span class="text-monospace">{{item.id}}</span>
+                </template>
+            </ListItem>
+            <ListItem>
+                <template slot="label">Transactions</template>
+                <template slot="item-content">
+                    <span class="text-monospace">{{item.txCount}}</span>
+                </template>
+            </ListItem>
+            <ListItem>
                 <template slot="label">Gas Used</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{item.gasUsed | numFmt}}</span>
+                    <span
+                        class="text-monospace"
+                    >{{item.gasUsed | numFmt}}/{{item.gasLimit | numFmt}}
+                    <small>({{item.gasUsed/item.gasLimit | percent}} Used)</small>
+                    </span>
                 </template>
             </ListItem>
             <ListItem>
@@ -60,7 +76,7 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Size</template>
-                <template slot="item-content">{{item.size}}</template>
+                <template slot="item-content">{{item.size}} B</template>
             </ListItem>
             <ListItem>
                 <template slot="label">Feature</template>
