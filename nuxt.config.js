@@ -38,7 +38,8 @@ export default {
     "~/plugins/filters.ts",
     "~/plugins/fontawesome.ts",
     "~/plugins/axios.ts",
-    { src: "~/plugins/init.ts", mode: "client" }
+    { src: "~/plugins/init.ts", mode: "client" },
+    { src: "~/plugins/clipboard.ts", mode: "client" }
   ],
   /*
    ** Nuxt.js dev-modules
