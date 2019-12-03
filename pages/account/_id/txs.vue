@@ -31,7 +31,7 @@
                     v-if="row.item.clauses.length === 1"
                     :address="row.item.clauses[0].to"
                 />
-                <span v-else-if="row.item.clauses.length > 1">Mutiple</span>
+                <span v-else-if="row.item.clauses.length > 1">Multiple</span>
                 <span v-else>None</span>
             </template>
             <template v-slot:cell(value)="row">

@@ -30,11 +30,11 @@
                 <div>
                     <div v-if="account !== row.item.sender" class="text-monospace">
                         <font-awesome-icon style="color: green" small icon="arrow-left" />
-                        <AccountLink :address="row.item.sender" />
+                        <AccountLink size="sm" :address="row.item.sender" />
                     </div>
                     <div v-if="account !== row.item.recipient" class="text-monospace">
                         <font-awesome-icon style="color: red" small icon="arrow-right" />
-                        <AccountLink :address="row.item.recipient" />
+                        <AccountLink size="sm" :address="row.item.recipient" />
                     </div>
                 </div>
             </template>
@@ -91,7 +91,7 @@ export default class AccountTransfer extends Vue {
             label: 'TXID',
         }, {
             key: 'time',
-            label: 'Time/Block#'
+            label: 'Time'
         }, {
             key: 'from-to',
             label: 'From/To'

@@ -8,6 +8,15 @@
                         <span
                             class="text-monospace font-weight-lighter"
                         >{{account.address | toChecksumAddress}}</span>
+                        <b-button
+                            v-clipboard:copy="checksumAddress(account.address)"
+                            class="ml-3"
+                            size="sm"
+                            pill
+                            variant="outline-secondary"
+                        >
+                            <font-awesome-icon small icon="copy" />
+                        </b-button>
                     </div>
                 </template>
             </ListItem>
@@ -45,11 +54,17 @@
             </ListItem>
             <ListItem v-if="account.code">
                 <template slot="label">Master</template>
-                <template slot="item-content">{{account.master}}</template>
+                <template slot="item-content">
+                    <AccountLink v-if="account.master" :address="account.master" :short="false" />
+                    <span v-else>-</span>
+                </template>
             </ListItem>
             <ListItem v-if="account.code">
                 <template slot="label">Sponsor</template>
-                <template slot="item-content"></template>
+                <template slot="item-content">
+                    <AccountLink v-if="account.sponsor" :address="account.sponsor" :short="false" />
+                    <span v-else>-</span>
+                </template>
             </ListItem>
             <ListItem v-if="account.code">
                 <template slot="label">Code</template>
@@ -79,6 +94,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
+import AccountLink from '@/components/AccountLink.vue'
 import Balance from '@/components/Balance.vue'
 import { Context } from '@nuxt/types'
 import Amount from '@/components/Amount.vue'
@@ -86,6 +102,7 @@ import TokenItem from '@/components/TokenItem.vue'
 @Component({
     components: {
         ListItem,
+        AccountLink,
         Balance,
         Amount,
         TokenItem
@@ -98,6 +115,9 @@ import TokenItem from '@/components/TokenItem.vue'
     }
 })
 export default class Summary extends Vue {
+    checksumAddress(addr: string) {
+        return Vue.filter('toChecksumAddress')(addr)
+    }
     getImgUrl(symbol: string) {
         const token: Exp.Token = this.$store.state.tokens.find((item: Exp.Token) => {
             return item.symbol === symbol

@@ -79,7 +79,7 @@ export default class AccountBlocks extends Vue {
         label: 'Time'
     }, {
         key: 'txCount',
-        label: '# fo Txs'
+        label: 'Transactions'
     }, {
         key: 'reward',
         label: 'Reward (VTHO)',

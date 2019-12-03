@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Account</h1>
+        <h3>Account</h3>
         <b-nav tabs align="left">
             <b-nav-item
                 v-for="item in links"
