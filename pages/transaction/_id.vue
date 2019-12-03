@@ -1,8 +1,8 @@
 <template>
     <div>
-        <p>
-            <span class="h1">Transaction</span>
-            <span class="h4 ml-3">
+        <div>
+            <h3 class="d-inline-block">Transaction</h3>
+            <h5 class="d-inline-block ml-3">
                 @block#
                 <nuxt-link
                     :to="{
@@ -11,8 +11,8 @@
                         }
                     }"
                 >{{tx.blockNumber | numFmt}}</nuxt-link>
-            </span>
-        </p>
+            </h5>
+        </div>
         <b-nav tabs align="left">
             <b-nav-item
                 v-for="item in links"

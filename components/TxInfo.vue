@@ -3,17 +3,36 @@
         <b-list-group flush>
             <ListItem>
                 <template slot="label">Status</template>
-                <template slot="item-content"> <b-badge class="text-white" :variant="tx.reverted ? 'success' : 'warning'">{{tx.reverted ? 'Success' : 'Reverted'}}</b-badge> {{txStatus}}</template>
+                <template slot="item-content">
+                    <b-badge
+                        class="text-white"
+                        :variant="tx.reverted ? 'warning' : 'success'"
+                    >{{tx.reverted ? 'Reverted' : 'Success'}}</b-badge>
+                    {{txStatus}}
+                </template>
             </ListItem>
             <ListItem>
                 <template slot="label">ID</template>
                 <template slot="item-content">
                     <span class="text-monospace font-weight-lighter">{{tx.txID}}</span>
+                    <b-button
+                        v-clipboard:copy="tx.txID"
+                        class="ml-3"
+                        size="sm"
+                        pill
+                        variant="outline-secondary"
+                    >
+                        <font-awesome-icon small icon="copy" />
+                    </b-button>
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Timestamp</template>
                 <template slot="item-content">{{tx.blockTimestamp | datetime}}</template>
+            </ListItem>
+            <ListItem>
+                <template slot="label">Clauses</template>
+                <template slot="item-content">{{tx.clauses.length}}</template>
             </ListItem>
             <ListItem>
                 <template slot="label">Total Transfer</template>
@@ -23,33 +42,44 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Gas Used</template>
-                <template slot="item-content"> <span class="text-monospace">{{tx.gasUsed | numFmt}}/{{tx.gas | numFmt}} </span><sup> price coef {{tx.gasPriceCoef}}</sup></template>
+                <template slot="item-content">
+                    <span class="text-monospace">{{tx.gasUsed | numFmt}}/{{tx.gas | numFmt}}</span>
+                    <sup>
+                        <strong>price coef {{tx.gasPriceCoef}}</strong>
+                    </sup>
+                </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Origin</template>
                 <template slot="item-content">
-                    <AccountLink :address="tx.origin" :short="false"/>
+                    <AccountLink :address="tx.origin" :short="false" />
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Fee</template>
                 <template slot="item-content">
                     <Amount :amount="tx.paid" sym="VTHO" />
+                    <span>
+                        paid by
+                        <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
+                        <span v-else>Origin</span>
+                    </span>
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Token Transferred</template>
                 <template slot="item-content">
-                    <ul class="ul mb-0 pl-0">
+                    <ul v-if="transfersList.length" class="ul mb-0 pl-0">
                         <li v-for="(item, i) in transfersList" :key="i">
-                            <TokenTransferItem :origin="tx.origin" :transfer="item" /> 
+                            <TokenTransferItem :origin="tx.origin" :transfer="item" />
                         </li>
                     </ul>
+                    <span v-else>-</span>
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Size</template>
-                <template slot="item-content">{{tx.size}}</template>
+                <template slot="item-content">{{tx.size}} b</template>
             </ListItem>
             <ListItem>
                 <template slot="label">Reward</template>
@@ -76,7 +106,8 @@
             <ListItem>
                 <template slot="label">Depends On</template>
                 <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">{{tx.dependsOn}}</span>
+                    <TxLink v-if="tx.dependsOn" :id="tx.dependsOn" />
+                    <span v-else>-</span>
                 </template>
             </ListItem>
             <ListItem>
@@ -94,6 +125,7 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import IdentBox from '@/components/IdentBox.vue'
 import AccountLink from '@/components/AccountLink.vue'
+import TxLink from '@/components/TxLink.vue'
 import TokenTransferItem from '@/components/TokenTransferItem.vue'
 import Amount from '@/components/Amount.vue'
 import { Context } from '@nuxt/types'
@@ -103,7 +135,8 @@ import { Context } from '@nuxt/types'
         IdentBox,
         TokenTransferItem,
         AccountLink,
-        Amount
+        Amount,
+        TxLink
     }
 })
 export default class TxInfo extends Vue {
