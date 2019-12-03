@@ -75,7 +75,7 @@ export default class Transaction extends Vue {
         this.isMounted = true
     }
     get best(): Exp.Block {
-        return this.$store.state.best.block
+        return this.$store.state.best
     }
     get tab() {
         const tabs = ['info', 'clause']

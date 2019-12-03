@@ -1,16 +1,7 @@
 import { Context } from '@nuxt/types'
-import { ActionContext, Plugin, Store } from 'vuex/types'
-
-
-type State = {
-  best: Exp.Block | null
-  tokens: Exp.Token[]
-  abis: {
-    [key: string]: any
-  }
-}
-
-export const state = (): State => ({
+import { ActionContext, Plugin } from 'vuex/types'
+import { fetchBest } from './plugins/fetchBest'
+export const state = (): Exp.State => ({
   best: null,
   tokens: [],
   abis: {
@@ -63,27 +54,11 @@ export const state = (): State => ({
   }
 })
 
-const fetchBest: Plugin<State> = (store: Store<State>) => {
-  if (process.browser) {
-    setInterval(async () => {
-      const best = await store.$axios.$get('/api/blocks/best')
-      store.commit('setBest', best)
-    }, 10000)
-  }
-}
-
-export const plugins: Plugin<State>[] = [fetchBest]
+export const plugins: Plugin<Exp.State>[] = [fetchBest]
 
 export const actions = {
-  async nuxtServerInit(actx: ActionContext<State, any>, ctx: Context) {
+  async nuxtServerInit(actx: ActionContext<Exp.State, any>, ctx: Context) {
     try {
-      const resp = await fetch(`https://vechain.github.io/token-registry/main.json`)
-      if (resp.status !== 200) {
-        return
-      }
-      const list = await resp.json()
-      actx.commit('setTokens', list)
-
       const best = await ctx.$axios.$get('/api/blocks/best')
       actx.commit('setBest', best)
     } catch (error) {
@@ -92,7 +67,7 @@ export const actions = {
   }
 }
 export const mutations = {
-  setTokens(state: State, payload: Exp.Token[]) {
+  setTokens(state: Exp.State, payload: Exp.Token[]) {
     state.tokens = payload.map(item => {
       return {
         ...item,
@@ -100,19 +75,23 @@ export const mutations = {
       }
     })
   },
-  setAbi(state: State, payload: { key: string, value: Object }) {
+  setAbi(state: Exp.State, payload: { key: string, value: Object }) {
     state.abis[payload.key] = payload.value
   },
-  setBest(state: State, payload: Exp.BlockDetail) {
+  setBest(state: Exp.State, payload: Exp.Block) {
     state.best = payload
   }
 }
 
 export const getters = {
-  tokenAddressList(state: State) {
-    return state.tokens.map(item => {
-      return item.address
-    })
+  tokenAddressList(state: Exp.State) {
+    if (state.tokens) {
+      return state.tokens!.map(item => {
+        return item.address
+      })
+    } else {
+      return []
+    }
   }
 }
 

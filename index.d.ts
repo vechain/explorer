@@ -1,4 +1,11 @@
 declare namespace Exp {
+  type State = {
+    best: Block | null
+    tokens: Token[] | null
+    abis: {
+      [key: string]: any
+    }
+  }
   type Meta = {
     blockID: string
     blockNumber: number
@@ -89,8 +96,8 @@ declare namespace Exp {
   }
 
   type BlockDetail = {
-
     prev: string | null
     next: string | null
-  } & Block
+    block: Block
+  }
 }
