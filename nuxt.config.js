@@ -1,47 +1,50 @@
-const morgan = require('morgan')
+const morgan = require("morgan");
 
 export default {
   server: {
-    host: '0.0.0.0',
+    host: "0.0.0.0",
     timing: true
   },
-  serverMiddleware: [
-    { path: "/", handler: morgan('tiny') }
-  ],
-  mode: 'universal',
+  serverMiddleware: [{ path: "/", handler: morgan("tiny") }],
+  mode: "universal",
   /*
    ** Headers of the page
    */
   head: {
-    title: 'VeChain Explorer',
+    title: "VeChain Explorer",
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
       {
-        hid: 'description',
-        name: 'description',
-        content: process.env.npm_package_description || ''
+        hid: "description",
+        name: "description",
+        content: process.env.npm_package_description || ""
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: "#fff" },
   /*
    ** Global CSS
    */
-  css: ['@fortawesome/fontawesome-svg-core/styles.css'],
+  css: ["@fortawesome/fontawesome-svg-core/styles.css"],
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/filters.ts', '~/plugins/fontawesome.ts','~/plugins/axios.ts'],
+  plugins: [
+    "~/plugins/filters.ts",
+    "~/plugins/fontawesome.ts",
+    "~/plugins/axios.ts",
+    { src: "~/plugins/init.ts", mode: "client" }
+  ],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    '@nuxt/typescript-build'
+    "@nuxt/typescript-build"
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
   ],
@@ -50,10 +53,10 @@ export default {
    */
   modules: [
     // Doc: https://bootstrap-vue.js.org
-    'bootstrap-vue/nuxt',
+    "bootstrap-vue/nuxt",
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    "@nuxtjs/axios",
+    "@nuxtjs/pwa"
   ],
   /*
    ** Axios module configuration
@@ -64,8 +67,8 @@ export default {
     proxy: true
   },
   proxy: {
-    '/api/': {
-      target: 'https://explore.digonchain.com/'
+    "/api/": {
+      target: "https://explore.digonchain.com/"
     }
   },
   /*
@@ -76,5 +79,10 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {}
+  },
+  hooks: {
+    "render:routeContext": () => {
+      alert("0000");
+    }
   }
-}
+};
