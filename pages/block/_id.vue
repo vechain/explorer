@@ -1,9 +1,11 @@
 <template>
     <div>
-        <h3>
+        <div>
+        <h3 class="d-inline-block">
             Block
-            <small class="text-secondary ml-2">#{{id | numFmt}}</small>
         </h3>
+        <h5 class="text-secondary ml-2 d-inline-block">#{{id | numFmt}}</h5>
+        </div>
         <b-nav tabs align="left">
             <b-nav-item
                 v-for="item in links"

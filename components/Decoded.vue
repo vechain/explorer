@@ -97,7 +97,7 @@
                     </table>
                 </div>
             </div>
-            <div v-else>
+            <div class="mt-2 text-center small" v-else>
                 unable to decode data
             </div>
         </div>
