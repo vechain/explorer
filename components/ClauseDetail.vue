@@ -17,7 +17,7 @@
             </b-tab>
             <b-tab title="Events">
                 <template v-if="events.length > 0">
-                    <b-card no-body v-for="(item, i) in events" :key="i">
+                    <b-card class="mb-1" no-body v-for="(item, i) in events" :key="i">
                         <b-card-header header-class="py-1 px-3">
                             <span class="mr-4">{{'# ' + i}}</span>
                             <span class="ml-4">
