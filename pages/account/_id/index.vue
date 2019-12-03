@@ -34,10 +34,13 @@
             <ListItem v-if="token.length">
                 <template slot="label">Tokens</template>
                 <template slot="item-content">
-                    <div v-for="(item, i) in token" :key="i">
-                        <img class="mr-3" style="width: 40px" :src="getImgUrl(item.symbol)" />
-                        <Amount :amount="item.balance" :sym="item.symbol" />
-                    </div>
+                    <TokenItem
+                        class="my-2"
+                        :amount="item.balance"
+                        :symbol="item.symbol"
+                        v-for="(item, i) in token"
+                        :key="i"
+                    ></TokenItem>
                 </template>
             </ListItem>
             <ListItem v-if="account.code">
@@ -79,11 +82,13 @@ import ListItem from '@/components/ListItem.vue'
 import Balance from '@/components/Balance.vue'
 import { Context } from '@nuxt/types'
 import Amount from '@/components/Amount.vue'
+import TokenItem from '@/components/TokenItem.vue'
 @Component({
     components: {
         ListItem,
         Balance,
-        Amount
+        Amount,
+        TokenItem
     },
     middleware: 'summary',
     async asyncData(ctx: Context) {
