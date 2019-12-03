@@ -21,6 +21,14 @@ Vue.filter('bNum', (val: string) => {
   return parseInt(val.substr(0, 10), 16)
 })
 
+Vue.filter('percent', (val: number) => {
+  return (val * 100).toLocaleString(undefined, {
+    style: 'decimal',
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2
+  }) + '%'
+})
+
 Vue.filter('hexToVal', (hex: string, decimals?: number) => {
   const temp = new BigNumber(hex)
 
