@@ -59,8 +59,8 @@ export const plugins: Plugin<Exp.State>[] = [fetchBest]
 export const actions = {
   async nuxtServerInit(actx: ActionContext<Exp.State, any>, ctx: Context) {
     try {
-      const best = await ctx.$axios.$get('/api/blocks/best')
-      actx.commit('setBest', best)
+      const best: Exp.BlockDetail = await ctx.$axios.$get('/api/blocks/best')
+      actx.commit('setBest', best.block)
     } catch (error) {
       console.log(error)
     }
