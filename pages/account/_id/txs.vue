@@ -75,6 +75,7 @@ export default class AccountTxs extends Vue {
     pageCount = 0
     transactions = []
     currentPage = 1
+    isAuthority = false
     fields = [
         {
             key: 'txID',
@@ -97,6 +98,10 @@ export default class AccountTxs extends Vue {
             path: this.$route.path,
             query: { page: pageNum }
         }
+    }
+
+    mounted() {
+        this.$emit('account-isAuthority', this.isAuthority)
     }
 
     @Watch('$route')

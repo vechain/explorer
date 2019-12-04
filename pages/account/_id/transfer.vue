@@ -85,6 +85,7 @@ export default class AccountTransfer extends Vue {
     currentPage = 1
     pageCount = 0
     transfers = []
+    isAuthority = false
     fields = [
         {
             key: 'txID',
@@ -111,6 +112,9 @@ export default class AccountTransfer extends Vue {
             path: this.$route.path,
             query: { page: pageNum }
         }
+    }
+    mounted() {
+        this.$emit('account-isAuthority', this.isAuthority)
     }
     @Watch('$route')
     async queryChange() {

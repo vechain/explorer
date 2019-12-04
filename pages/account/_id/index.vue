@@ -44,7 +44,7 @@
                 <template slot="item-content">
                     <b-badge class="text-light" pill variant="warning" v-if="account.code">Contract</b-badge>
                     <b-badge pill else>Regular</b-badge>
-                    <b-badge pill variant="dark" v-if="account.isAuthority">Authority</b-badge>
+                    <b-badge pill variant="dark" v-if="authority">Authority</b-badge>
                 </template>
             </ListItem>
             <ListItem v-if="token.length">
@@ -85,14 +85,16 @@
                     ></b-form-textarea>
                 </template>
             </ListItem>
-            <ListItem v-if="account.isAuthority">
+            <ListItem v-if="authority">
                 <template slot="label">Signed block</template>
-                <template slot="item-content">{{account.signed}}</template>
+                <template slot="item-content">
+                    <span class="text-monospace">{{authority.signed | numFmt}}</span>
+                </template>
             </ListItem>
-            <ListItem v-if="account.isAuthority">
+            <ListItem v-if="authority">
                 <template slot="label">Block rewards</template>
                 <template slot="item-content">
-                    <Amount :amount="account.reward" sym="VTHO" />
+                    <Amount :amount="authority.reward" sym="VTHO" />
                 </template>
             </ListItem>
         </b-list-group>
@@ -114,14 +116,15 @@ import TokenItem from '@/components/TokenItem.vue'
         Amount,
         TokenItem
     },
-    middleware: 'summary',
     async asyncData(ctx: Context) {
+        const result = await ctx.$axios.$get('/api/accounts/' + ctx.params.id)
         return {
-            ...ctx.payload
+            ...result
         }
     }
 })
 export default class Summary extends Vue {
+    isAuthority = false
     checksumAddress(addr: string) {
         return Vue.filter('toChecksumAddress')(addr)
     }
@@ -132,6 +135,9 @@ export default class Summary extends Vue {
         if (token) {
             return token.imgUrl
         }
+    }
+    mounted() {
+        this.$emit('account-isAuthority', this.isAuthority)
     }
     onCopy() {
         const t = this.$refs['account-id-btn-tip'] as Vue

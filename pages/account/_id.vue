@@ -10,7 +10,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child />
+        <nuxt-child @account-isAuthority="onGet" />
     </div>
 </template>
 
@@ -39,17 +39,34 @@ import { Route } from 'vue-router'
                 name: 'account-id-transfer',
                 params
             }
-        },{
-            text: 'Signed Blocks',
-            route: {
-                name: 'account-id-blocks',
-                params
-            }
         }]
+
+        if (ctx.payload && ctx.payload.authority) {
+            links.push({
+                text: 'Signed Blocks',
+                route: {
+                    name: 'account-id-blocks',
+                    params
+                }
+            })
+        }
 
         return { links }
     }
 })
 export default class Account extends Vue {
+    links:any[] = []
+    onGet(isAuthority: boolean) {
+        if (this.links.length === 4) {
+            return
+        }
+        this.links.push({
+            text: 'Signed Blocks',
+            route: {
+                name: 'account-id-blocks',
+                params: this.$route.params
+            }
+        })
+    }
 }
 </script>

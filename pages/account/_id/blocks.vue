@@ -91,6 +91,9 @@ export default class AccountBlocks extends Vue {
             query: { page: pageNum }
         }
     }
+    mounted() {
+        this.$emit('account-isAuthority', true)
+    }
     @Watch('$route')
     async queryChange() {
         const pageSize = 10
