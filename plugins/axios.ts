@@ -5,4 +5,7 @@ export default function (ctx: Context) {
       ctx.redirect('/')
     }
   })
+  ctx.$axios.onRequest((config: any) => {
+    config.progress = false;
+  })
 }
