@@ -10,7 +10,9 @@
                 size="sm"
                 :variant="current!=='decoded' ? 'outline-secondary' : ''"
                 @click="current = 'decoded'"
-            >Decoded</b-button>
+            >
+            <b-spinner v-if="loadingAbi" small type="grow"></b-spinner>
+            {{loadingAbi ? 'Decoding' : 'Decoded'}}</b-button>
         </b-button-group>
         <div v-show="current==='raw'">
             <b-form-textarea readonly class="mt-3" v-if="isData" :value="inputData" size="sm"></b-form-textarea>
@@ -97,6 +99,9 @@
                     </table>
                 </div>
             </div>
+            <div v-else-if="loadingAbi" class=" py-3 text-center">
+                <b-spinner type="grow" />
+            </div>
             <div class="mt-2 text-center small" v-else>unable to decode data</div>
         </div>
     </div>
@@ -121,6 +126,8 @@ export default class Decoded extends Vue {
 
     @Prop(String)
     inputData!: string
+
+    loadingAbi = false
 
     abiJson: abi.Function.Definition | abi.Event.Definition | null = null
     current = 'raw'
@@ -182,7 +189,9 @@ export default class Decoded extends Vue {
     }
 
     async queryAbi(key: string) {
+        this.loadingAbi = true
         const abi = await this.$store.dispatch('queryAbi', key)
+        this.loadingAbi = false
         return abi
     }
 
