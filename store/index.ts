@@ -4,54 +4,7 @@ import { fetchBest } from './plugins/fetchBest'
 export const state = (): Exp.State => ({
   best: null,
   tokens: [],
-  abis: {
-    '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef':
-    {
-      "anonymous": false,
-      "inputs": [
-        {
-          "indexed": true,
-          "name": "_from",
-          "type": "address"
-        },
-        {
-          "indexed": true,
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "indexed": false,
-          "name": "_value",
-          "type": "uint256"
-        }
-      ],
-      "name": "Transfer",
-      "type": "event"
-    },
-    '0xa9059cbb': {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_to",
-          "type": "address"
-        },
-        {
-          "name": "_amount",
-          "type": "uint256"
-        }
-      ],
-      "name": "transfer",
-      "outputs": [
-        {
-          "name": "success",
-          "type": "bool"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-  }
+  abis: {}
 })
 
 export const plugins: Plugin<Exp.State>[] = [fetchBest]
@@ -64,6 +17,22 @@ export const actions = {
     } catch (error) {
       console.log(error)
     }
+  },
+  async queryAbi(actx: ActionContext<Exp.State, any>, key: string) {
+    let abi
+    try {
+      const resp = await fetch(`https://b32.vecha.in/q/${key}.json`)
+      if (resp.status !== 200) {
+        return
+      }
+      abi = await resp.json()
+    } catch (error) {
+      console.log(error)
+    }
+
+    actx.commit('setAbi', { key, value: abi[0] })
+    ;(this as any).$_localStorage.setItem(key, abi[0])
+    return abi[0]
   }
 }
 export const mutations = {

@@ -97,9 +97,7 @@
                     </table>
                 </div>
             </div>
-            <div class="mt-2 text-center small" v-else>
-                unable to decode data
-            </div>
+            <div class="mt-2 text-center small" v-else>unable to decode data</div>
         </div>
     </div>
 </template>
@@ -184,19 +182,8 @@ export default class Decoded extends Vue {
     }
 
     async queryAbi(key: string) {
-        let abi
-        try {
-            const resp = await fetch(`https://b32.vecha.in/q/${key}.json`)
-            if (resp.status !== 200) {
-                return
-            }
-            abi = await resp.json()
-        } catch (error) {
-            console.log(error)
-        }
-        this.$store.commit('setAbi', { key, value: abi[0] })
-
-        return abi[0]
+        const abi = await this.$store.dispatch('queryAbi', key)
+        return abi
     }
 
     async created() {

@@ -1,4 +1,20 @@
 import { Context } from '@nuxt/types'
+
+interface LocalS {
+  getItem(key: string): any,
+  setItem(key: string, item: any): void
+}
+declare module '@nuxt/types' {
+  interface Context {
+    $_localStorage: LocalS
+  }
+}
+
+declare module 'vue/types/vue' {
+  interface Vue {
+    $_localStorage: LocalS
+  }
+}
 function setItem(key: string, content: any) {
   localStorage.setItem(key, JSON.stringify(content))
 }
@@ -26,6 +42,11 @@ async function setToken() {
   setItem('tokens', obj)
 }
 
+const _localStorage: LocalS = {
+  getItem,
+  setItem
+}
+
 const initTokens = async () => {
   const tokens = getItem('tokens')
   if (tokens) {
@@ -37,7 +58,27 @@ const initTokens = async () => {
   }
 }
 
-export default async (t: Context) => {
+const getLocalAbis = (): { key: string, value: object }[] => {
+  const keys = Object.keys(localStorage)
+  const abiKeys = keys.filter((item: string) => {
+    return item && (item.indexOf('0x') === 0) && (item.length === 10 || item.length === 66)
+  })
+
+  return abiKeys.map(item => {
+    return {
+      key: item,
+      value: getItem(item)
+    }
+  })
+}
+
+export default async (ctx: Context, inject: any) => {
   await initTokens()
-  t.store.commit('setTokens', getItem('tokens').list)
+  ctx.store.commit('setTokens', getItem('tokens').list)
+  const abis = getLocalAbis()
+  abis.forEach(item => {
+    ctx.store.commit('setAbi', item)
+  })
+  ctx.$_localStorage = _localStorage
+  inject('_localStorage', _localStorage)
 }
