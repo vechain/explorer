@@ -47,12 +47,12 @@ export default class AccountLink extends Vue {
     icon!: boolean
 
     sizes = {
-        sm: 'width: 30px; height: 17px',
+        sm: 'width: 30px; height: 20px',
         normal: 'width: 55px; height: 30px'
     }
 
     get style() {
-        return this.sizes[this.size ? this.size : 'normal']
+        return this.sizes['sm']
     }
 
 }

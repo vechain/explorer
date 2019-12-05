@@ -21,7 +21,7 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty empty-text="no data" responsive :fields="fields" :items="blocks">
+        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="blocks">
             <template v-slot:cell(blcok)="row">
                 <nuxt-link
                     class="text-monospace"
@@ -59,7 +59,6 @@ import { Context } from '@nuxt/types'
             }
         })
         return {
-            account: ctx.params.id.toLowerCase(),
             ...result,
             currentPage: page,
             pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
@@ -91,9 +90,7 @@ export default class AccountBlocks extends Vue {
             query: { page: pageNum }
         }
     }
-    mounted() {
-        this.$emit('account-isAuthority', true)
-    }
+
     @Watch('$route')
     async queryChange() {
         const pageSize = 10

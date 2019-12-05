@@ -1,4 +1,4 @@
-import {Context} from '@nuxt/types'
+import { Context } from '@nuxt/types'
 
 export default async function getBlockTxs(ctx: Context) {
   try {

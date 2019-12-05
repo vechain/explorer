@@ -1,16 +1,43 @@
 <template>
-    <div class="mt-4">
-        <b-table show-empty empty-text="no data" hover :fields="fields" :items="clauses">
+    <div>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-middle">
+                <div>
+                    {{pageItems}}
+                    <span class="text-secondary">items</span>
+                    , {{currentPage}}
+                    <span class="text-secondary">of</span>
+                    {{pageCount | numFmt}}
+                    <span class="text-secondary">pages</span>
+                </div>
+            </div>
+            <b-pagination
+                class="mt-3 d-flex"
+                :per-page="perPage"
+                v-model="currentPage"
+                :total-rows="rows"
+                align="right"
+            ></b-pagination>
+        </div>
+        <b-table
+            :current-page="currentPage"
+            :per-page="perPage"
+            show-empty
+            empty-text="No Data"
+            :fields="fields"
+            :items="clauses"
+        >
             <template v-slot:cell(index)="row"># {{row.index + 1}}</template>
             <template v-slot:cell(type)="row">
                 <b-badge variant="primary">{{row.item.type}}</b-badge>
             </template>
             <template v-slot:cell(to)="row">
-                <AccountLink :address="row.item.to" />
+                <AccountLink v-if="row.item.to" :address="row.item.to" />
+                <span v-else>-</span>
             </template>
             <template v-slot:cell(value)="row">
                 <template>
-                    <Amount :amount="row.item.value" sym="VET"/>
+                    <Amount :amount="row.item.value" sym="VET" />
                 </template>
             </template>
             <template v-slot:cell(action)="row">
@@ -45,11 +72,25 @@ import Amount from '@/components/Amount.vue'
     }
 })
 export default class TxClause extends Vue {
-    @Prop()
+    @Prop({ default: [] })
     clauseList!: any[]
+    currentPage = 1
+    perPage = 10
 
     get tokensAddress(): string[] {
         return this.$store.getters.tokenAddressList
+    }
+
+    get rows() {
+        return this.clauses!.length
+    }
+
+    get pageItems() {
+        return this.currentPage === this.pageCount ? (this.rows % this.perPage) || this.perPage : this.perPage
+    }
+
+    get pageCount() {
+        return Math.floor(this.rows / this.perPage) + (this.rows % this.perPage > 0 ? 1 : 0) || 1
     }
 
     getToken(address: string) {

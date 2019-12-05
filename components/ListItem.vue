@@ -1,13 +1,13 @@
 <template>
-    <b-list-group-item class="pl-0">
-        <b-container class="pl-1" fluid>
+    <b-list-group-item class="px-0">
+        <b-container fluid>
             <b-row no-gutters>
-                <b-col cols="3 align-self-center">
-                    <span class="text-left font-weight-bold align-middle">
+                <b-col  cols="4" sm="3" lg="2">
+                    <span class="text-left text-truncate font-weight-bold align-middle">
                         <slot name="label" />
                     </span>
                 </b-col>
-                <b-col cols="9" class="text-break">
+                <b-col cols="8" sm="9" lg="10" class="text-break pl-2 pl-sm-0">
                     <slot name="item-content" />
                 </b-col>
             </b-row>

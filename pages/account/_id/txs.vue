@@ -21,18 +21,18 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty empty-text="no data" responsive :fields="fields" :items="transactions">
+        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="transactions">
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
             <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(to)="row">
                 <AccountLink
-                    v-if="row.item.clauses.length === 1"
+                    v-if="row.item.clauses.length === 1 && row.item.clauses[0].to"
                     :address="row.item.clauses[0].to"
                 />
                 <span v-else-if="row.item.clauses.length > 1">Multiple</span>
-                <span v-else>None</span>
+                <span v-else>-</span>
             </template>
             <template v-slot:cell(value)="row">
                 <Amount :amount="row.item.clauses | countVal" sym="VET" />

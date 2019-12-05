@@ -102,7 +102,7 @@
             <div v-else-if="loadingAbi" class=" py-3 text-center">
                 <b-spinner type="grow" />
             </div>
-            <div class="mt-2 text-center small" v-else>unable to decode data</div>
+            <div class="mt-2 text-center small" v-else>Unable to decode data</div>
         </div>
     </div>
 </template>

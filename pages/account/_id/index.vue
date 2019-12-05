@@ -5,6 +5,11 @@
                 <template slot="label">Address</template>
                 <template slot="item-content">
                     <div class="text-break">
+                        <IdentBox
+                            class="d-inline-block mr-1 rounded align-middle"
+                            style="width: 30px; height: 20px"
+                            :address="account.address"
+                        ></IdentBox>
                         <span
                             class="text-monospace font-weight-lighter"
                         >{{account.address | toChecksumAddress}}</span>
@@ -17,9 +22,8 @@
                             id="account-id-btn"
                             v-clipboard:copy="checksumAddress(account.address)"
                             v-clipboard:success="onCopy"
-                            class="ml-3"
+                            class="ml-1 ml-sm-3"
                             size="sm"
-                            pill
                             variant="outline-secondary"
                         >
                             <font-awesome-icon small icon="copy" />
@@ -43,8 +47,8 @@
                 <template slot="label">Account Type</template>
                 <template slot="item-content">
                     <b-badge class="text-light" pill variant="warning" v-if="account.code">Contract</b-badge>
-                    <b-badge pill else>Regular</b-badge>
-                    <b-badge pill variant="dark" v-if="authority">Authority</b-badge>
+                    <b-badge pill variant="dark" v-else-if="authority">Authority</b-badge>
+                    <span v-else>-</span>
                 </template>
             </ListItem>
             <ListItem v-if="token.length">
@@ -86,7 +90,7 @@
                 </template>
             </ListItem>
             <ListItem v-if="authority">
-                <template slot="label">Signed block</template>
+                <template slot="label">Signed blocks</template>
                 <template slot="item-content">
                     <span class="text-monospace">{{authority.signed | numFmt}}</span>
                 </template>
@@ -106,6 +110,7 @@ import ListItem from '@/components/ListItem.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import Balance from '@/components/Balance.vue'
 import { Context } from '@nuxt/types'
+import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
 import TokenItem from '@/components/TokenItem.vue'
 @Component({
@@ -114,17 +119,18 @@ import TokenItem from '@/components/TokenItem.vue'
         AccountLink,
         Balance,
         Amount,
-        TokenItem
+        TokenItem,
+        IdentBox
     },
     async asyncData(ctx: Context) {
-        const result = await ctx.$axios.$get('/api/accounts/' + ctx.params.id)
+        const result = ctx.payload
         return {
             ...result
         }
     }
 })
 export default class Summary extends Vue {
-    isAuthority = false
+
     checksumAddress(addr: string) {
         return Vue.filter('toChecksumAddress')(addr)
     }
@@ -136,9 +142,7 @@ export default class Summary extends Vue {
             return token.imgUrl
         }
     }
-    mounted() {
-        this.$emit('account-isAuthority', this.isAuthority)
-    }
+
     onCopy() {
         const t = this.$refs['account-id-btn-tip'] as Vue
         t.$emit('open')

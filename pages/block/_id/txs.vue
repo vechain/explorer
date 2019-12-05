@@ -1,16 +1,40 @@
 <template>
     <div>
-        <div class="mt-3">
-            <b-pagination v-model="currentPage" :total-rows="rows" align="right"></b-pagination>
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-middle">
+                <div>
+                    {{pageItems}}
+                    <span class="text-secondary">items</span>
+                    , {{currentPage}}
+                    <span class="text-secondary">of</span>
+                    {{pageCount | numFmt}}
+                    <span class="text-secondary">pages</span>
+                </div>
+            </div>
+            <b-pagination
+                class="mt-3 d-flex"
+                :per-page="perPage"
+                v-model="currentPage"
+                :total-rows="rows"
+                align="right"
+            ></b-pagination>
         </div>
-        <b-table show-empty empty-text="no data" id="block-txs" :fields="fields" :items="txs">
+        <b-table
+            show-empty
+            :per-page="perPage"
+            :current-page="currentPage"
+            empty-text="No Data"
+            id="block-txs"
+            :fields="fields"
+            :items="txs"
+        >
             <template v-slot:cell(index)="row">{{row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
             <template v-slot:cell(clauses)="row">{{row.item.clauses.length}}</template>
             <template v-slot:cell(origin)="row">
-                <AccountLink :address="row.item.origin"/>
+                <AccountLink :address="row.item.origin" />
             </template>
             <template v-slot:cell(value)="row">
                 <Amount :amount="row.item.clauses | countVal" sym="VET" />
@@ -25,16 +49,16 @@ import TxLink from '@/components/TxLink.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import Amount from '@/components/Amount.vue'
 @Component({
-    middleware: 'blockTxs',
     components: {
         TxLink,
         AccountLink,
         Amount
     },
     async asyncData(ctx: Context) {
+        const result = await ctx.$axios.$get(`/api/blocks/${ctx.params.id}/transactions`)
         return {
-            txs: ctx.payload.txs,
-            rows: ctx.payload.txs.length
+            txs: result.txs,
+            rows: result.txs.length
         }
     }
 })
@@ -61,5 +85,13 @@ export default class BlockTxs extends Vue {
             class: 'text-right'
         }
     ]
+
+    get pageItems() {
+        return this.currentPage === this.pageCount ? (this.rows % this.perPage) || this.perPage : this.perPage
+    }
+
+    get pageCount() {
+        return Math.floor(this.rows / this.perPage) + (this.rows % this.perPage > 0 ? 1 : 0) || 1
+    }
 }
 </script>

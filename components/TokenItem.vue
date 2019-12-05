@@ -1,17 +1,18 @@
 <template>
-    <div class="d-flex">
-        <div :style="item.style" class="token-icon d-flex d-inline-block"></div>
-        <div class="pl-1 d-flex align-self-center">{{item.symbol}}</div>
-        <div class="px-2 d-flex align-self-center">
+    <b-row no-gutters align-content="start">
+        <b-col cols="1">
+            <div :style="item.style" class="token-icon"></div>
+        </b-col>
+        <b-col cols="1" align-self="center" >{{item.symbol}}</b-col>
+        <!-- <div class="px-2 align-self-center">
           <span v-b-tooltip.hover :title="item.desc">
             <font-awesome-icon small color="#6c757d" icon="info-circle" />
           </span>
-            <!-- <font-awesome-icon small icon="copy" /> -->
-        </div>
-        <div class="pl-4 d-flex align-self-center">
+        </div>-->
+        <b-col align-self="center">
             <Amount :decimals="item.decimals" :amount="amount" :sym="symbol" />
-        </div>
-    </div>
+        </b-col>
+    </b-row>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
@@ -40,7 +41,7 @@ export default class TokenItem extends Vue {
                 }
             }
         } else {
-          return {}
+            return {}
         }
     }
 }

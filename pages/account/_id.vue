@@ -1,6 +1,9 @@
 <template>
     <div>
-        <h3>Account</h3>
+        <div class="my-3">
+            <h3 class="d-inline-block">Account</h3>
+            <h5 class="text-secondary ml-2 d-inline-block">{{address | toChecksumAddress}}</h5>
+        </div>
         <b-nav tabs align="left">
             <b-nav-item
                 v-for="item in links"
@@ -10,7 +13,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child @account-isAuthority="onGet" />
+        <nuxt-child />
     </div>
 </template>
 
@@ -19,8 +22,10 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import { Route } from 'vue-router'
 @Component({
+    middleware: 'summary',
     async asyncData(ctx: Context) {
         const params = ctx.params
+        const result = ctx.payload
         const links = [{
             text: 'Summary',
             route: {
@@ -28,20 +33,20 @@ import { Route } from 'vue-router'
                 params
             }
         }, {
-            text: 'Transaction',
+            text: 'Transactions',
             route: {
                 name: 'account-id-txs',
                 params
             }
         }, {
-            text: 'Transfer',
+            text: 'Transfers',
             route: {
                 name: 'account-id-transfer',
                 params
             }
         }]
 
-        if (ctx.payload && ctx.payload.authority) {
+        if (result && result.authority) {
             links.push({
                 text: 'Signed Blocks',
                 route: {
@@ -51,22 +56,22 @@ import { Route } from 'vue-router'
             })
         }
 
-        return { links }
+        return { links, address: result.account.address }
     }
 })
 export default class Account extends Vue {
-    links:any[] = []
-    onGet(isAuthority: boolean) {
-        if (this.links.length === 4) {
-            return
-        }
-        this.links.push({
-            text: 'Signed Blocks',
-            route: {
-                name: 'account-id-blocks',
-                params: this.$route.params
-            }
-        })
-    }
+    links: any[] = []
+    // onGet(isAuthority: boolean) {
+    //     if (this.links.length === 4) {
+    //         return
+    //     }
+    //     this.links.push({
+    //         text: 'Signed Blocks',
+    //         route: {
+    //             name: 'account-id-blocks',
+    //             params: this.$route.params
+    //         }
+    //     })
+    // }
 }
 </script>

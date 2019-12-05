@@ -39,7 +39,11 @@
             <ListItem>
                 <template slot="label">Transactions</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{item.txCount}}</span>
+                    <b-button
+                        :to="{name: 'block-id-txs', params: { id: $route.params.id }}"
+                        size="sm"
+                        variant="outline-primary"
+                    >{{item.txCount}}</b-button>
                 </template>
             </ListItem>
             <ListItem>
@@ -81,7 +85,13 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Feature</template>
-                <template slot="item-content">{{item.txsFeatures}}</template>
+                <template slot="item-content">
+                    <span v-if="item.txsFeatures === 0">-</span>
+                    <span v-if="item.txsFeatures === 1">
+                        Compatible with
+                        <b-badge variant="info">VIP191</b-badge>
+                    </span>
+                </template>
             </ListItem>
             <ListItem>
                 <template slot="label">State Root</template>
@@ -113,7 +123,6 @@ import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
 import { Context } from '@nuxt/types'
 @Component({
-    middleware: 'blockInfo',
     components: {
         ListItem,
         IdentBox,
@@ -129,5 +138,6 @@ import { Context } from '@nuxt/types'
     }
 })
 export default class BlockInfo extends Vue {
+
 }
 </script>

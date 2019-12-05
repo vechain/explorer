@@ -4,7 +4,7 @@
             <b-tab title="Input Data">
                 <b-card :class="{'text-center': !(inputData !== '0x')}">
                     <Decoded v-if="inputData !== '0x'" :inputData="inputData" />
-                    <small v-else>No data</small>
+                    <small v-else>No Data</small>
                 </b-card>
             </b-tab>
             <b-tab title="Transfer">

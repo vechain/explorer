@@ -21,7 +21,7 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty empty-text="no data" :fields="fields" :items="transfers">
+        <b-table show-empty empty-text="No Data" :fields="fields" :items="transfers">
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
@@ -113,9 +113,7 @@ export default class AccountTransfer extends Vue {
             query: { page: pageNum }
         }
     }
-    mounted() {
-        this.$emit('account-isAuthority', this.isAuthority)
-    }
+
     @Watch('$route')
     async queryChange() {
         const pageSize = 10

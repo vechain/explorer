@@ -20,9 +20,8 @@
                         id="tx-id-btn"
                         v-clipboard:copy="tx.txID"
                         v-clipboard:success="onCopy"
-                        class="ml-3"
+                        class="ml-1 ml-sm-3"
                         size="sm"
-                        pill
                         variant="outline-secondary"
                     >
                         <font-awesome-icon small icon="copy" />
@@ -35,7 +34,9 @@
             </ListItem>
             <ListItem>
                 <template slot="label">Clauses</template>
-                <template slot="item-content">{{tx.clauses.length}}</template>
+                <template slot="item-content">
+                    <b-button to="#clause" size="sm" variant="outline-primary">{{tx.clauses.length}}</b-button>
+                </template>
             </ListItem>
             <ListItem>
                 <template slot="label">Total Transfer</template>
@@ -109,7 +110,7 @@
             <ListItem>
                 <template slot="label">Depends On</template>
                 <template slot="item-content">
-                    <TxLink v-if="tx.dependsOn" :id="tx.dependsOn" />
+                    <TxLink :short="false" v-if="tx.dependsOn" :id="tx.dependsOn" />
                     <span v-else>-</span>
                 </template>
             </ListItem>

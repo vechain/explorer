@@ -11,7 +11,7 @@
                         <b-list-group-item v-for="b in recentBlocks" :key="b.id" class="stack-item">
                             <b-row no-gutters>
                                 <b-col
-                                    cols="sm-5 xs-12"
+                                    cols="sm-5"
                                     class="d-flex d-sm-block justify-content-between"
                                 >
                                     <div class="d-flex d-sm-block">
@@ -26,7 +26,7 @@
                                     >{{b.timestamp | ago}}</div>
                                 </b-col>
                                 <b-col
-                                    cols="sm-3 12"
+                                    cols="sm-3"
                                     class="d-flex d-sm-block justify-content-between"
                                 >
                                     <div class="d-flex d-sm-block">{{b.txCount}} Txs</div>
@@ -35,7 +35,7 @@
                                     >{{b.gasUsed | numFmt}} Gas</div>
                                 </b-col>
                                 <b-col
-                                    cols="sm-4 12"
+                                    cols="sm-4"
                                     title="Signer"
                                     class="text-right small d-flex d-sm-block justify-content-between"
                                 >
@@ -78,8 +78,8 @@
                                     cols="sm-5"
                                     class="text-right flex-column mt-1  mt-sm-0 d-flex d-sm-block"
                                 >
-                                    <div class="d-sm-block text-left text-sm-right">
-                                        Origin:
+                                    <div class="d-sm-block text-left text-sm-right small">
+                                        <span class=" text-secondary">Origin </span>
                                         <AccountLink :icon="false" :address="t.origin" />
                                     </div>
                                     <Amount
