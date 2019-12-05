@@ -2,7 +2,7 @@ import { Context } from '@nuxt/types'
 
 export default async function getAccountSummary(ctx: Context) {
   try {
-    const result: Exp.TxDetail = await ctx.$axios.$get('/api/transactions/' + ctx.params.id)
+    const result: DTO.TxDetail = await ctx.$axios.$get('/api/transactions/' + ctx.params.id)
 
     ctx.payload = {
       tx: {},

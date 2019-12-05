@@ -97,7 +97,7 @@
     </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import Balance from '@/components/Balance.vue'
@@ -113,21 +113,26 @@ import TokenItem from '@/components/TokenItem.vue'
         Amount,
         TokenItem,
         IdentBox
-    },
-    async asyncData(ctx: Context) {
-        const result = ctx.payload
-        return {
-            ...result
-        }
     }
 })
 export default class Summary extends Vue {
+    @Prop()
+    account!: object
+    @Prop()
+    authority!: object
+    @Prop()
+    token!: DTO.Token[]
 
     checksumAddress(addr: string) {
         return Vue.filter('toChecksumAddress')(addr)
     }
+
+    mounted() {
+        console.log(this.account)
+    }
+
     getImgUrl(symbol: string) {
-        const token: Exp.Token = this.$store.state.tokens.find((item: Exp.Token) => {
+        const token: DTO.Token = this.$store.state.tokens.find((item: DTO.Token) => {
             return item.symbol === symbol
         })
         if (token) {

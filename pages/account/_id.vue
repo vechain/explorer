@@ -4,7 +4,7 @@
             <h3 class="d-inline-block">{{title}}</h3>
             <h5
                 class="text-secondary ml-2 d-inline-block"
-            >{{address | toChecksumAddress | shortAddress}}</h5>
+            >{{account.address | toChecksumAddress | shortAddress}}</h5>
         </div>
         <b-nav tabs align="left">
             <b-nav-item
@@ -15,7 +15,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child />
+        <nuxt-child :account="account" :authority="authority" :token="token"/>
     </div>
 </template>
 
@@ -24,10 +24,9 @@ import { Vue, Component } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import { Route } from 'vue-router'
 @Component({
-    middleware: 'summary',
     async asyncData(ctx: Context) {
         const params = ctx.params
-        const result = ctx.payload
+        const result = await ctx.$axios.$get('/api/accounts/' + ctx.params.id)
         const links = [{
             text: 'Summary',
             route: {
@@ -61,22 +60,13 @@ import { Route } from 'vue-router'
             ? 'Contract'
             : (result.authority ? 'Authority' : 'Account')
 
-        return { links, address: result.account.address, title }
+        return { links, ...result, title }
     }
 })
 export default class Account extends Vue {
     links: any[] = []
-    // onGet(isAuthority: boolean) {
-    //     if (this.links.length === 4) {
-    //         return
-    //     }
-    //     this.links.push({
-    //         text: 'Signed Blocks',
-    //         route: {
-    //             name: 'account-id-blocks',
-    //             params: this.$route.params
-    //         }
-    //     })
-    // }
+    account: any = null
+    authority: any = null
+    token: DTO.Token[] = []
 }
 </script>

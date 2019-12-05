@@ -145,13 +145,13 @@ import { Context } from '@nuxt/types'
 })
 export default class TxInfo extends Vue {
     @Prop(Object)
-    tx!: Exp.Tx & Exp.Meta
+    tx!: DTO.Tx & DTO.Meta
 
     @Prop(Number)
     bestNum!: number
 
     @Prop()
-    transfers!: Exp.Transfer[]
+    transfers!: DTO.Transfer[]
 
     showTip = false
     get txStatus() {

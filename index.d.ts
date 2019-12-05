@@ -1,10 +1,11 @@
-declare namespace Exp {
+declare namespace App {
   type Currency = {
     [token: string]: number
   }
+
   type State = {
-    best: Block | null
-    tokens: Token[] | null
+    best: DTO.Block | null
+    tokens: DTO.Token[] | null
     abis: {
       [key: string]: any
     }
@@ -13,7 +14,8 @@ declare namespace Exp {
       [symbol: string]: Currency
     }
   }
-
+}
+declare namespace DTO {
   type Meta = {
     blockID: string
     blockNumber: number

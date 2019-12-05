@@ -75,7 +75,7 @@ export default class Transaction extends Vue {
     mounted() {
         this.isMounted = true
     }
-    get best(): Exp.Block {
+    get best(): DTO.Block {
         return this.$store.state.best
     }
     get tab() {

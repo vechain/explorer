@@ -1,30 +1,30 @@
 import { Vue } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import { ActionContext, Plugin } from 'vuex/types'
-import { fetchBest } from './plugins/fetchBest'
-import { fetchPrice, f } from './plugins/fetchPrice'
-export const state = (): Exp.State => ({
+import { fetchBest, fetchPrice, f } from './plugins/fetchTasks'
+
+export const state = (): App.State => ({
   best: null,
   tokens: [],
   abis: {},
   price: {}
 })
 
-export const plugins: Plugin<Exp.State>[] = [fetchBest, fetchPrice]
+export const plugins: Plugin<App.State>[] = [fetchBest, fetchPrice]
 
 export const actions = {
-  async nuxtServerInit(actx: ActionContext<Exp.State, any>, ctx: Context) {
+  async nuxtServerInit(actx: ActionContext<App.State, any>, ctx: Context) {
     try {
       const payload = await f()
       actx.commit('setPrice', payload)
 
-      const best: Exp.BlockDetail = await ctx.$axios.$get('/api/blocks/best')
+      const best: DTO.BlockDetail = await ctx.$axios.$get('/api/blocks/best')
       actx.commit('setBest', best.block)
     } catch (error) {
       console.log(error)
     }
   },
-  async queryAbi(actx: ActionContext<Exp.State, any>, key: string) {
+  async queryAbi(actx: ActionContext<App.State, any>, key: string) {
     let abi
     try {
       const resp = await fetch(`https://b32.vecha.in/q/${key}.json`)
@@ -42,7 +42,7 @@ export const actions = {
   }
 }
 export const mutations = {
-  setPrice(state: Exp.State, payload: { [symbol: string]: Exp.Currency }) {
+  setPrice(state: App.State, payload: { [symbol: string]: App.Currency }) {
     const symbols = Object.keys(payload)
     symbols.forEach(item => {
       const temp = payload[item]
@@ -54,7 +54,7 @@ export const mutations = {
       }
     })
   },
-  setTokens(state: Exp.State, payload: Exp.Token[]) {
+  setTokens(state: App.State, payload: DTO.Token[]) {
     state.tokens = payload.map(item => {
       return {
         ...item,
@@ -62,16 +62,16 @@ export const mutations = {
       }
     })
   },
-  setAbi(state: Exp.State, payload: { key: string, value: Object }) {
+  setAbi(state: App.State, payload: { key: string, value: Object }) {
     state.abis[payload.key] = payload.value
   },
-  setBest(state: Exp.State, payload: Exp.Block) {
+  setBest(state: App.State, payload: DTO.Block) {
     state.best = payload
   }
 }
 
 export const getters = {
-  tokenAddressList(state: Exp.State) {
+  tokenAddressList(state: App.State) {
     if (state.tokens) {
       return state.tokens!.map(item => {
         return item.address

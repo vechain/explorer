@@ -29,7 +29,7 @@ export default class TokenItem extends Vue {
     amount!: string
 
     get item() {
-        const temp: Exp.Token | null = this.$store.state.tokens.find((item: Exp.Token) => {
+        const temp: DTO.Token | null = this.$store.state.tokens.find((item: DTO.Token) => {
             return item.symbol.toLowerCase() === this.symbol.toLowerCase()
         })
 
