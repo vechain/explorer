@@ -64,7 +64,7 @@
                 <template slot="item-content">
                     <Amount :amount="tx.paid" sym="VTHO" />
                     <span>
-                        paid by
+                        <strong>paid by</strong>
                         <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
                         <span v-else>Origin</span>
                     </span>
@@ -155,7 +155,7 @@ export default class TxInfo extends Vue {
 
     showTip = false
     get txStatus() {
-        return `Confirmed (${this.bestNum - this.tx.blockNumber}/12)`
+        return ` ${this.bestNum - this.tx.blockNumber} Confirmations`
     }
 
     get transfersList() {

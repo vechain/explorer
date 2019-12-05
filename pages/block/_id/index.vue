@@ -88,7 +88,7 @@
                 <template slot="item-content">
                     <span v-if="item.txsFeatures === 0">-</span>
                     <span v-if="item.txsFeatures === 1">
-                        Compatible with
+                        Support
                         <b-badge variant="info">VIP191</b-badge>
                     </span>
                 </template>

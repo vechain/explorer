@@ -1,11 +1,19 @@
 declare namespace Exp {
+  type Currency = {
+    [token: string]: number
+  }
   type State = {
     best: Block | null
     tokens: Token[] | null
     abis: {
       [key: string]: any
     }
+
+    price: {
+      [symbol: string]: Currency
+    }
   }
+
   type Meta = {
     blockID: string
     blockNumber: number

@@ -1,17 +1,23 @@
+import { Vue } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import { ActionContext, Plugin } from 'vuex/types'
 import { fetchBest } from './plugins/fetchBest'
+import { fetchPrice, f } from './plugins/fetchPrice'
 export const state = (): Exp.State => ({
   best: null,
   tokens: [],
-  abis: {}
+  abis: {},
+  price: {}
 })
 
-export const plugins: Plugin<Exp.State>[] = [fetchBest]
+export const plugins: Plugin<Exp.State>[] = [fetchBest, fetchPrice]
 
 export const actions = {
   async nuxtServerInit(actx: ActionContext<Exp.State, any>, ctx: Context) {
     try {
+      const payload = await f()
+      actx.commit('setPrice', payload)
+
       const best: Exp.BlockDetail = await ctx.$axios.$get('/api/blocks/best')
       actx.commit('setBest', best.block)
     } catch (error) {
@@ -31,11 +37,23 @@ export const actions = {
     }
 
     actx.commit('setAbi', { key, value: abi[0] })
-    ;(this as any).$_localStorage.setItem(key, abi[0])
+      ; (this as any).$_localStorage.setItem(key, abi[0])
     return abi[0]
   }
 }
 export const mutations = {
+  setPrice(state: Exp.State, payload: { [symbol: string]: Exp.Currency }) {
+    const symbols = Object.keys(payload)
+    symbols.forEach(item => {
+      const temp = payload[item]
+      if (!state.price[item]) {
+        Vue.set(state.price, item, {})
+      }
+      for (const t in temp) {
+        Vue.set(state.price[item], t, temp[t])
+      }
+    })
+  },
   setTokens(state: Exp.State, payload: Exp.Token[]) {
     state.tokens = payload.map(item => {
       return {

@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex justify-content-between align-items-center px-2">
             <div class="d-flex align-middle">
                 <div>
                     {{blocks.length}}
-                    <span class="text-secondary">items</span>
+                    <span class="text-secondary">entries</span>
                     , {{currentPage}}
                     <span class="text-secondary">of</span>
                     {{pageCount | numFmt}}

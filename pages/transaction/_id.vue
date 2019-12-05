@@ -2,8 +2,9 @@
     <div>
         <div class="my-3">
             <h3 class="d-inline-block">Transaction</h3>
-            <h5 class="d-inline-block ml-3">
-                @block#
+            <h5 class="d-inline-block ml-3 text-secondary">
+                <span>{{tx.txID | shortID}}</span>
+                @
                 <nuxt-link
                     :to="{
                         name: 'block-id', params: {
@@ -47,7 +48,7 @@ import { Context } from '@nuxt/types'
                 text: 'Info',
                 hash: '#info'
             }, {
-                text: `Clause(${ctx.payload.clauses.length})`,
+                text: `Clauses(${ctx.payload.clauses.length})`,
                 hash: '#clause'
             }]
             const data = ctx.payload

@@ -1,8 +1,10 @@
 <template>
     <div>
         <div class="my-3">
-            <h3 class="d-inline-block">Account</h3>
-            <h5 class="text-secondary ml-2 d-inline-block">{{address | toChecksumAddress}}</h5>
+            <h3 class="d-inline-block">{{title}}</h3>
+            <h5
+                class="text-secondary ml-2 d-inline-block"
+            >{{address | toChecksumAddress | shortAddress}}</h5>
         </div>
         <b-nav tabs align="left">
             <b-nav-item
@@ -55,8 +57,11 @@ import { Route } from 'vue-router'
                 }
             })
         }
+        const title = result.account.code
+            ? 'Contract'
+            : (result.authority ? 'Authority' : 'Account')
 
-        return { links, address: result.account.address }
+        return { links, address: result.account.address, title }
     }
 })
 export default class Account extends Vue {

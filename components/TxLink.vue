@@ -9,7 +9,7 @@
             hash: '#info'
           }"
     >
-        <span v-if="short">{{id | shortAddress}}</span>
+        <span v-if="short">{{id | shortID}}</span>
         <span v-else>{{id}}</span>
     </nuxt-link>
 </template>

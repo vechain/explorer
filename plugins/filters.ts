@@ -7,6 +7,10 @@ Vue.filter('shortAddress', (v: string) => {
   return v.substring(0, 8) + '...' + v.substring(v.length - 4, v.length)
 })
 
+Vue.filter('shortID', (v: string) => {
+  return v.substring(0, 10) + '...'
+})
+
 Vue.filter('balance', (val: number) => {
   return Number(val).toLocaleString(undefined, {
     style: 'decimal',
@@ -27,6 +31,14 @@ Vue.filter('percent', (val: number) => {
     maximumFractionDigits: 2,
     minimumFractionDigits: 2
   }) + '%'
+})
+
+Vue.filter('calcBtc', (hex: string, price: number, decimals?: number,) => {
+  const temp = new BigNumber(hex)
+  const p = new BigNumber(price)
+  return temp.isGreaterThan(0)
+    ? temp.div(new BigNumber('1e+' + (decimals || 18))).multipliedBy(p).toFormat(4)
+    : 0
 })
 
 Vue.filter('hexToVal', (hex: string, decimals?: number) => {

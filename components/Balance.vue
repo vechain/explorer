@@ -1,10 +1,13 @@
 <template>
     <blockquote class="blockquote mb-0 balance">
         <p class="mb-0 text-monospace">
-            <small> <Amount :amount="balance" :sym="token" /></small>
+            <small>
+                <Amount :amount="balance" :sym="token" />
+            </small>
         </p>
         <footer class="blockquote-footer text-monospace">
-            <small>0.00BTC</small>
+            <small v-if="btc"> {{ balance | calcBtc(btc) }} BTC</small>
+            <small v-else> -- </small>
         </footer>
     </blockquote>
 </template>
@@ -23,6 +26,14 @@ export default class Balance extends Vue {
 
     @Prop(String)
     token!: string
+
+    get btc() {
+        if (this.$store.state.price && this.$store.state.price.btc && this.$store.state.price.btc[this.token.toUpperCase()]) {
+            return this.$store.state.price.btc[this.token.toUpperCase()]
+        } else {
+            return 0
+        }
+    }
 }
 </script>
 <style scoped>

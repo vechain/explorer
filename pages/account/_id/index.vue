@@ -43,14 +43,6 @@
                     <Balance :balance="account.energy" token="vtho" />
                 </template>
             </ListItem>
-            <ListItem>
-                <template slot="label">Account Type</template>
-                <template slot="item-content">
-                    <b-badge class="text-light" pill variant="warning" v-if="account.code">Contract</b-badge>
-                    <b-badge pill variant="dark" v-else-if="authority">Authority</b-badge>
-                    <span v-else>-</span>
-                </template>
-            </ListItem>
             <ListItem v-if="token.length">
                 <template slot="label">Tokens</template>
                 <template slot="item-content">
