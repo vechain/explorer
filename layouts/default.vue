@@ -1,8 +1,8 @@
 <template>
     <div>
         <Navbar />
-        <b-container>
-        <nuxt class="pb-4" />
+        <b-container class="px-0">
+        <nuxt class="pb-4 px-2 px-sm-0" />
         </b-container>
     </div>
 </template>

@@ -8,14 +8,13 @@
                 </h5>
                 <b-list-group class="shadow-sm" v-if="recentBlocks">
                     <transition-group tag="div" name="stack" class="position-relative">
-                        <b-list-group-item
-                            v-for="b in recentBlocks"
-                            :key="b.id"
-                            class="stack-item"
-                        >
+                        <b-list-group-item v-for="b in recentBlocks" :key="b.id" class="stack-item">
                             <b-row no-gutters>
-                                <b-col cols="5">
-                                    <div>
+                                <b-col
+                                    cols="sm-5 xs-12"
+                                    class="d-flex d-sm-block justify-content-between"
+                                >
+                                    <div class="d-flex d-sm-block">
                                         Block #
                                         <router-link
                                             class="text-monospace"
@@ -23,16 +22,29 @@
                                         >{{b.number | numFmt}}</router-link>
                                     </div>
                                     <div
-                                        class="text-muted small text-truncate"
+                                        class="d-flex d-sm-block text-muted small text-truncate"
                                     >{{b.timestamp | ago}}</div>
                                 </b-col>
-                                <b-col cols="3">
-                                    <div>{{b.txCount}} Txs</div>
-                                    <div class="small text-monospace">{{b.gasUsed | numFmt}} Gas</div>
+                                <b-col
+                                    cols="sm-3 12"
+                                    class="d-flex d-sm-block justify-content-between"
+                                >
+                                    <div class="d-flex d-sm-block">{{b.txCount}} Txs</div>
+                                    <div
+                                        class="d-flex d-sm-block small text-monospace"
+                                    >{{b.gasUsed | numFmt}} Gas</div>
                                 </b-col>
-                                <b-col cols="4" title="Signer" class="text-right small">
-                                    <span class="text-secondary">Signer</span>
-                                    <AccountLink :address="b.signer" :icon="false" />
+                                <b-col
+                                    cols="sm-4 12"
+                                    title="Signer"
+                                    class="text-right small d-flex d-sm-block justify-content-between"
+                                >
+                                    <span class="d-flex d-sm-inline text-secondary">Signer</span>
+                                    <AccountLink
+                                        class="d-flex d-sm-inline-block"
+                                        :address="b.signer"
+                                        :icon="false"
+                                    />
                                 </b-col>
                             </b-row>
                         </b-list-group-item>
@@ -44,7 +56,7 @@
                     Recent Transactions
                     <b-spinner v-if="!recentTxs" type="grow" small class="ml-3" />
                 </h5>
-                <b-list-group class="shadow-sm" v-if="recentTxs" >
+                <b-list-group class="shadow-sm" v-if="recentTxs">
                     <transition-group tag="div" class="position-relative" name="stack">
                         <b-list-group-item
                             style="font-size:95%"
@@ -53,23 +65,30 @@
                             class="stack-item"
                         >
                             <b-row>
-                                <b-col cols="7" class="text-truncate">
-                                    TXID:
-                                    <TxLink :id="t.txID" :short="false" />
+                                <b-col cols="sm-7 d-flex d-sm-block flex-column">
+                                    <div class="text-truncate ">
+                                        TXID:
+                                        <TxLink :id="t.txID" :short="false" />
+                                    </div>
+                                    <span
+                                        class="text-muted small"
+                                    >{{t.meta.blockTimestamp | ago}}</span>
                                 </b-col>
-                                <b-col cols="5" class="text-right">
-                                    Origin
-                                    <AccountLink :icon="false" :address="t.origin" />
+                                <b-col
+                                    cols="sm-5"
+                                    class="text-right flex-column mt-1  mt-sm-0 d-flex d-sm-block"
+                                >
+                                    <div class="d-sm-block text-left text-sm-right">
+                                        Origin:
+                                        <AccountLink :icon="false" :address="t.origin" />
+                                    </div>
+                                    <Amount
+                                        class="d-sm-block"
+                                        :amount="t.clauses | countVal"
+                                        sym="VET"
+                                    />
                                 </b-col>
                             </b-row>
-                            <div>
-                                <span class="text-muted small">{{t.meta.blockTimestamp | ago}}</span>
-                                <Amount
-                                    class="float-right"
-                                    :amount="t.clauses | countVal"
-                                    sym="VET"
-                                />
-                            </div>
                         </b-list-group-item>
                     </transition-group>
                 </b-list-group>
@@ -124,7 +143,7 @@ export default class App extends Vue {
             params: {
                 limit: 10
             }
-        }).then((r: {txs: Exp.Tx[]}) => {
+        }).then((r: { txs: Exp.Tx[] }) => {
             this.recentTxs = r.txs
         })
     }
