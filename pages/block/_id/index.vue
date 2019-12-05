@@ -40,7 +40,7 @@
                 <template slot="label">Transactions</template>
                 <template slot="item-content">
                     <b-button
-                        :to="{name: 'block-id-txs', params: { id: $route.params.id }}"
+                        :to="{name: 'block-id-txs', params: { id: item.id }}"
                         size="sm"
                         variant="outline-primary"
                     >{{item.txCount}}</b-button>
@@ -116,7 +116,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Prop } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
@@ -128,16 +128,22 @@ import { Context } from '@nuxt/types'
         IdentBox,
         AccountLink,
         Amount
-    },
-    async asyncData(ctx: Context) {
-        return {
-            item: ctx.payload.block,
-            next: ctx.payload.next,
-            prev: ctx.payload.prev
-        }
     }
 })
 export default class BlockInfo extends Vue {
+    @Prop()
+    blockDetail!: DTO.BlockDetail | null
 
+    get item() {
+        return this.blockDetail ? this.blockDetail.block : {}
+    }
+
+    get next() {
+        return this.blockDetail ? this.blockDetail.next : null
+    }
+
+    get prev() {
+        return this.blockDetail ? this.blockDetail.prev : null
+    }
 }
 </script>

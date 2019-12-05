@@ -127,10 +127,6 @@ export default class Summary extends Vue {
         return Vue.filter('toChecksumAddress')(addr)
     }
 
-    mounted() {
-        console.log(this.account)
-    }
-
     getImgUrl(symbol: string) {
         const token: DTO.Token = this.$store.state.tokens.find((item: DTO.Token) => {
             return item.symbol === symbol

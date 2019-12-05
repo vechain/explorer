@@ -35,33 +35,48 @@ import { Vue, Component } from 'vue-property-decorator'
 import TxInfo from '@/components/TxInfo.vue'
 import TxClauses from '@/components/TxClauses.vue'
 import { Context } from '@nuxt/types'
-@Component(
-    {
-        middleware: 'txInfo',
-        components: {
-            TxInfo,
-            TxClauses
-        },
-        async asyncData(ctx: Context) {
-            const params = ctx.params
-            const links = [{
+@Component({
+    components: {
+        TxInfo,
+        TxClauses
+    },
+    async asyncData(ctx: Context) {
+        const result: DTO.TxDetail = await ctx.$axios.$get(
+            '/api/transactions/' + ctx.params.id
+        )
+
+        const data = {
+            tx: {},
+            clauses: result.tx.clauses,
+            outputs: result.receipt.outputs,
+            transfers: result.transfers,
+            meta: result.meta
+        }
+        Object.assign(data.tx, result.tx)
+        Object.assign(data.tx, result.receipt)
+        Object.assign(data.tx, result.meta)
+
+        const params = ctx.params
+        const links = [
+            {
                 text: 'Info',
                 hash: '#info'
-            }, {
-                text: `Clauses(${ctx.payload.clauses.length})`,
+            },
+            {
+                text: `Clauses(${data.clauses.length})`,
                 hash: '#clause'
-            }]
-            const data = ctx.payload
-            const clauseList = data.clauses.map((item: any, index: number) => {
-                return {
-                    ...item,
-                    ...data.outputs[index]
-                }
-            })
-            return { links, ...data, clauseList }
-        }
+            }
+        ]
+
+        const clauseList = data.clauses.map((item: any, index: number) => {
+            return {
+                ...item,
+                ...data.outputs[index]
+            }
+        })
+        return { links, ...data, clauseList }
     }
-)
+})
 export default class Transaction extends Vue {
     isMounted = false
     beforeMount() {

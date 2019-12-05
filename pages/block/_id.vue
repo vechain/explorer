@@ -2,7 +2,7 @@
     <div>
         <div class="my-3">
             <h3 class="d-inline-block">Block</h3>
-            <h5 class="text-secondary ml-2 d-inline-block">#{{id | numFmt}}</h5>
+            <h5 class="text-secondary ml-2 d-inline-block">#{{item.block.number | numFmt}}</h5>
         </div>
         <b-nav tabs align="left">
             <b-nav-item
@@ -14,7 +14,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child />
+        <nuxt-child :blockDetail="item"/>
     </div>
 </template>
 <script lang="ts">
@@ -23,14 +23,14 @@ import { Context } from '@nuxt/types'
 
 @Component(
     {
-        middleware: 'blockInfo',
         async asyncData(ctx: Context) {
+            const blockDetail = await ctx.$axios.$get('/api/blocks/' + ctx.params.id)
             const params = ctx.params
             let bnum = 0
             let txCount = 0
 
-            bnum = ctx.payload.block.number
-            txCount = ctx.payload.block.txCount
+            bnum = blockDetail.block.number
+            txCount = blockDetail.block.txCount
 
             const links = [{
                 text: 'Info',
@@ -46,10 +46,11 @@ import { Context } from '@nuxt/types'
                 }
             }]
 
-            return { links, id: ctx.payload.block.number }
+            return { links, item: blockDetail}
         }
     }
 )
 export default class Block extends Vue {
+    item: DTO.BlockDetail | null = null
 }
 </script>
