@@ -14,7 +14,7 @@ Vue.filter('shortID', (v: string) => {
 Vue.filter('balance', (val: number) => {
   return Number(val).toLocaleString(undefined, {
     style: 'decimal',
-    maximumFractionDigits: 4,
+    maximumFractionDigits: 2,
     minimumFractionDigits: 2
   })
 })

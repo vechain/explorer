@@ -168,7 +168,7 @@ export default class AccountTransfer extends Vue {
     get btnContent() {
         const temp: string = (this.$route.query.token as string) || ''
         if (temp) {
-            return this.tokens.find((item: DTO.Token) => {
+            return this.tokens.find((item: DTO.Token | { symbol: string, imgUrl: string }) => {
                 return temp.toLowerCase() === item.symbol.toLowerCase()
             })
         } else {
@@ -177,7 +177,14 @@ export default class AccountTransfer extends Vue {
     }
 
     get tokens() {
-        return this.$store.state.tokens
+        if (this.$store.state.tokens) {
+            return [{
+                symbol: 'VET',
+                imgUrl: require('~/assets/vet.png')
+            }].concat(this.$store.state.tokens)
+        } else {
+            return []
+        }
     }
 
     @Watch('$route')
