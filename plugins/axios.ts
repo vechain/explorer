@@ -6,6 +6,8 @@ export default function (ctx: Context) {
     }
   })
   ctx.$axios.onRequest((config: any) => {
-    config.progress = false;
+    if (config.url === '/api/blocks/best') {
+      config.progress = false
+    }
   })
 }
