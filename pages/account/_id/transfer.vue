@@ -1,7 +1,48 @@
 <template>
     <div>
         <div class="d-flex justify-content-between align-items-center px-2">
-            <div class="d-flex align-middle">
+            <div class="d-flex flex-column align-middle mt-2">
+                <div class="mb-1">
+                    <span class="text-secondary mr-1">Filter by</span>
+                    <b-dropdown no-flip size="sm" variant="outline-secondary">
+                        <template v-slot:button-content>
+                            <div class="d-inline-flex align-items-center" v-if="btnContent">
+                                <img width="15px" :src="btnContent.imgUrl" alt />
+                                <span class="ml-2">{{btnContent.symbol}}</span>
+                            </div>
+                            <span v-else>ALL</span>
+                        </template>
+                        <b-dropdown-item
+                            class="text-center"
+                            :to="{
+                                name: 'account-id-transfer',
+                                params: {
+                                    id: $route.params.id
+                                }
+                            }"
+                        >
+                            <span class="text-secondary">ALL</span>
+                        </b-dropdown-item>
+                        <b-dropdown-item
+                            :key="item.address"
+                            v-for="item in tokens"
+                            :to="{
+                                name: 'account-id-transfer',
+                                params: {
+                                    id: $route.params.id
+                                },
+                                query: {
+                                    token: item.symbol
+                                }
+                            }"
+                        >
+                            <div class="d-flex align-items-center">
+                                <img width="25px" :src="item.imgUrl" alt />
+                                <span class="text-secondary ml-3">{{item.symbol}}</span>
+                            </div>
+                        </b-dropdown-item>
+                    </b-dropdown>
+                </div>
                 <div>
                     {{transfers.length}}
                     <span class="text-secondary">entries</span>
@@ -28,11 +69,11 @@
             <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(from-to)="row">
                 <div class="text-monospace d-flex align-items-center">
-                    <template v-if="account !== row.item.sender" >
+                    <template v-if="account !== row.item.sender">
                         <font-awesome-icon style="color: green" small icon="arrow-left" />
                         <AccountLink class="ml-1" size="sm" :address="row.item.sender" />
                     </template>
-                    <template v-if="account !== row.item.recipient" >
+                    <template v-if="account !== row.item.recipient">
                         <font-awesome-icon style="color: red" small icon="arrow-right" />
                         <AccountLink class="ml-1" size="sm" :address="row.item.recipient" />
                     </template>
@@ -56,6 +97,8 @@ import AccountLink from '@/components/AccountLink.vue'
 import { Context } from '@nuxt/types'
 import Amount from '@/components/Amount.vue'
 import TxLink from '@/components/TxLink.vue'
+import { Router } from 'express-serve-static-core'
+import { Route } from 'vue-router'
 @Component({
     components: {
         AccountLink,
@@ -108,24 +151,56 @@ export default class AccountTransfer extends Vue {
     ]
 
     linkGen(pageNum: number) {
+        const query: {
+            page?: number
+            token?: string
+        } = { page: pageNum }
+        if (this.btnContent) {
+            query.token = this.btnContent.symbol
+        }
         return {
             path: this.$route.path,
-            query: { page: pageNum }
+            query
         }
     }
 
+    get btnContent() {
+        const temp: string = (this.$route.query.token as string) || ''
+        if (temp) {
+            return this.tokens.find((item: DTO.Token) => {
+                return temp.toLowerCase() === item.symbol.toLowerCase()
+            })
+        } else {
+            return temp
+        }
+    }
+
+    get tokens() {
+        return this.$store.state.tokens
+    }
+
     @Watch('$route')
-    async queryChange() {
+    async queryChange(n: Route, o: Route) {
         const pageSize = 10
-        const page = (this.$route.query.page as string) || '1'
+        let page = (this.$route.query.page as string) || '1'
+        if (n.query.token !== o.query.token) {
+            page = '1'
+        }
         const end = parseInt(page, 10) * pageSize
-
-
+        const type = (this.$route.query.token as string) || ''
+        const params: {
+            limit: number,
+            offset: number,
+            type?: string
+        } = {
+            limit: pageSize,
+            offset: end - pageSize
+        }
+        if (type) {
+            params.type = type
+        }
         const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id}/transfers`, {
-            params: {
-                limit: pageSize,
-                offset: end - pageSize
-            }
+            params
         })
         this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
         this.currentPage = parseInt(page)
