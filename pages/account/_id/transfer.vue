@@ -56,6 +56,7 @@
                 class="mt-3 d-flex"
                 :number-of-pages="pageCount"
                 v-model="currentPage"
+                size="sm"
                 limit="4"
                 use-router
                 :link-gen="linkGen"

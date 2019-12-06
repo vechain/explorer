@@ -1,5 +1,5 @@
 <template>
-    <div class="d-flex align-items-center">
+    <div class="d-inline-block d-sm-flex align-items-center">
         <IdentBox
             v-if="icon"
             class="d-inline-block mr-1 rounded"

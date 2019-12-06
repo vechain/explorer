@@ -13,6 +13,7 @@
             </div>
             <b-pagination-nav
                 class="mt-3 d-flex"
+                size="sm"
                 :number-of-pages="pageCount"
                 v-model="currentPage"
                 limit="4"

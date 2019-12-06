@@ -17,6 +17,7 @@
                 v-model="currentPage"
                 limit="4"
                 use-router
+                size="sm"
                 :link-gen="linkGen"
                 align="right"
             ></b-pagination-nav>

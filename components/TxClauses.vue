@@ -13,6 +13,7 @@
             </div>
             <b-pagination
                 class="mt-3 d-flex"
+                size="sm"
                 :per-page="perPage"
                 v-model="currentPage"
                 :total-rows="rows"

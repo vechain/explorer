@@ -1,14 +1,9 @@
 <template>
     <b-row no-gutters align-content="start">
-        <b-col cols="1">
+        <b-col cols="2" sm="1">
             <div :style="item.style" class="token-icon"></div>
         </b-col>
-        <b-col cols="1" align-self="center" >{{item.symbol}}</b-col>
-        <!-- <div class="px-2 align-self-center">
-          <span v-b-tooltip.hover :title="item.desc">
-            <font-awesome-icon small color="#6c757d" icon="info-circle" />
-          </span>
-        </div>-->
+        <b-col class="d-none d-sm-block" cols="2" sm="1" align-self="center" >{{item.symbol}}</b-col>
         <b-col align-self="center">
             <Amount :decimals="item.decimals" :amount="amount" :sym="symbol" />
         </b-col>

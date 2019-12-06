@@ -4,7 +4,7 @@
             <ListItem>
                 <template slot="label">Address</template>
                 <template slot="item-content">
-                    <div class="d-flex align-items-center">
+                    <div class="d-inline-block d-sm-flex align-items-center">
                         <IdentBox
                             class="d-inline-block mr-1 rounded align-middle"
                             style="width: 30px; height: 20px"

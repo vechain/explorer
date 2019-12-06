@@ -76,7 +76,7 @@
                 <template slot="label">Token Transferred</template>
                 <template slot="item-content">
                     <ul v-if="transfersList.length" class="ul mb-0 pl-0">
-                        <li v-for="(item, i) in transfersList" :key="i">
+                        <li class="pt-1 pb-2" v-for="(item, i) in transfersList" :key="i">
                             <TokenTransferItem
                                 :origin="tx.origin"
                                 :transfer="item"
