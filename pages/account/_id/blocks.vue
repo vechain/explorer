@@ -33,6 +33,16 @@
             <template v-slot:cell(time)="row">
                 <span>{{row.item.timestamp | datetime}}</span>
             </template>
+            <template v-slot:cell(txCount)="row">
+                <nuxt-link
+                    :to="{
+                        name: 'block-id-txs',
+                        params: {
+                        id: row.item.id
+                        }
+                    }"
+                >{{row.item.txCount}}</nuxt-link>
+            </template>
             <template v-slot:cell(reward)="row">
                 <Amount :amount="row.item.reward" />
             </template>

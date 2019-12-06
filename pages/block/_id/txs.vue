@@ -32,7 +32,17 @@
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
-            <template v-slot:cell(clauses)="row">{{row.item.clauses.length}}</template>
+            <template v-slot:cell(clauses)="row">
+                <nuxt-link
+                    :to="{
+                    name: 'transaction-id',
+                    params: {
+                        id: row.item.txID
+                    },
+                    hash: '#clause'
+                }"
+                >{{row.item.clauses.length}}</nuxt-link>
+            </template>
             <template v-slot:cell(origin)="row">
                 <AccountLink :address="row.item.origin" />
             </template>
