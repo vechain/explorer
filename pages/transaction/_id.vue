@@ -14,8 +14,9 @@
                 >{{tx.blockNumber | numFmt}}</nuxt-link>
             </h5>
         </div>
-        <b-nav tabs align="left">
+        <b-nav class="border-0" tabs align="left">
             <b-nav-item
+                link-classes="border-0"
                 v-for="item in links"
                 :key="item.hash"
                 exact
@@ -24,7 +25,7 @@
                 :to="item.hash"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <div v-show="isMounted">
+        <div style="background-color: #fff" v-show="isMounted">
             <TxInfo :bestNum="best.number" v-show="tab === 'info'" :tx="tx" :transfers="transfers" />
             <TxClauses :clauseList="clauseList" v-show="tab === 'clause'" />
         </div>

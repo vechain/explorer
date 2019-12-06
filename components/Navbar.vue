@@ -1,5 +1,5 @@
 <template>
-    <b-navbar toggleable="sm" type="dark" variant="primary">
+    <b-navbar toggleable="sm" type="dark" style="background-color: #3C5999">
         <b-navbar-brand :to="{name: 'index'}">
             <span class="font-weight-lighter">VeChain</span>
             <strong>Explorer</strong>

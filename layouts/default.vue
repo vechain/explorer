@@ -2,7 +2,7 @@
     <div>
         <Navbar />
         <b-container class="px-0">
-        <nuxt class="pb-4 px-2 px-sm-0" />
+            <nuxt class="pb-4 px-2 px-sm-0" />
         </b-container>
     </div>
 </template>
@@ -16,3 +16,8 @@ import Navbar from '../components/Navbar.vue'
 })
 export default class DefaultLayout extends Vue { }
 </script>
+<style>
+body {
+    background-color: #f4f7fc;
+}
+</style>

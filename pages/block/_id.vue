@@ -3,9 +3,11 @@
         <div class="my-3">
             <h3 class="d-inline-block mr-3">Block</h3>
             <h5 class="text-secondary d-inline-block">#{{item.block.number | numFmt}}</h5>
+            <b-badge v-if="!item.block.isTrunk" variant="warning" class="text-white">Branch</b-badge>
         </div>
-        <b-nav tabs align="left">
+        <b-nav class="border-0" tabs align="left">
             <b-nav-item
+                link-classes="border-0"
                 v-for="item in links"
                 :key="item.route.name"
                 exact
@@ -14,7 +16,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child :blockDetail="item"/>
+        <nuxt-child style="background-color: #fff" :blockDetail="item" />
     </div>
 </template>
 <script lang="ts">
@@ -46,7 +48,7 @@ import { Context } from '@nuxt/types'
                 }
             }]
 
-            return { links, item: blockDetail}
+            return { links, item: blockDetail }
         }
     }
 )

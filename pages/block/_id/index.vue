@@ -58,7 +58,7 @@
             <ListItem>
                 <template slot="label">Total Score</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{item.totalScore | numFmt}}</span>
+                    <span class="text-monospace">{{item.totalScore | numFmt}} (+{{item.score}})</span>
                 </template>
             </ListItem>
             <ListItem>

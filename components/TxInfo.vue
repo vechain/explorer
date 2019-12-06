@@ -66,9 +66,9 @@
                 <template slot="item-content">
                     <div class="d-flex align-items-center">
                         <Amount :amount="tx.paid" sym="VTHO" />
-                        <strong class="mx-2">paid by</strong>
+                        <span class="mx-2">paid by</span>
                         <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
-                        <span v-else>Origin</span>
+                        <strong v-else>Origin</strong>
                     </div>
                 </template>
             </ListItem>
@@ -122,7 +122,7 @@
             <ListItem>
                 <template slot="label">Chain Tag</template>
                 <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">{{tx.chainTag}}</span>
+                    <span class="text-monospace font-weight-lighter">0x{{tx.chainTag.toString(16)}}</span>
                 </template>
             </ListItem>
         </b-list-group>

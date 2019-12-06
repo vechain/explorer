@@ -6,8 +6,9 @@
                 class="text-secondary d-inline-block"
             >{{account.address | toChecksumAddress | shortAddress}}</h5>
         </div>
-        <b-nav tabs align="left">
+        <b-nav class="border-0" tabs align="left">
             <b-nav-item
+                link-classes="border-0"
                 v-for="item in links"
                 :key="item.route.name"
                 replace
@@ -15,7 +16,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child :account="account" :authority="authority" :token="token"/>
+        <nuxt-child style="background-color: #fff" :account="account" :authority="authority" :token="token"/>
     </div>
 </template>
 
