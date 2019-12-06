@@ -8,7 +8,7 @@
                     </span>
                 </b-col>
                 <b-col cols="8" sm="9" lg="10" class="pl-2 pl-sm-0">
-                    <div class="d-flex align-items-center text-break">
+                    <div class="text-break">
                         <slot name="item-content" />
                     </div>
                 </b-col>

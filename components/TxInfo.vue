@@ -66,7 +66,6 @@
                 <template slot="item-content">
                     <div class="d-flex align-items-center">
                         <Amount :amount="tx.paid" sym="VTHO" />
-
                         <strong class="mx-2">paid by</strong>
                         <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
                         <span v-else>Origin</span>
@@ -78,7 +77,10 @@
                 <template slot="item-content">
                     <ul v-if="transfersList.length" class="ul mb-0 pl-0">
                         <li v-for="(item, i) in transfersList" :key="i">
-                            <TokenTransferItem :origin="tx.origin" :transfer="item" />
+                            <TokenTransferItem
+                                :origin="tx.origin"
+                                :transfer="item"
+                            />
                         </li>
                     </ul>
                     <span v-else>-</span>

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="transfer">
+    <div  class="d-flex align-items-center" v-if="transfer">
         <small class="mr-3">From</small>
         <AccountLink v-if="origin !== transfer.sender" :address="transfer.sender" size="sm" />
         <span v-else>

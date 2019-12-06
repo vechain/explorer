@@ -4,29 +4,31 @@
             <ListItem>
                 <template slot="label">Address</template>
                 <template slot="item-content">
-                    <IdentBox
-                        class="d-inline-block mr-1 rounded align-middle"
-                        style="width: 30px; height: 20px"
-                        :address="account.address"
-                    ></IdentBox>
-                    <span
-                        class="text-monospace font-weight-lighter"
-                    >{{account.address | toChecksumAddress}}</span>
-                    <b-tooltip
-                        :triggers="[]"
-                        target="account-id-btn"
-                        ref="account-id-btn-tip"
-                    >Copied</b-tooltip>
-                    <b-button
-                        id="account-id-btn"
-                        v-clipboard:copy="checksumAddress(account.address)"
-                        v-clipboard:success="onCopy"
-                        class="ml-1 ml-sm-3"
-                        size="sm"
-                        variant="outline-secondary"
-                    >
-                        <font-awesome-icon small icon="copy" />
-                    </b-button>
+                    <div class="d-flex align-items-center">
+                        <IdentBox
+                            class="d-inline-block mr-1 rounded align-middle"
+                            style="width: 30px; height: 20px"
+                            :address="account.address"
+                        ></IdentBox>
+                        <span
+                            class="text-monospace font-weight-lighter"
+                        >{{account.address | toChecksumAddress}}</span>
+                        <b-tooltip
+                            :triggers="[]"
+                            target="account-id-btn"
+                            ref="account-id-btn-tip"
+                        >Copied</b-tooltip>
+                        <b-button
+                            id="account-id-btn"
+                            v-clipboard:copy="checksumAddress(account.address)"
+                            v-clipboard:success="onCopy"
+                            class="ml-1 ml-sm-3"
+                            size="sm"
+                            variant="outline-secondary"
+                        >
+                            <font-awesome-icon small icon="copy" />
+                        </b-button>
+                    </div>
                 </template>
             </ListItem>
             <ListItem>
