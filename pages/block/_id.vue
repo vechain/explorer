@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="my-3">
-            <h3 class="d-inline-block">Block</h3>
-            <h5 class="text-secondary ml-2 d-inline-block">#{{item.block.number | numFmt}}</h5>
+            <h3 class="d-inline-block mr-3">Block</h3>
+            <h5 class="text-secondary d-inline-block">#{{item.block.number | numFmt}}</h5>
         </div>
         <b-nav tabs align="left">
             <b-nav-item

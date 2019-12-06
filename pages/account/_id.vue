@@ -1,9 +1,9 @@
 <template>
     <div>
         <div class="my-3">
-            <h3 class="d-inline-block">{{title}}</h3>
+            <h3 class="d-inline-block mr-3">{{title}}</h3>
             <h5
-                class="text-secondary ml-2 d-inline-block"
+                class="text-secondary d-inline-block"
             >{{account.address | toChecksumAddress | shortAddress}}</h5>
         </div>
         <b-nav tabs align="left">

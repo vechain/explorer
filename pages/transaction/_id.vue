@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="my-3">
-            <h3 class="d-inline-block">Transaction</h3>
-            <h5 class="d-inline-block ml-3 text-secondary">
+            <h3 class="d-inline-block mr-3">Transaction</h3>
+            <h5 class="d-inline-block text-secondary">
                 <span>{{tx.txID | shortID}}</span>
                 @
                 <nuxt-link

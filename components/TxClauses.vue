@@ -41,7 +41,7 @@
             </template>
             <template v-slot:cell(action)="row">
                 <b-button @click="row.toggleDetails" variant="outline-secondary" size="sm">
-                    <font-awesome-icon small :icon="row.detailsShowing ?'angle-down' : 'angle-up'" />
+                    <font-awesome-icon small :icon="row.detailsShowing ?'angle-up' : 'angle-down'" />
                 </b-button>
             </template>
             <template v-slot:row-details="row">
