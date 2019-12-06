@@ -15,7 +15,7 @@
                 class="mt-3 d-flex"
                 :number-of-pages="pageCount"
                 v-model="currentPage"
-                limit="7"
+                limit="4"
                 use-router
                 :link-gen="linkGen"
                 align="right"
@@ -27,15 +27,15 @@
             </template>
             <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(from-to)="row">
-                <div>
-                    <div v-if="account !== row.item.sender" class="text-monospace">
+                <div class="text-monospace d-flex align-items-center">
+                    <template v-if="account !== row.item.sender" >
                         <font-awesome-icon style="color: green" small icon="arrow-left" />
-                        <AccountLink size="sm" :address="row.item.sender" />
-                    </div>
-                    <div v-if="account !== row.item.recipient" class="text-monospace">
+                        <AccountLink class="ml-1" size="sm" :address="row.item.sender" />
+                    </template>
+                    <template v-if="account !== row.item.recipient" >
                         <font-awesome-icon style="color: red" small icon="arrow-right" />
-                        <AccountLink size="sm" :address="row.item.recipient" />
-                    </div>
+                        <AccountLink class="ml-1" size="sm" :address="row.item.recipient" />
+                    </template>
                 </div>
             </template>
             <template v-slot:cell(value)="row">

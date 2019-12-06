@@ -4,11 +4,13 @@
             <ListItem>
                 <template slot="label">Status</template>
                 <template slot="item-content">
-                    <b-badge
-                        class="text-white"
-                        :variant="tx.reverted ? 'warning' : 'success'"
-                    >{{tx.reverted ? 'Reverted' : 'Success'}}</b-badge>
-                    {{txStatus}}
+                    <div class="d-flex align-items-center">
+                        <b-badge
+                            class="text-white mr-2"
+                            :variant="tx.reverted ? 'warning' : 'success'"
+                        >{{tx.reverted ? 'Reverted' : 'Success'}}</b-badge>
+                        <span>{{txStatus}}</span>
+                    </div>
                 </template>
             </ListItem>
             <ListItem>
@@ -62,12 +64,13 @@
             <ListItem>
                 <template slot="label">Fee</template>
                 <template slot="item-content">
-                    <Amount :amount="tx.paid" sym="VTHO" />
-                    <span>
-                        <strong>paid by</strong>
+                    <div class="d-flex align-items-center">
+                        <Amount :amount="tx.paid" sym="VTHO" />
+
+                        <strong class="mx-2">paid by</strong>
                         <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
                         <span v-else>Origin</span>
-                    </span>
+                    </div>
                 </template>
             </ListItem>
             <ListItem>

@@ -36,9 +36,7 @@
                 <span v-else>-</span>
             </template>
             <template v-slot:cell(value)="row">
-                <template>
-                    <Amount :amount="row.item.value" sym="VET" />
-                </template>
+                <Amount :amount="row.item.value" sym="VET" />
             </template>
             <template v-slot:cell(action)="row">
                 <b-button @click="row.toggleDetails" variant="outline-secondary" size="sm">

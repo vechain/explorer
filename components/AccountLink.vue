@@ -1,8 +1,8 @@
 <template>
-    <div class="d-inline-block">
+    <div class="d-flex align-items-center">
         <IdentBox
             v-if="icon"
-            class="d-inline-block mr-1 rounded align-middle"
+            class="d-inline-block mr-1 rounded"
             :style="style"
             :address="address"
         ></IdentBox>
