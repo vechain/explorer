@@ -6,7 +6,8 @@ export default function (ctx: Context) {
     }
   })
   ctx.$axios.onRequest((config: any) => {
-    if (config.url === '/api/blocks/best') {
+    const urls = ['/api/blocks/best', '/api/blocks/recent', '/api/transactions/recent']
+    if (urls.indexOf(config.url) >= 0) {
       config.progress = false
     }
   })
