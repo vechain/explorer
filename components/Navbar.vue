@@ -9,17 +9,22 @@
             <b-navbar-nav>
             </b-navbar-nav>
             <b-navbar-nav class="ml-auto mr-5">
-                <b-nav-form>
-                    <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
+                <b-nav-form @submit.prevent="onsearch">
+                    <b-form-input size="sm" v-model.trim="search" class="mr-sm-2" placeholder="Search"></b-form-input>
                     <b-button size="sm" class="mr-sm-2" variant="light" type="submit">Search</b-button>
                 </b-nav-form>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
 </template>
-<script>
+<script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 @Component
 export default class Navbar extends Vue {
+    search = ''
+    onsearch() {
+        this.$emit('search', this.search.trim())
+        this.search = ''
+    }
 }
 </script>
