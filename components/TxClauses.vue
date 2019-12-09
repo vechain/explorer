@@ -21,6 +21,7 @@
             ></b-pagination>
         </div>
         <b-table
+            responsive
             :current-page="currentPage"
             :per-page="perPage"
             show-empty

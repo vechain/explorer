@@ -22,6 +22,7 @@
         </div>
         <b-table
             show-empty
+            responsive
             :per-page="perPage"
             :current-page="currentPage"
             empty-text="No Data"

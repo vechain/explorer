@@ -63,7 +63,7 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty empty-text="No Data" :fields="fields" :items="transfers">
+        <b-table responsive show-empty empty-text="No Data" :fields="fields" :items="transfers">
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
