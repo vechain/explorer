@@ -16,7 +16,11 @@
                             placeholder="Account/TxID/Block#"
                         ></b-form-input>
                         <b-input-group-append>
-                            <b-button size="sm" style="background-color: #5A86E6" type="submit">Search</b-button>
+                            <b-button
+                                size="sm"
+                                style="background-color: #5A86E6"
+                                type="submit"
+                            >Search</b-button>
                         </b-input-group-append>
                     </b-input-group>
                 </b-nav-form>
@@ -30,7 +34,12 @@ import { Vue, Component } from 'vue-property-decorator'
 export default class Navbar extends Vue {
     search = ''
     onsearch() {
-        this.$emit('search', this.search.trim())
+        this.$router.push({
+            name: 'search',
+            query: {
+                content: this.search.trim()
+            }
+        })
         this.search = ''
     }
 }
