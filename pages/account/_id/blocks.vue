@@ -108,7 +108,7 @@ export default class AccountBlocks extends Vue {
         const page = (this.$route.query.page as string) || '1'
         const end = parseInt(page, 10) * pageSize
 
-        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id}/signed`, {
+        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id.toLowerCase()}/signed`, {
             params: {
                 limit: pageSize,
                 offset: end - pageSize

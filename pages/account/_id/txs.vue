@@ -58,7 +58,7 @@ import TxLink from '@/components/TxLink.vue'
         const page = (ctx.query.page as string) || '1'
         const end = parseInt(page, 10) * pageSize
 
-        const result = await ctx.$axios.$get(`/api/accounts/${ctx.params.id}/transactions`, {
+        const result = await ctx.$axios.$get(`/api/accounts/${ctx.params.id.toLowerCase()}/transactions`, {
             params: {
                 limit: pageSize,
                 offset: end - pageSize
@@ -111,7 +111,7 @@ export default class AccountTxs extends Vue {
         const page = (this.$route.query.page as string) || '1'
         const end = parseInt(page, 10) * pageSize
 
-        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id}/transactions`, {
+        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id.toLowerCase()}/transactions`, {
             params: {
                 limit: pageSize,
                 offset: end - pageSize

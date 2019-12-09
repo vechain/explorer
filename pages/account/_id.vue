@@ -27,7 +27,7 @@ import { Route } from 'vue-router'
 @Component({
     async asyncData(ctx: Context) {
         const params = ctx.params
-        const result = await ctx.$axios.$get('/api/accounts/' + ctx.params.id)
+        const result = await ctx.$axios.$get('/api/accounts/' + ctx.params.id.toLowerCase())
         const links = [{
             text: 'Summary',
             route: {

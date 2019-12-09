@@ -207,7 +207,7 @@ export default class AccountTransfer extends Vue {
         if (type) {
             params.type = type
         }
-        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id}/transfers`, {
+        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id.toLowerCase()}/transfers`, {
             params
         })
         this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
