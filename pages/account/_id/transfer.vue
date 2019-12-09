@@ -157,7 +157,7 @@ export default class AccountTransfer extends Vue {
             token?: string
         } = { page: pageNum }
         if (this.btnContent) {
-            query.token = this.btnContent.symbol
+            query.token = (this.btnContent as { symbol: string, imgUrl: string }).symbol
         }
         return {
             path: this.$route.path,
