@@ -29,7 +29,7 @@ import { Context } from '@nuxt/types'
             } else {
                 const txDetail = await ax.$get('/api/transactions/' + search)
                 if (txDetail) {
-                    rt = { name: 'transaction-id', params: { id: txDetail.tx.txID } }
+                    rt = { name: 'transaction-id', params: { id: txDetail.tx.txID }, hash: '#info' }
                 }
             }
         } else {
@@ -37,7 +37,7 @@ import { Context } from '@nuxt/types'
                 content: search
             }
         }
-        ctx.redirect(302, '/' + rt.name.split('-')[0] + (rt.params ? ('/' + rt.params.id) : ''))
+        ctx.redirect(302, '/' + rt.name.split('-')[0] + (rt.params ? ('/' + rt.params.id) : '') + (rt.hash || ''))
     }
 })
 export default class Search extends Vue {
@@ -58,7 +58,7 @@ export default class Search extends Vue {
             } else {
                 const txDetail = await ax.$get('/api/transactions/' + search)
                 if (txDetail) {
-                    rt = { name: 'transaction-id', params: { id: txDetail.tx.txID } }
+                    rt = { name: 'transaction-id', params: { id: txDetail.tx.txID }, hash: '#info' }
                 }
             }
         } else {
