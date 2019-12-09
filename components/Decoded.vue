@@ -17,15 +17,15 @@
         <div v-show="current==='raw'">
             <b-form-textarea readonly class="mt-3" v-if="isData" :value="inputData" size="sm"></b-form-textarea>
             <b-list-group v-else flush>
-                <b-list-group-item>
+                <b-list-group-item class="px-0">
                     <b-container fluid>
                         <b-row no-gutters>
-                            <b-col cols="2 align-self-center">
+                            <b-col cols="12" sm="2" class="align-self-center">
                                 <span class="text-left font-weight-bold align-middle">Topics</span>
                             </b-col>
-                            <b-col cols="9">
+                            <b-col cols="12" sm="9">
                                 <ul class="ul pl-0">
-                                    <li v-for="(item, i) in event.topics" :key="i">
+                                    <li class="text-break" v-for="(item, i) in event.topics" :key="i">
                                         <small class="text-monospace">[{{i}}] {{item}}</small>
                                     </li>
                                 </ul>
@@ -33,13 +33,13 @@
                         </b-row>
                     </b-container>
                 </b-list-group-item>
-                <b-list-group-item>
+                <b-list-group-item class="px-0">
                     <b-container fluid>
                         <b-row no-gutters>
-                            <b-col cols="2 align-self-center">
+                            <b-col cols="12" sm="2" class="align-self-center">
                                 <span class="text-left font-weight-bold align-middle">Data</span>
                             </b-col>
-                            <b-col cols="9">
+                            <b-col cols="12" sm="9">
                                 <small class="text-monospace">{{event.data}}</small>
                             </b-col>
                         </b-row>
