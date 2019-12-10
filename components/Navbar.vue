@@ -27,7 +27,7 @@
                 </b-nav-form>
             </b-navbar-nav>
             <b-navbar-nav class="mr-sm-4">
-                <b-dropdown variant="outline-secondary" toggle-class="text-white border-0" text="Network" size="sm">
+                <b-dropdown class="drop-net" variant="outline-secondary" toggle-class="text-white border-0" text="Network" size="sm">
                     <b-dropdown-item
                         target="_blank"
                         v-for="item in networks"
@@ -67,5 +67,15 @@ export default class Navbar extends Vue {
 }
 .net-badge.test {
     background-color: #F3A71A;
+}
+
+</style>
+<style>
+.drop-net > button:focus {
+    box-shadow: none;
+}
+.drop-net > button:active,
+.drop-net > button:hover {
+    background-color: rgba(0, 0, 0, 0.1) !important;
 }
 </style>
