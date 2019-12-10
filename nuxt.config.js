@@ -72,6 +72,19 @@ export default {
       target: "https://explore.digonchain.com/"
     }
   },
+  env: {
+    current: "Mainnet", // Testnet
+    badgeClass: "main", // test
+    networks: [
+      {
+        text: "Main",
+        link: ""
+      }, {
+        text: "Test",
+        link: ""
+      }
+    ]
+  },
   /*
    ** Build configuration
    */
