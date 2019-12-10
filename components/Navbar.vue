@@ -48,12 +48,14 @@ export default class Navbar extends Vue {
     bclass = process.env.badgeClass
     networks = process.env.networks
     onsearch() {
-        this.$router.push({
-            name: 'search',
-            query: {
-                content: this.search.trim()
-            }
-        })
+        if (this.search.trim()) {
+            this.$router.push({
+                name: 'search',
+                query: {
+                    content: this.search.trim()
+                }
+            })
+        }
         this.search = ''
     }
 }
