@@ -1,7 +1,7 @@
 {
   "name": "bsv",
   "version": "1.0.0",
-  "description": "VeChain blockchain explore",
+  "description": "VeChain Blockchain Explorer",
   "author": "Asbert Ma",
   "private": true,
   "scripts": {
