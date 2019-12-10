@@ -19,6 +19,7 @@
                         <b-input-group-append>
                             <b-button
                                 size="sm"
+                                class="border-0 shadow-none"
                                 style="background-color: #5A86E6"
                                 type="submit"
                             >Search</b-button>
