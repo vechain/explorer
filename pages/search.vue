@@ -18,7 +18,7 @@ import { Context } from '@nuxt/types'
         const search = (ctx.query.content as string || '').trim()
         let rt: any = null
         if (/^0x[0-9a-f]{40}$/i.test(search)) {
-            rt = { name: 'account-id', params: { id: search } }
+            rt = { name: 'account-id', params: { id: search.toLowerCase() } }
         } else if (/^[0-9]+$/.test(search)) {
             const bd = await ax.$get('/api/blocks/' + search)
             rt = { name: 'block-id', params: { id: bd.block.id } }

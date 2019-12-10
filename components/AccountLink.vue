@@ -12,7 +12,7 @@
             :to="{
               name: 'account-id',
               params: {
-                id: address
+                id: address.toLowerCase()
               }}"
         >
             <template v-if="!!short">
