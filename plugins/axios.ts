@@ -19,7 +19,11 @@ declare module 'vue/types/vue' {
     $svc: IfcSvc
   }
 }
-
+declare module 'vuex/types/index' {
+  interface Store<S> {
+    $svc: IfcSvc
+  }
+}
 interface IfcSvc {
   block(id: string): Promise<DTO.BlockDetail>
   blockTxs(id: string): Promise<DTO.BlockTxs>

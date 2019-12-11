@@ -1,8 +1,9 @@
 import { Plugin, Store } from 'vuex/types'
+
 export const fetchBest: Plugin<App.State> = (store: Store<App.State>) => {
   if (process.browser) {
     setInterval(async () => {
-      const best: DTO.BlockDetail = await store.$axios.$get('/api/blocks/best')
+      const best: DTO.BlockDetail = await store.$svc.block('best')
       store.commit('setBest', best.block)
     }, 10000)
   }

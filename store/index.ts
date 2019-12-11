@@ -18,7 +18,7 @@ export const actions = {
       const payload = await f()
       actx.commit('setPrice', payload)
 
-      const best: DTO.BlockDetail = await ctx.$axios.$get('/api/blocks/best')
+      const best: DTO.BlockDetail = await ctx.$svc.block('best')
       actx.commit('setBest', best.block)
     } catch (error) {
       console.log(error)
