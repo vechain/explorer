@@ -14,7 +14,7 @@
             <span class="mx-2">For</span>
             <span class="text-monospace">
                 <strong>
-                    <Amount :amount="transfer.amount" :sym="transfer.symbol" />
+                    <Amount :amount="transfer.amount" :sym="transfer.symbol"/>
                 </strong>
             </span>
         </small>

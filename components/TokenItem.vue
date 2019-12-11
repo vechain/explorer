@@ -5,7 +5,7 @@
         </b-col>
         <b-col class="d-none d-sm-block" cols="2" sm="1" align-self="center" >{{item.symbol}}</b-col>
         <b-col align-self="center">
-            <Amount :decimals="item.decimals" :amount="amount" :sym="symbol" />
+            <Amount :amount="amount" :sym="symbol" />
         </b-col>
     </b-row>
 </template>
