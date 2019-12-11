@@ -16,6 +16,59 @@ declare namespace App {
   }
 }
 declare namespace DTO {
+  type Account = {
+    address: string,
+    balance: string,
+    energy: string,
+    code: string | null,
+    master: string | null,
+    sponsor: string | null,
+    txCount: number
+  }
+
+  type MoveIndex = {
+    txIndex: number
+    clauseIndex: number
+    logIndex: number
+  }
+  type AccountTx = Tx & { meta: Meta }
+
+  type AccountTxs = {
+    count: number
+    transactions: AccountTx[]
+  }
+  type AccountTransfer = Transfer & { meta: Meta } & {
+    moveIndex: MoveIndex
+  }
+  type AccountTransfers = {
+    count: number
+    transfers: AccountTransfer[]
+  }
+  type SignedBlocks = {
+    count: number,
+    blocks: Block[]
+  }
+
+  type Authority = {
+    address: string,
+    endorsor: string,
+    identity: string,
+    reward: string,
+    listed: boolean,
+    signed: number
+  }
+
+  type TokenBalance = {
+    symbol: string
+    balance: string
+  }
+
+  type AccountDetail = {
+    account: Account
+    authority: Authority | null
+    token: TokenBalance[]
+  }
+
   type Meta = {
     blockID: string
     blockNumber: number
