@@ -4,11 +4,11 @@ import { format as timeago } from 'timeago.js'
 import { toChecksumAddress } from 'thor-devkit/dist/cry/address'
 
 Vue.filter('shortAddress', (v: string) => {
-  return v.substring(0, 8) + '...' + v.substring(v.length - 4, v.length)
+  return v.substring(0, 8) + '…' + v.substring(v.length - 4, v.length)
 })
 
 Vue.filter('shortID', (v: string) => {
-  return v.substring(0, 10) + '...'
+  return v.substring(0, 10) + '…'
 })
 
 Vue.filter('balance', (val: number) => {
