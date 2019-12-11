@@ -86,7 +86,7 @@
                     class="text-monospace"
                 >
                     <span>{{account !== row.item.sender ? '+' : '-'}}</span>
-                    <Amount :amount="row.item.amount" />
+                    <Amount :amount="row.item.amount" :sym="row.item.symbol" :showSym="false" />
                 </span>
             </template>
         </b-table>
@@ -108,19 +108,14 @@ import { Route } from 'vue-router'
     },
     async asyncData(ctx: Context) {
         const pageSize = 10
-        const page = (ctx.query.page as string) || '1'
-        const end = parseInt(page, 10) * pageSize
-        const result = await ctx.$axios.$get(`api/accounts/${ctx.params.id.toLowerCase()}/transfers`, {
-            params: {
-                limit: pageSize,
-                offset: end - pageSize
-            }
-        })
+        const page = parseInt((ctx.query.page as string) || '1', 10)
+        const type = (ctx.query.token as string) || ''
+
+        const result = await ctx.$svc.accountTfs(ctx.params.id, page, pageSize, type)
         return {
             account: ctx.params.id.toLowerCase(),
             ...result,
-            currentPage: page,
-            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
+            currentPage: page
         }
     }
 })
@@ -128,7 +123,7 @@ export default class AccountTransfer extends Vue {
     count = 0
     currentPage = 1
     pageCount = 0
-    transfers = []
+    transfers: DTO.AccountTransfer[] = []
     isAuthority = false
     fields = [
         {
@@ -176,10 +171,23 @@ export default class AccountTransfer extends Vue {
         }
     }
 
+    getDecimals(token: string) {
+        const temp = this.tokens.find(item => {
+            return item.symbol === token
+        })
+
+        if (temp) {
+            return temp.decimals
+        } else {
+            return 18
+        }
+    }
+
     get tokens() {
         if (this.$store.state.tokens) {
             return [{
                 symbol: 'VET',
+                decimals: 18,
                 imgUrl: require('~/assets/vet.png')
             }].concat(this.$store.state.tokens)
         } else {
@@ -190,28 +198,16 @@ export default class AccountTransfer extends Vue {
     @Watch('$route')
     async queryChange(n: Route, o: Route) {
         const pageSize = 10
-        let page = (this.$route.query.page as string) || '1'
+        let page = parseInt((this.$route.query.page as string) || '1', 10)
         if (n.query.token !== o.query.token) {
-            page = '1'
+            page = 1
         }
-        const end = parseInt(page, 10) * pageSize
+        const end = page * pageSize
         const type = (this.$route.query.token as string) || ''
-        const params: {
-            limit: number,
-            offset: number,
-            type?: string
-        } = {
-            limit: pageSize,
-            offset: end - pageSize
-        }
-        if (type) {
-            params.type = type
-        }
-        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id.toLowerCase()}/transfers`, {
-            params
-        })
-        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
-        this.currentPage = parseInt(page)
+
+        const result = await this.$svc.accountTfs(this.$route.params.id, page, pageSize, type)
+        this.pageCount = result.pageCount
+        this.currentPage = page
         this.transfers = result.transfers
         this.count = result.count
     }

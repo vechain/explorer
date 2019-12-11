@@ -55,26 +55,19 @@ import TxLink from '@/components/TxLink.vue'
     },
     async asyncData(ctx: Context) {
         const pageSize = 10
-        const page = (ctx.query.page as string) || '1'
-        const end = parseInt(page, 10) * pageSize
+        const page = parseInt((ctx.query.page as string) || '1', 10)
 
-        const result = await ctx.$axios.$get(`/api/accounts/${ctx.params.id.toLowerCase()}/transactions`, {
-            params: {
-                limit: pageSize,
-                offset: end - pageSize
-            }
-        })
+        const result = await ctx.$svc.accountTxs(ctx.params.id, page, pageSize)
         return {
             ...result,
-            currentPage: page,
-            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
+            currentPage: page
         }
     }
 })
 export default class AccountTxs extends Vue {
     count = 0
     pageCount = 0
-    transactions = []
+    transactions: DTO.AccountTx[] = []
     currentPage = 1
     isAuthority = false
     fields = [
@@ -108,17 +101,11 @@ export default class AccountTxs extends Vue {
     @Watch('$route')
     async queryChange() {
         const pageSize = 10
-        const page = (this.$route.query.page as string) || '1'
-        const end = parseInt(page, 10) * pageSize
+        const page = parseInt((this.$route.query.page as string) || '1', 10)
 
-        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id.toLowerCase()}/transactions`, {
-            params: {
-                limit: pageSize,
-                offset: end - pageSize
-            }
-        })
-        this.currentPage = parseInt(page)
-        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
+        const result = await this.$svc.accountTxs(this.$route.params.id, page, pageSize)
+        this.currentPage = page
+        this.pageCount = result.pageCount
         this.transactions = result.transactions
         this.count = result.count
 

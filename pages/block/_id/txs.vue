@@ -67,7 +67,7 @@ import Amount from '@/components/Amount.vue'
         Amount
     },
     async asyncData(ctx: Context) {
-        const result = await ctx.$axios.$get(`/api/blocks/${ctx.params.id}/transactions`)
+        const result = await ctx.$svc.blockTxs(ctx.params.id)
         return {
             txs: result.txs,
             rows: result.txs.length

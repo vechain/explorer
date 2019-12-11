@@ -26,7 +26,7 @@ import { Context } from '@nuxt/types'
 @Component(
     {
         async asyncData(ctx: Context) {
-            const blockDetail = await ctx.$axios.$get('/api/blocks/' + ctx.params.id)
+            const blockDetail = await ctx.$svc.block(ctx.params.id)
             const params = ctx.params
             let bnum = 0
             let txCount = 0

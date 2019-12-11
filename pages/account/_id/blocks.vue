@@ -61,25 +61,19 @@ import { Context } from '@nuxt/types'
     },
     async asyncData(ctx: Context) {
         const pageSize = 10
-        const page = (ctx.query.page as string) || '1'
-        const end = parseInt(page, 10) * pageSize
-        const result = await ctx.$axios.$get(`api/accounts/${ctx.params.id}/signed`, {
-            params: {
-                limit: pageSize,
-                offset: end - pageSize
-            }
-        })
+        const page = parseInt((ctx.query.page as string) || '1')
+        const result = await ctx.$svc.signedBlocks(ctx.params.id, page, pageSize)
         return {
             ...result,
-            currentPage: page,
-            pageCount: Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
+            currentPage: page
         }
     }
 })
+
 export default class AccountBlocks extends Vue {
     count = 0
     currentPage = 1
-    blocks = []
+    blocks: DTO.Block[] = []
     pageCount = 0
     fields = [{
         key: 'blcok',
@@ -105,17 +99,10 @@ export default class AccountBlocks extends Vue {
     @Watch('$route')
     async queryChange() {
         const pageSize = 10
-        const page = (this.$route.query.page as string) || '1'
-        const end = parseInt(page, 10) * pageSize
-
-        const result = await this.$axios.$get(`/api/accounts/${this.$route.params.id.toLowerCase()}/signed`, {
-            params: {
-                limit: pageSize,
-                offset: end - pageSize
-            }
-        })
-        this.currentPage = parseInt(page)
-        this.pageCount = Math.floor(result.count / pageSize) + (result.count % pageSize > 0 ? 1 : 0) || 1
+        const page = parseInt((this.$route.query.page as string) || '1', 10)
+        const result = await this.$svc.signedBlocks(this.$route.params.id, page, pageSize)
+        this.currentPage = page
+        this.pageCount = result.pageCount
         this.blocks = result.blocks
         this.count = result.count
     }

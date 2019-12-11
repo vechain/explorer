@@ -42,9 +42,7 @@ import { Context } from '@nuxt/types'
         TxClauses
     },
     async asyncData(ctx: Context) {
-        const result: DTO.TxDetail = await ctx.$axios.$get(
-            '/api/transactions/' + ctx.params.id
-        )
+        const result: DTO.TxDetail = await ctx.$svc.tx(ctx.params.id)
 
         const data = {
             tx: {},

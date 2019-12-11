@@ -27,7 +27,7 @@ import { Route } from 'vue-router'
 @Component({
     async asyncData(ctx: Context) {
         const params = ctx.params
-        const result = await ctx.$axios.$get('/api/accounts/' + ctx.params.id.toLowerCase())
+        const result = await ctx.$svc.account(ctx.params.id)
         const links = [{
             text: 'Summary',
             route: {
@@ -66,8 +66,8 @@ import { Route } from 'vue-router'
 })
 export default class Account extends Vue {
     links: any[] = []
-    account: any = null
-    authority: any = null
-    token: DTO.Token[] = []
+    account: DTO.Account | null = null
+    authority: DTO.Authority | null = null
+    token: DTO.TokenBalance[] = []
 }
 </script>
