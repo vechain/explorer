@@ -14,7 +14,7 @@
                 >support@vechain.com</a> if the issue still occurs.
             </p>
 
-            <p class="text-secondary">{{msg}}</p>
+            <p class="text-secondary">Message: {{msg}}</p>
             <b-button squared variant="outline-primary" :to="{name: 'index'}">BACK TO HOMEPAGE</b-button>
         </div>
     </div>
