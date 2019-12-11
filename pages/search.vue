@@ -21,7 +21,9 @@ import { Context } from '@nuxt/types'
             rt = { name: 'account-id', params: { id: search.toLowerCase() } }
         } else if (/^[0-9]+$/.test(search)) {
             const bd = await ax.$get('/api/blocks/' + search)
-            rt = { name: 'block-id', params: { id: bd.block.id } }
+            if (bd && bd.block) {
+                rt = { name: 'block-id', params: { id: bd.block.id } }
+            }
         } else if (/^0x[0-9-a-f]{64}$/i.test(search)) {
             const bd = await ax.$get('/api/blocks/' + search)
             if (bd && bd.block) {
@@ -32,7 +34,9 @@ import { Context } from '@nuxt/types'
                     rt = { name: 'transaction-id', params: { id: txDetail.tx.txID }, hash: '#info' }
                 }
             }
-        } else {
+        } else {}
+
+        if (rt === null) {
             return {
                 content: search
             }
@@ -50,18 +54,22 @@ export default class Search extends Vue {
             rt = { name: 'account-id', params: { id: search } }
         } else if (/^[0-9]+$/.test(search)) {
             const bd = await ax.$get('/api/blocks/' + search)
-            rt = { name: 'block-id', params: { id: bd.block.id } }
+            if (bd && bd.block) {
+                rt = { name: 'block-id', params: { id: bd.block.id } }
+            }
         } else if (/^0x[0-9-a-f]{64}$/i.test(search)) {
             const bd = await ax.$get('/api/blocks/' + search)
             if (bd && bd.block) {
                 rt = { name: 'block-id', params: { id: bd.block.id } }
             } else {
                 const txDetail = await ax.$get('/api/transactions/' + search)
-                if (txDetail) {
+                if (txDetail && txDetail.tx) {
                     rt = { name: 'transaction-id', params: { id: txDetail.tx.txID }, hash: '#info' }
                 }
             }
-        } else {
+        } else {}
+
+        if (rt === null) {
             this.content = search
             return
         }
