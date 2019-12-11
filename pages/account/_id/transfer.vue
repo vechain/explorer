@@ -110,7 +110,7 @@ import { Route } from 'vue-router'
         const pageSize = 10
         const page = (ctx.query.page as string) || '1'
         const end = parseInt(page, 10) * pageSize
-        const result = await ctx.$axios.$get(`api/accounts/${ctx.params.id}/transfers`, {
+        const result = await ctx.$axios.$get(`api/accounts/${ctx.params.id.toLowerCase()}/transfers`, {
             params: {
                 limit: pageSize,
                 offset: end - pageSize
