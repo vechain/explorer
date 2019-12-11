@@ -11,7 +11,6 @@
                 v-for="item in links"
                 :key="item.route.name"
                 exact
-                replace
                 exact-active-class="active"
                 :to="item.route"
             >{{item.text}}</b-nav-item>

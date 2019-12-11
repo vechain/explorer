@@ -20,7 +20,6 @@
                 v-for="item in links"
                 :key="item.hash"
                 exact
-                replace
                 exact-active-class="active"
                 :to="item.hash"
             >{{item.text}}</b-nav-item>
