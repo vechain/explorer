@@ -1,9 +1,9 @@
 const morgan = require("morgan");
+require('dotenv').config()
 
 export default {
   server: {
-    host: "0.0.0.0",
-    timing: true
+    host: "0.0.0.0"
   },
   serverMiddleware: [{ path: "/", handler: morgan("tiny") }],
   mode: "universal",
@@ -69,19 +69,19 @@ export default {
   },
   proxy: {
     "/api/": {
-      target: "https://explore.digonchain.com/"
+      target: process.env['API_URL']
     }
   },
   env: {
-    current: "Mainnet", // Testnet
-    badgeClass: "main", // test
+    current: process.env['NETWORK'] === "testnet"?"Testnet":"Mainnet",
+    badgeClass: process.env['NETWORK'] === "testnet"?"test":"main", 
     networks: [
       {
         text: "Main",
-        link: ""
+        link: "https://explore.vechain.org"
       }, {
         text: "Test",
-        link: ""
+        link: "https://explore-testnet.vechain.org"
       }
     ]
   },
