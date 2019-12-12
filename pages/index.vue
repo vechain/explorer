@@ -1,7 +1,7 @@
 <template>
     <b-container class="mt-4">
         <b-row no-gutters>
-            <b-col cols="lg-6">
+            <b-col lg="6" class="px-0 px-sm-3">
                 <h5 class="ml-3">
                     Recent Blocks
                     <b-spinner v-if="!recentBlocks" type="grow" small class="ml-3" />
@@ -51,7 +51,7 @@
                     </transition-group>
                 </b-list-group>
             </b-col>
-            <b-col cols="lg-6">
+            <b-col lg="6" class="px-0 px-sm-3">
                 <h5 class="ml-3 mt-lg-0 mt-sm-3 mt-2">
                     Recent Transactions
                     <b-spinner v-if="!recentTxs" type="grow" small class="ml-3" />
