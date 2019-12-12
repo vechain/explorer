@@ -15,7 +15,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child style="background-color: #fff" :account="account" :authority="authority" :token="token"/>
+        <nuxt-child style="background-color: #fff" :account="account" :authority="authority" :token="tokens"/>
     </div>
 </template>
 

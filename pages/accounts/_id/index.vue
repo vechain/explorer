@@ -50,7 +50,7 @@
                         class="my-2"
                         :amount="item.balance"
                         :symbol="item.symbol"
-                        v-for="(item, i) in token"
+                        v-for="(item, i) in tokens"
                         :key="i"
                     ></TokenItem>
                 </template>
@@ -131,7 +131,7 @@ export default class Summary extends Vue {
     @Prop()
     authority!: object
     @Prop()
-    token!: DTO.Token[]
+    tokens!: DTO.Token[]
 
     checksumAddress(addr: string) {
         return Vue.filter('toChecksumAddress')(addr)
