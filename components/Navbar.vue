@@ -66,9 +66,10 @@ export default class Navbar extends Vue {
     color: #3c5999;
 }
 .net-badge.main {
-    background-color: #fff;
+    background-color: #FFF;
 }
 .net-badge.test {
     background-color: #f3a71a;
+    color: #FFF;
 }
 </style>

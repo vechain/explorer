@@ -1,6 +1,6 @@
 <template>
     <b-container class="mt-4">
-        <b-row>
+        <b-row no-gutters>
             <b-col cols="lg-6">
                 <h5 class="ml-3">
                     Recent Blocks
@@ -66,7 +66,7 @@
                         >
                             <b-row>
                                 <b-col cols="sm-7 d-flex d-sm-block flex-column">
-                                    <div class="text-truncate ">
+                                    <div class="text-truncate">
                                         TXID:
                                         <TxLink :id="t.txID" :short="false" />
                                     </div>
