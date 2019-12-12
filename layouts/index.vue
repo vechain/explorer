@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar />
+        <Navbar :jumbotron="true" />
         <b-container class="px-0">
             <nuxt class="pb-4 px-2 px-sm-0" />
         </b-container>

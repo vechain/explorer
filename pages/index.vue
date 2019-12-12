@@ -111,6 +111,7 @@ import TxLink from '@/components/TxLink.vue'
         Amount,
         TxLink
     },
+    layout: 'index',
     async asyncData(ctx: Context) {
         const result = await ctx.$axios.$get(`/api/blocks/recent`, {
             params: {

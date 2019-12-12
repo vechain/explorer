@@ -2,9 +2,12 @@
     <div>
         <b-navbar toggleable="sm" type="dark" class="nav-bar-styles">
             <b-navbar-brand :to="{name: 'index'}">
+                <img v-if="!jumbotron" style="height: 24px; width: 24px" src="~/assets/logo.png" />
                 <span class="font-weight-lighter">VeChain</span>
                 <strong>Explorer</strong>
-                <b-badge :class="bclass" class="net-badge text-capitalize">{{network}}</b-badge>
+                <small>
+                    <b-badge :class="bclass" class="net-badge text-capitalize">{{network}}</b-badge>
+                </small>
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
@@ -43,18 +46,18 @@
         <b-jumbotron v-if="jumbotron" class="nav-bar-styles py-4 rounded-0">
             <b-container>
                 <b-row class="justify-content-center">
-                    <b-col cols="8" class="pb-2 align-middle d-flex">
-                        <img style="height: 30px; width: 30px" src="~/assets/icon.png" alt="Rounded image" />
+                    <b-col cols="12" md="8" class="pb-2 align-middle d-flex">
+                        <img style="height: 30px; width: 30px" src="~/assets/logo.png" />
                         <span
                             class="h4 mb-0 ml-1 font-weight-light text-white"
                         >What are you looking for?</span>
                     </b-col>
-                    <b-col cols="8">
+                    <b-col cols="12" md="8">
                         <b-form @submit.prevent="onsearch">
                             <b-input-group>
                                 <b-form-input
                                     v-model.trim="search"
-                                    placeholder="Search by Account/TxID/Block#"
+                                    placeholder="Account/TxID/Block#"
                                 ></b-form-input>
                                 <b-input-group-append>
                                     <b-button
