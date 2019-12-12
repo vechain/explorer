@@ -30,19 +30,19 @@ import { Route } from 'vue-router'
         const links = [{
             text: 'Summary',
             route: {
-                name: 'account-id',
+                name: 'accounts-id',
                 params
             }
         }, {
             text: 'Transactions',
             route: {
-                name: 'account-id-txs',
+                name: 'accounts-id-txs',
                 params
             }
         }, {
             text: 'Transfers',
             route: {
-                name: 'account-id-transfer',
+                name: 'accounts-id-transfer',
                 params
             }
         }]
@@ -51,7 +51,7 @@ import { Route } from 'vue-router'
             links.push({
                 text: 'Signed Blocks',
                 route: {
-                    name: 'account-id-blocks',
+                    name: 'accounts-id-blocks',
                     params
                 }
             })

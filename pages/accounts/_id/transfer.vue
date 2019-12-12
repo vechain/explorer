@@ -15,7 +15,7 @@
                         <b-dropdown-item
                             class="text-center"
                             :to="{
-                                name: 'account-id-transfer',
+                                name: 'accounts-id-transfer',
                                 params: {
                                     id: $route.params.id
                                 }
@@ -27,7 +27,7 @@
                             :key="item.address"
                             v-for="item in tokens"
                             :to="{
-                                name: 'account-id-transfer',
+                                name: 'accounts-id-transfer',
                                 params: {
                                     id: $route.params.id
                                 },

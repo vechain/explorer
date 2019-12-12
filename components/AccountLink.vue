@@ -10,7 +10,7 @@
             v-b-tooltip.hover.right :title="address | toChecksumAddress"
             class="text-monospace"
             :to="{
-              name: 'account-id',
+              name: 'accounts-id',
               params: {
                 id: address.toLowerCase()
               }}"

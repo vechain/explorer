@@ -8,7 +8,7 @@
                         :disabled="!prev"
                         size="sm"
                         variant="outline-secondary"
-                        :to="{name: 'block-id', params: {
+                        :to="{name: 'blocks-id', params: {
                         id: prev
                     }}"
                     >
@@ -19,7 +19,7 @@
                         :disabled="!next"
                         size="sm"
                         variant="outline-secondary"
-                        :to="{name: 'block-id', params: {
+                        :to="{name: 'blocks-id', params: {
                         id: next
                     }}"
                     >
@@ -40,7 +40,7 @@
                 <template slot="label">Transactions</template>
                 <template slot="item-content">
                     <b-button
-                        :to="{name: 'block-id-txs', params: { id: item.id }}"
+                        :to="{name: 'blocks-id-txs', params: { id: item.id }}"
                         size="sm"
                         variant="outline-primary"
                     >{{item.txCount}}</b-button>

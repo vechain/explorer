@@ -37,7 +37,7 @@
             <template v-slot:cell(clauses)="row">
                 <nuxt-link
                     :to="{
-                    name: 'transaction-id',
+                    name: 'transactions-id',
                     params: {
                         id: row.item.txID
                     },

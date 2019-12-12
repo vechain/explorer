@@ -15,11 +15,11 @@
                         >{{account.address | toChecksumAddress}}</span>
                         <b-tooltip
                             :triggers="[]"
-                            target="account-id-btn"
-                            ref="account-id-btn-tip"
+                            target="accounts-id-btn"
+                            ref="accounts-id-btn-tip"
                         >Copied</b-tooltip>
                         <b-button
-                            id="account-id-btn"
+                            id="accounts-id-btn"
                             v-clipboard:copy="checksumAddress(account.address)"
                             v-clipboard:success="onCopy"
                             class="ml-1 ml-sm-3"
@@ -147,7 +147,7 @@ export default class Summary extends Vue {
     }
 
     onCopy() {
-        const t = this.$refs['account-id-btn-tip'] as Vue
+        const t = this.$refs['accounts-id-btn-tip'] as Vue
         t.$emit('open')
         setTimeout(() => {
             t.$emit('close')

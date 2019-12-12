@@ -18,20 +18,20 @@ import { Context } from '@nuxt/types'
         const search = (ctx.query.content as string || '').trim()
         let rt: any = null
         if (/^0x[0-9a-f]{40}$/i.test(search)) {
-            rt = { name: 'account-id', params: { id: search.toLowerCase() } }
+            rt = { name: 'accounts-id', params: { id: search.toLowerCase() } }
         } else if (/^[0-9]+$/.test(search)) {
             const bd = await svc.block(search)
             if (bd && bd.block) {
-                rt = { name: 'block-id', params: { id: bd.block.id } }
+                rt = { name: 'blocks-id', params: { id: bd.block.id } }
             }
         } else if (/^0x[0-9-a-f]{64}$/i.test(search)) {
             const bd = await svc.block(search)
             if (bd && bd.block) {
-                rt = { name: 'block-id', params: { id: bd.block.id } }
+                rt = { name: 'blocks-id', params: { id: bd.block.id } }
             } else {
                 const txDetail = await svc.tx(search)
                 if (txDetail) {
-                    rt = { name: 'transaction-id', params: { id: txDetail.tx.txID }, hash: '#info' }
+                    rt = { name: 'transactions-id', params: { id: txDetail.tx.txID }, hash: '#info' }
                 }
             }
         } else {}
@@ -51,20 +51,20 @@ export default class Search extends Vue {
         const search = (this.$route.query.content as string || '').trim()
         let rt: any = null
         if (/^0x[0-9a-f]{40}$/i.test(search)) {
-            rt = { name: 'account-id', params: { id: search } }
+            rt = { name: 'accounts-id', params: { id: search } }
         } else if (/^[0-9]+$/.test(search)) {
             const bd = await svc.block(search)
             if (bd && bd.block) {
-                rt = { name: 'block-id', params: { id: bd.block.id } }
+                rt = { name: 'blocks-id', params: { id: bd.block.id } }
             }
         } else if (/^0x[0-9-a-f]{64}$/i.test(search)) {
             const bd = await svc.block(search)
             if (bd && bd.block) {
-                rt = { name: 'block-id', params: { id: bd.block.id } }
+                rt = { name: 'blocks-id', params: { id: bd.block.id } }
             } else {
                 const txDetail = await svc.tx(search)
                 if (txDetail && txDetail.tx) {
-                    rt = { name: 'transaction-id', params: { id: txDetail.tx.txID }, hash: '#info' }
+                    rt = { name: 'transactions-id', params: { id: txDetail.tx.txID }, hash: '#info' }
                 }
             }
         } else {}

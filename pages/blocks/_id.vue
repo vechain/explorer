@@ -36,13 +36,13 @@ import { Context } from '@nuxt/types'
             const links = [{
                 text: 'Info',
                 route: {
-                    name: 'block-id',
+                    name: 'blocks-id',
                     params
                 }
             }, {
                 text: `Transaction(${txCount})`,
                 route: {
-                    name: 'block-id-txs',
+                    name: 'blocks-id-txs',
                     params
                 }
             }]

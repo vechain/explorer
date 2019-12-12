@@ -18,7 +18,7 @@
                                         Block #
                                         <router-link
                                             class="text-monospace"
-                                            :to="{name:'block-id', params: {id: b.id}}"
+                                            :to="{name:'blocks-id', params: {id: b.id}}"
                                         >{{b.number | numFmt}}</router-link>
                                     </div>
                                     <div

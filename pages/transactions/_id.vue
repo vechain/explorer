@@ -7,7 +7,7 @@
                 @
                 <nuxt-link
                     :to="{
-                        name: 'block-id', params: {
+                        name: 'blocks-id', params: {
                             id: tx.blockID
                         }
                     }"

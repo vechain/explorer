@@ -26,7 +26,7 @@
             <template v-slot:cell(blcok)="row">
                 <nuxt-link
                     class="text-monospace"
-                    :to="{name: 'block-id', params: {
+                    :to="{name: 'blocks-id', params: {
                   id: row.item.id
                 }}"
                 >{{row.item.number | numFmt}}</nuxt-link>
@@ -37,7 +37,7 @@
             <template v-slot:cell(txCount)="row">
                 <nuxt-link
                     :to="{
-                        name: 'block-id-txs',
+                        name: 'blocks-id-txs',
                         params: {
                         id: row.item.id
                         }

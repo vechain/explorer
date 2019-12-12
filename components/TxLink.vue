@@ -2,7 +2,7 @@
     <nuxt-link
         class="text-monospace"
         :to="{
-            name: 'transaction-id',
+            name: 'transactions-id',
             params: {
               id: id
             },
