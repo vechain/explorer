@@ -6,12 +6,16 @@
                     <span class="text-muted">Community Explorers</span>
                     <ul class="pl-0 d-flex small">
                         <template v-for="(item, i) in explors">
-                            <li :key="item.link">
-                                <a style="color: #5A86E6" :href="item.link" target="_blank">{{item.name}}</a>
+                            <li :key="item.link + 'name'">
+                                <a
+                                    style="color: #5A86E6"
+                                    :href="item.link"
+                                    target="_blank"
+                                >{{item.name}}</a>
                             </li>
                             <li
                                 v-if="i !== (explors.length -1)"
-                                :key="item.link"
+                                :key="item.link + 'line'"
                                 class="px-2 text-muted"
                             >/</li>
                         </template>
@@ -21,12 +25,16 @@
                     <span class="text-muted">Tools</span>
                     <ul class="pl-0 d-flex small">
                         <template v-for="(item, i) in tools">
-                            <li :key="item.link">
-                                <a style="color: #5A86E6" :href="item.link" target="_blank">{{item.name}}</a>
+                            <li :key="item.link + 'name'">
+                                <a
+                                    style="color: #5A86E6"
+                                    :href="item.link"
+                                    target="_blank"
+                                >{{item.name}}</a>
                             </li>
                             <li
                                 v-if="i !== (tools.length -1)"
-                                :key="item.link"
+                                :key="item.link + 'line'"
                                 class="px-2 text-muted"
                             >/</li>
                         </template>
@@ -52,7 +60,7 @@ import { Vue, Component } from 'vue-property-decorator'
 @Component
 export default class PageFooter extends Vue {
     explors = [
-        
+
         {
             name: 'Vechain stats',
             link: 'https://vechainstats.com/'
