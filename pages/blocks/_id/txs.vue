@@ -30,7 +30,7 @@
             :fields="fields"
             :items="txs"
         >
-            <template v-slot:cell(index)="row">{{row.index + 1}}</template>
+            <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
