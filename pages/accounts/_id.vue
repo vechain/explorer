@@ -15,7 +15,7 @@
                 :to="item.route"
             >{{item.text}}</b-nav-item>
         </b-nav>
-        <nuxt-child style="background-color: #fff" :account="account" :authority="authority" :token="tokens"/>
+        <nuxt-child style="background-color: #fff" :account="account" :authority="authority" :tokens="tokens"/>
     </div>
 </template>
 
@@ -67,6 +67,6 @@ export default class Account extends Vue {
     links: any[] = []
     account: DTO.Account | null = null
     authority: DTO.Authority | null = null
-    token: DTO.TokenBalance[] = []
+    tokens: DTO.TokenBalance[] = []
 }
 </script>

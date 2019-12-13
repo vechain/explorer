@@ -43,7 +43,7 @@
                     <Balance :balance="account.energy" token="vtho" />
                 </template>
             </ListItem>
-            <ListItem v-if="token.length">
+            <ListItem v-if="tokens.length">
                 <template slot="label">Tokens</template>
                 <template slot="item-content">
                     <TokenItem
@@ -130,7 +130,7 @@ export default class Summary extends Vue {
     account!: object
     @Prop()
     authority!: object
-    @Prop()
+    @Prop({default: []})
     tokens!: DTO.Token[]
 
     checksumAddress(addr: string) {
