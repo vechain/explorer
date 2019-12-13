@@ -1,5 +1,5 @@
 const morgan = require("morgan");
-require('dotenv').config()
+require("dotenv").config();
 
 export default {
   server: {
@@ -30,7 +30,10 @@ export default {
   /*
    ** Global CSS
    */
-  css: ["@fortawesome/fontawesome-svg-core/styles.css"],
+  css: [
+    "@fortawesome/fontawesome-svg-core/styles.css",
+    process.env["NETWORK"] === "testnet" ? "@/assets/css/test.css" : "@/assets/css/main.css",
+  ],
   /*
    ** Plugins to load before mounting the App
    */
@@ -69,17 +72,17 @@ export default {
   },
   proxy: {
     "/api/": {
-      target: process.env['API_URL']
+      target: process.env["API_URL"]
     }
   },
   env: {
-    current: process.env['NETWORK'] === "testnet"?"Testnet":"Mainnet",
-    badgeClass: process.env['NETWORK'] === "testnet"?"test":"main", 
+    current: process.env["NETWORK"] === "testnet" ? "Testnet" : "Mainnet",
     networks: [
       {
         text: "Main",
         link: "https://explore.vechain.org"
-      }, {
+      },
+      {
         text: "Test",
         link: "https://explore-testnet.vechain.org"
       }

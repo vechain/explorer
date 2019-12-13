@@ -6,7 +6,7 @@
                 <span class="font-weight-lighter">VeChain</span>
                 <strong>Explorer</strong>
                 <small>
-                    <b-badge :class="bclass" class="net-badge text-capitalize">{{network}}</b-badge>
+                    <b-badge class="net-badge text-capitalize">{{network}}</b-badge>
                 </small>
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -83,7 +83,6 @@ export default class Navbar extends Vue {
 
     network = process.env.current
     search = ''
-    bclass = process.env.badgeClass
     networks = process.env.networks
     onsearch() {
         if (this.search.trim()) {
@@ -98,18 +97,3 @@ export default class Navbar extends Vue {
     }
 }
 </script>
-<style scoped>
-.nav-bar-styles {
-    background-color: #3c5999;
-}
-.net-badge {
-    color: #3c5999;
-}
-.net-badge.main {
-    background-color: #fff;
-}
-.net-badge.test {
-    background-color: #f3a71a;
-    color: #fff;
-}
-</style>

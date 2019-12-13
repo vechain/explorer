@@ -19,8 +19,3 @@ import PageFooter from '../components/PageFooter.vue'
 })
 export default class DefaultLayout extends Vue { }
 </script>
-<style>
-body {
-    background-color: #f4f7fc;
-}
-</style>
