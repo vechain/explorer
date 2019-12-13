@@ -42,11 +42,11 @@ export default class PageFooter extends Vue {
             list: [
 
                 {
-                    name: 'Vechain stats',
+                    name: 'VeChainStats',
                     link: 'https://vechainstats.com'
                 },
                 {
-                    name: 'Vexplore (beta)',
+                    name: 'Vexplorer (beta)',
                     link: 'https://vexplorer.io'
                 }
             ]
