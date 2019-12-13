@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="page_body">
         <Navbar :jumbotron="true" />
         <b-container class="px-0">
             <nuxt class="pb-4 px-2 px-sm-0" />

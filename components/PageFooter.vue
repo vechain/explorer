@@ -1,100 +1,95 @@
 <template>
-    <b-jumbotron class="page-footer rounded-0 mb-0">
-        <b-container class="px-0">
-            <b-row no-gutters class="border-bottom">
-                <b-col cols="12" sm="6" class="text-left px-sm-3">
-                    <span class="text-muted">Community Explorers</span>
-                    <ul class="pl-0 d-flex small">
-                        <template v-for="(item, i) in explors">
-                            <li :key="item.link + 'name'">
-                                <a
-                                    style="color: #5A86E6"
-                                    :href="item.link"
-                                    target="_blank"
-                                >{{item.name}}</a>
-                            </li>
-                            <li
-                                v-if="i !== (explors.length -1)"
-                                :key="item.link + 'line'"
-                                class="px-2 text-muted"
-                            >/</li>
-                        </template>
-                    </ul>
-                </b-col>
-                <b-col cols="12" sm="6" class="text-left px-sm-3">
-                    <span class="text-muted">Tools</span>
-                    <ul class="pl-0 d-flex small">
-                        <template v-for="(item, i) in tools">
-                            <li :key="item.link + 'name'">
-                                <a
-                                    style="color: #5A86E6"
-                                    :href="item.link"
-                                    target="_blank"
-                                >{{item.name}}</a>
-                            </li>
-                            <li
-                                v-if="i !== (tools.length -1)"
-                                :key="item.link + 'line'"
-                                class="px-2 text-muted"
-                            >/</li>
-                        </template>
-                    </ul>
-                </b-col>
-            </b-row>
-            <b-row no-gutters class="pt-2 justify-content-center">
-                <b-col sm="8" class="text-center">
-                    <small class="text-muted">
-                        Copyright &copy; 2019
-                        <a
-                            href=" https://vechain.org"
-                            target="_blank"
-                        >VeChain Foundation</a>
-                    </small>
-                </b-col>
-            </b-row>
-        </b-container>
-    </b-jumbotron>
+    <div class="page-footer mt-auto pt-4 pb-2 text-white">
+        <b-row no-gutters align-h="around">
+            <b-col cols="6" sm="3" md="2" v-for="item in links" :key="item.group" class="pl-5">
+                <ul class="pl-0">
+                    <li>
+                        <span class="text-white">{{item.group}}</span>
+                    </li>
+                    <template v-for="(item) in item.list">
+                        <li class="small" :key="item.name">
+                            <a
+                                class="text-white font-weight-lighter"
+                                :href="item.link"
+                                target="_blank"
+                            >{{item.name}}</a>
+                        </li>
+                    </template>
+                </ul>
+            </b-col>
+        </b-row>
+        <b-row no-gutters class="pt-2 justify-content-center">
+            <b-col sm="8" class="text-center">
+                <small class="text-white">
+                    Copyright &copy; 2019
+                    <a
+                        class="text-white"
+                        href=" https://vechain.org"
+                        target="_blank"
+                    >VeChain Foundation</a>
+                </small>
+            </b-col>
+        </b-row>
+    </div>
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 @Component
 export default class PageFooter extends Vue {
-    explors = [
+    links = [
+        {
+            group: 'Community Projects',
+            list: [
 
-        {
-            name: 'Vechain stats',
-            link: 'https://vechainstats.com/'
+                {
+                    name: 'Vechain stats',
+                    link: 'https://vechainstats.com'
+                },
+                {
+                    name: 'Vexplore(beta)',
+                    link: 'https://vexplorer.io'
+                }
+            ]
         },
         {
-            name: 'Vexplore(beta)',
-            link: 'https://vexplorer.io/'
-        }
-    ]
-    tools = [
-        {
-            name: 'Token Registry',
-            link: 'https://github.com/vechain/token-registry'
+            group: 'Resources',
+            list: [
+                {
+                    name: 'Token Registry',
+                    link: 'https://github.com/vechain/token-registry'
+                },
+                {
+                    name: 'B32',
+                    link: 'https://b32.vecha.in'
+                },
+                {
+                    name: 'Inspector',
+                    link: 'https://inspector.vecha.in/'
+                }
+            ]
         },
         {
-            name: 'B32',
-            link: 'https://b32.vecha.in'
+            group: 'Tokens',
+            list: [
+                {
+                    name: 'Token Transfer',
+                    link: 'https://laalaguer.github.io/vechain-token-transfer/'
+                },
+                {
+                    name: 'My Tokens',
+                    link: 'https://tokens.vecha.in/'
+                }
+            ]
         },
         {
-            name: 'Inspector',
-            link: 'https://inspector.vecha.in/'
-        },
-        {
-            name: 'App-hub',
-            link: 'https://apps.vechain.org/'
+            group: 'Github',
+            list: [
+                {
+                    name: 'Code repo',
+                    link: ''
+                }
+            ]
         }
     ]
 }
 </script>
-<style scoped>
-ul {
-    list-style: none;
-}
-.page-footer {
-    background-color: transparent;
-}
-</style>
