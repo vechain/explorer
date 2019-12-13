@@ -99,7 +99,11 @@ export default class BlockTxs extends Vue {
     ]
 
     get pageItems() {
-        return this.currentPage === this.pageCount ? (this.rows % this.perPage) || this.perPage : this.perPage
+        if (this.rows > 0) {
+            return this.currentPage === this.pageCount ? (this.rows % this.perPage) || this.perPage : this.perPage
+        } else {
+            return 0
+        }
     }
 
     get pageCount() {

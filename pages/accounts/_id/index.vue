@@ -55,7 +55,7 @@
                     ></TokenItem>
                 </template>
             </ListItem>
-            <ListItem v-if="account.code">
+            <ListItem>
                 <template slot="label">Master</template>
                 <template slot="item-content">
                     <AccountLink
@@ -67,42 +67,58 @@
                     <span v-else>-</span>
                 </template>
             </ListItem>
-            <ListItem v-if="account.code">
-                <template slot="label">Sponsor</template>
-                <template slot="item-content">
-                    <AccountLink
-                        class="d-flex align-items-center"
-                        v-if="account.sponsor"
-                        :address="account.sponsor"
-                        :short="false"
-                    />
-                    <span v-else>-</span>
-                </template>
-            </ListItem>
-            <ListItem v-if="account.code">
-                <template slot="label">Code</template>
-                <template slot="item-content">
-                    <b-form-textarea
-                        class="text-monospace"
-                        readonly
-                        v-model="account.code"
-                        rows="3"
-                        max-rows="8"
-                    ></b-form-textarea>
-                </template>
-            </ListItem>
-            <ListItem v-if="authority">
-                <template slot="label">Signed blocks</template>
-                <template slot="item-content">
-                    <span class="text-monospace">{{authority.signed | numFmt}}</span>
-                </template>
-            </ListItem>
-            <ListItem v-if="authority">
-                <template slot="label">Block rewards</template>
-                <template slot="item-content">
-                    <Amount :amount="authority.reward" sym="VTHO" />
-                </template>
-            </ListItem>
+            <template v-if="account.code">
+                <ListItem>
+                    <template slot="label">Sponsor</template>
+                    <template slot="item-content">
+                        <AccountLink
+                            class="d-flex align-items-center"
+                            v-if="account.sponsor"
+                            :address="account.sponsor"
+                            :short="false"
+                        />
+                        <span v-else>-</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Code</template>
+                    <template slot="item-content">
+                        <b-form-textarea
+                            class="text-monospace"
+                            readonly
+                            v-model="account.code"
+                            rows="3"
+                            max-rows="8"
+                        ></b-form-textarea>
+                    </template>
+                </ListItem>
+            </template>
+            <template v-if="authority">
+                <ListItem>
+                    <template slot="label">Endorsor</template>
+                    <template slot="item-content">
+                        <AccountLink
+                            class="d-flex align-items-center"
+                            v-if="authority.endorsor"
+                            :address="authority.endorsor"
+                            :short="false"
+                        />
+                        <span v-else>-</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Signed blocks</template>
+                    <template slot="item-content">
+                        <span class="text-monospace">{{authority.signed | numFmt}}</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Block rewards</template>
+                    <template slot="item-content">
+                        <Amount :amount="authority.reward" sym="VTHO" />
+                    </template>
+                </ListItem>
+            </template>
         </b-list-group>
     </div>
 </template>
@@ -130,7 +146,7 @@ export default class Summary extends Vue {
     account!: object
     @Prop()
     authority!: object
-    @Prop({default: []})
+    @Prop({ default: [] })
     tokens!: DTO.Token[]
 
     checksumAddress(addr: string) {

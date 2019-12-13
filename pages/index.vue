@@ -78,7 +78,7 @@
                                     cols="sm-5"
                                     class="text-right flex-column mt-1  mt-sm-0 d-flex d-sm-block"
                                 >
-                                    <div class="d-sm-block text-left text-sm-right small">
+                                    <div class="d-sm-block text-sm-right small">
                                         <span class=" text-secondary">Origin </span>
                                         <AccountLink :icon="false" :address="t.origin" />
                                     </div>

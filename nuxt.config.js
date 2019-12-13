@@ -32,6 +32,7 @@ export default {
    */
   css: [
     "@fortawesome/fontawesome-svg-core/styles.css",
+    "@/assets/css/common.css",
     process.env["NETWORK"] === "testnet" ? "@/assets/css/test.css" : "@/assets/css/main.css",
   ],
   /*
