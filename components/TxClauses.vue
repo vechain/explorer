@@ -131,6 +131,8 @@ export default class TxClause extends Vue {
                     ...temp
                 }
             })
+        } else {
+            return []
         }
     }
 

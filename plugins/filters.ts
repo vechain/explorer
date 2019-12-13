@@ -54,7 +54,7 @@ Vue.filter('countVal', (clauses: any[]) => {
     return new BigNumber(item.value || '0x0')
   }).reduce((prev, curr) => {
     return prev.plus(curr)
-  })
+  }, new BigNumber(0))
   return '0x' + temp.toString(16)
 })
 
