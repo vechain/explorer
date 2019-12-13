@@ -32,6 +32,14 @@ interface IfcSvc {
   signedBlocks(addr: string, page: number, pageSize?: number): Promise<DTO.SignedBlocks & { pageCount: number }>
   accountTxs(addr: string, page: number, pageSize?: number): Promise<DTO.AccountTxs & { pageCount: number }>
   accountTfs(addr: string, page: number, pageSize?: number, type?: string): Promise<DTO.AccountTransfers & { pageCount: number }>
+
+  search(id: string): Promise<{
+    name: string,
+    params: {
+      id: string
+    },
+    hash?: string
+  } | null>
 }
 
 class Svc implements IfcSvc {
@@ -106,6 +114,30 @@ class Svc implements IfcSvc {
       ...result,
       pageCount
     }
+  }
+
+  async search(search: string): Promise<{ name: string, params: { id: string }, hash?: string } | null> {
+    let rt: any = null
+    if (/^0x[0-9a-f]{40}$/i.test(search)) {
+      rt = { name: 'accounts-id', params: { id: search.toLowerCase() } }
+    } else if (/^[0-9]+$/.test(search)) {
+      const bd = await this.block(search)
+      if (bd && bd.block) {
+        rt = { name: 'blocks-id', params: { id: bd.block.id } }
+      }
+    } else if (/^0x[0-9-a-f]{64}$/i.test(search)) {
+      const bd = await this.block(search)
+      if (bd && bd.block) {
+        rt = { name: 'blocks-id', params: { id: bd.block.id } }
+      } else {
+        const txDetail = await this.tx(search)
+        if (txDetail && txDetail.tx) {
+          rt = { name: 'transactions-id', params: { id: txDetail.tx.txID }, hash: '#info' }
+        }
+      }
+    }
+
+    return rt
   }
 }
 
