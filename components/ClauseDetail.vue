@@ -51,13 +51,13 @@ import TransferItem from '@/components/TransferItem.vue'
     }
 })
 export default class ClauseDetail extends Vue {
-    @Prop()
+    @Prop({default: []})
     inputData!: string
 
-    @Prop()
+    @Prop({default: []})
     events!: any[]
 
-    @Prop()
+    @Prop({default: []})
     transfers!: any[]
 }
 </script>

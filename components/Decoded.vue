@@ -24,7 +24,7 @@
                                 <span class="text-left font-weight-bold align-middle">Topics</span>
                             </b-col>
                             <b-col cols="12" sm="9">
-                                <ul class="ul pl-0">
+                                <ul class="pl-0">
                                     <li class="text-break" v-for="(item, i) in event.topics" :key="i">
                                         <small class="text-monospace">[{{i}}] {{item}}</small>
                                     </li>
@@ -209,8 +209,3 @@ export default class Decoded extends Vue {
     }
 }
 </script>
-<style scoped>
-.ul {
-    list-style: none;
-}
-</style>
