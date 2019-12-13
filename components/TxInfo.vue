@@ -37,7 +37,7 @@
             <ListItem>
                 <template slot="label">Clauses</template>
                 <template slot="item-content">
-                    <b-button to="#clause" size="sm" variant="outline-primary">{{tx.clauses.length}}</b-button>
+                    <b-button to="#clauses" size="sm" variant="outline-primary">{{tx.clauses.length}}</b-button>
                 </template>
             </ListItem>
             <ListItem>

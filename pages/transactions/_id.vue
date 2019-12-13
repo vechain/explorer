@@ -26,7 +26,7 @@
         </b-nav>
         <div style="background-color: #fff" v-show="isMounted">
             <TxInfo :bestNum="best.number" v-show="tab === 'info'" :tx="tx" :transfers="transfers" />
-            <TxClauses :clauseList="clauseList" v-show="tab === 'clause'" />
+            <TxClauses :clauseList="clauseList" v-show="tab === 'clauses'" />
         </div>
     </div>
 </template>
@@ -62,7 +62,7 @@ import { Context } from '@nuxt/types'
             },
             {
                 text: `Clauses(${data.clauses.length})`,
-                hash: '#clause'
+                hash: '#clauses'
             }
         ]
 
@@ -78,7 +78,7 @@ import { Context } from '@nuxt/types'
 export default class Transaction extends Vue {
     isMounted = false
     beforeMount() {
-        const tabs = ['info', 'clause']
+        const tabs = ['info', 'clauses']
         const temp = this.$route.hash.substr(1).toLowerCase()
         if (!tabs.includes(temp)) {
             location.hash = '#info'
@@ -92,7 +92,7 @@ export default class Transaction extends Vue {
         return this.$store.state.best
     }
     get tab() {
-        const tabs = ['info', 'clause']
+        const tabs = ['info', 'clauses']
         const temp = this.$route.hash.substr(1).toLowerCase()
         if (tabs.includes(temp)) {
             return temp

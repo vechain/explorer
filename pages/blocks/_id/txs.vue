@@ -41,7 +41,7 @@
                     params: {
                         id: row.item.txID
                     },
-                    hash: '#clause'
+                    hash: '#clauses'
                 }"
                 >{{row.item.clauses.length}}</nuxt-link>
             </template>
