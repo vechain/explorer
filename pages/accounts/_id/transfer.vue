@@ -78,14 +78,22 @@
                         <font-awesome-icon style="color: red" small icon="arrow-right" />
                         <AccountLink class="ml-1" size="sm" :address="row.item.recipient" />
                     </template>
+                    <template v-if="row.item.sender === row.item.recipient">
+                        <font-awesome-icon style="color: #666666" small icon="exchange-alt" />
+                        <AccountLink class="ml-1" size="sm" :address="row.item.sender" />
+                    </template>
                 </div>
             </template>
             <template v-slot:cell(value)="row">
                 <span
+                    v-if="row.item.sender !== row.item.recipient"
                     :class="account === row.item.sender? 'text-danger': 'text-success'"
                     class="text-monospace"
                 >
                     <span>{{account !== row.item.sender ? '+' : '-'}}</span>
+                    <Amount :amount="row.item.amount" :sym="row.item.symbol" :showSym="false" />
+                </span>
+                <span v-else>
                     <Amount :amount="row.item.amount" :sym="row.item.symbol" :showSym="false" />
                 </span>
             </template>
