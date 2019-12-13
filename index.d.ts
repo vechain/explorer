@@ -35,7 +35,7 @@ declare namespace DTO {
 
   type AccountTxs = {
     count: number
-    transactions: AccountTx[]
+    txs: AccountTx[]
   }
   type AccountTransfer = Transfer & { meta: Meta } & {
     moveIndex: MoveIndex

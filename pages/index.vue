@@ -67,7 +67,7 @@
                             <b-row>
                                 <b-col cols="sm-7 d-flex d-sm-block flex-column">
                                     <div class="text-truncate">
-                                        TXID:
+                                        TxID:
                                         <TxLink :id="t.txID" :short="false" />
                                     </div>
                                     <span

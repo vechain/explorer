@@ -3,6 +3,8 @@ import { Context } from '@nuxt/types'
 import { ActionContext, Plugin } from 'vuex/types'
 import { fetchBest, fetchPrice, f } from './plugins/fetchTasks'
 
+const isMainnet = (process.env['current'] || '').toLowerCase() === 'mainnet'
+
 export const state = (): App.State => ({
   best: null,
   tokens: [],
@@ -10,13 +12,15 @@ export const state = (): App.State => ({
   price: {}
 })
 
-export const plugins: Plugin<App.State>[] = [fetchBest, fetchPrice]
+export const plugins: Plugin<App.State>[] = isMainnet ? [fetchBest, fetchPrice] : [fetchBest]
 
 export const actions = {
   async nuxtServerInit(actx: ActionContext<App.State, any>, ctx: Context) {
     try {
-      const payload = await f()
-      actx.commit('setPrice', payload)
+      if (isMainnet) {
+        const payload = await f()
+        actx.commit('setPrice', payload)
+      }
 
       const best: DTO.BlockDetail = await ctx.$svc.block('best')
       actx.commit('setBest', best.block)

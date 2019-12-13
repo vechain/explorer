@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-between align-items-center px-2">
             <div class="d-flex align-middle">
                 <div>
-                    {{transactions.length}}
+                    {{txs.length}}
                     <span class="text-secondary">entries</span>
                     , {{currentPage}}
                     <span class="text-secondary">of</span>
@@ -22,7 +22,7 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="transactions">
+        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="txs">
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
@@ -36,7 +36,7 @@
                 <span v-else>-</span>
             </template>
             <template v-slot:cell(value)="row">
-                <Amount :amount="row.item.clauses | countVal" sym="VET" />
+                <Amount :amount="row.item.clauses | countVal"/>
             </template>
         </b-table>
     </div>
@@ -67,7 +67,7 @@ import TxLink from '@/components/TxLink.vue'
 export default class AccountTxs extends Vue {
     count = 0
     pageCount = 0
-    transactions: DTO.AccountTx[] = []
+    txs: DTO.AccountTx[] = []
     currentPage = 1
     isAuthority = false
     fields = [
@@ -106,7 +106,7 @@ export default class AccountTxs extends Vue {
         const result = await this.$svc.accountTxs(this.$route.params.id, page, pageSize)
         this.currentPage = page
         this.pageCount = result.pageCount
-        this.transactions = result.transactions
+        this.txs = result.txs
         this.count = result.count
 
     }

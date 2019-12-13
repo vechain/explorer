@@ -5,7 +5,7 @@
                 <Amount :amount="balance" :sym="token" />
             </small>
         </p>
-        <footer class="blockquote-footer text-monospace">
+        <footer v-if="isMainnet" class="blockquote-footer text-monospace">
             <small v-if="btc"> {{ balance | calcBtc(btc) }} BTC</small>
             <small v-else> -- </small>
         </footer>
@@ -26,6 +26,8 @@ export default class Balance extends Vue {
 
     @Prop(String)
     token!: string
+
+    isMainnet = (process.env['current'] || '').toLowerCase() === 'mainnet'
 
     get btc() {
         if (this.$store.state.price && this.$store.state.price.btc && this.$store.state.price.btc[this.token.toUpperCase()]) {

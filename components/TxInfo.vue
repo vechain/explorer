@@ -68,7 +68,7 @@
                         <Amount :amount="tx.paid" sym="VTHO" />
                         <span class="mx-2">paid by</span>
                         <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
-                        <AccountLink v-else-if="tx.gasPayer" :address="tx.gasPayer" size="sm" />
+                        <AccountLink v-else-if="tx.gasPayer !== tx.origin" :address="tx.gasPayer" size="sm" />
                         <strong v-else>Origin</strong>
                     </div>
                 </template>
@@ -97,7 +97,6 @@
             <ListItem>
                 <template slot="label">BlockRef</template>
                 <template slot="item-content">
-                    Block#
                     <span class="text-monospace font-weight-lighter">
                         <nuxt-link :to="{name: 'search', query: {content: blcokRefNum(tx.blockRef)}}">{{tx.blockRef | bNum | numFmt}}</nuxt-link>
                     </span>

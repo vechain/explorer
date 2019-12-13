@@ -49,7 +49,7 @@
                 <AccountLink :address="row.item.origin" />
             </template>
             <template v-slot:cell(value)="row">
-                <Amount :amount="row.item.clauses | countVal" sym="VET" />
+                <Amount :amount="row.item.clauses | countVal"/>
             </template>
         </b-table>
     </div>

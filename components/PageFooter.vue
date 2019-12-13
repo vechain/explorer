@@ -46,7 +46,7 @@ export default class PageFooter extends Vue {
                     link: 'https://vechainstats.com'
                 },
                 {
-                    name: 'Vexplore(beta)',
+                    name: 'Vexplore (beta)',
                     link: 'https://vexplorer.io'
                 }
             ]
@@ -85,8 +85,8 @@ export default class PageFooter extends Vue {
             group: 'Github',
             list: [
                 {
-                    name: 'Code repo',
-                    link: ''
+                    name: 'VeChain',
+                    link: 'https://github.com/vechain'
                 }
             ]
         }
