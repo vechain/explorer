@@ -1,55 +1,80 @@
-const morgan = require("morgan");
-require("dotenv").config();
+const morgan = require('morgan')
+require('dotenv').config()
+const IS_MAIN = process.env['NETWORK'] !== 'testnet'
 
+const title = IS_MAIN ? '' : '(Test)'
 export default {
   server: {
-    host: "0.0.0.0"
+    host: '0.0.0.0'
   },
-  serverMiddleware: [{ path: "/", handler: morgan("tiny") }],
-  mode: "universal",
+  serverMiddleware: [{ path: '/', handler: morgan('tiny') }],
+  mode: 'universal',
   /*
    ** Headers of the page
    */
   head: {
-    title: "VeChain Explorer",
+    title: `VeChain Explorer${title}`,
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { charset: 'utf-8' },
       {
-        hid: "description",
-        name: "description",
-        content: process.env.npm_package_description || ""
-      }
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1, shrink-to-fit=no'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content:
+          'VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain'
+      },
+      {
+        name: 'author',
+        content: 'vechain.org'
+      },
+      {
+        name: 'keywords',
+        content: 'vechain, explorer, vet, vtho, search, blockchain, official'
+      },
+      {
+        name: 'format-detection',
+        content: 'telephone=no'
+      },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.png" }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: `/${IS_MAIN ? '' : 'test.'}favicon.png` }]
+  },
+  pwa: {
+    meta: {
+      ogSiteName: 'Vechain Explorer',
+      ogTitle: `VeChain Explorer${title}`,
+      ogDescription: `VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`,
+    }
   },
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: "#fff" },
+  loading: { color: '#fff' },
   /*
    ** Global CSS
    */
   css: [
-    "@fortawesome/fontawesome-svg-core/styles.css",
-    "@/assets/css/common.css",
-    process.env["NETWORK"] === "testnet" ? "@/assets/css/test.css" : "@/assets/css/main.css",
+    '@fortawesome/fontawesome-svg-core/styles.css',
+    '@/assets/css/common.css',
+    !IS_MAIN ? '@/assets/css/test.css' : '@/assets/css/main.css'
   ],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    "~/plugins/filters.ts",
-    "~/plugins/fontawesome.ts",
-    "~/plugins/axios.ts",
-    { src: "~/plugins/init.ts", mode: "client" },
-    { src: "~/plugins/clipboard.ts", mode: "client" }
+    '~/plugins/filters.ts',
+    '~/plugins/fontawesome.ts',
+    '~/plugins/axios.ts',
+    { src: '~/plugins/init.ts', mode: 'client' },
+    { src: '~/plugins/clipboard.ts', mode: 'client' }
   ],
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    "@nuxt/typescript-build"
+    '@nuxt/typescript-build'
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
   ],
@@ -58,10 +83,10 @@ export default {
    */
   modules: [
     // Doc: https://bootstrap-vue.js.org
-    "bootstrap-vue/nuxt",
+    'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
-    "@nuxtjs/axios",
-    "@nuxtjs/pwa"
+    '@nuxtjs/axios',
+    '@nuxtjs/pwa'
   ],
   /*
    ** Axios module configuration
@@ -72,20 +97,20 @@ export default {
     proxy: true
   },
   proxy: {
-    "/api/": {
-      target: process.env["API_URL"]
+    '/api/': {
+      target: process.env['API_URL']
     }
   },
   env: {
-    current: process.env["NETWORK"] === "testnet" ? "Testnet" : "Mainnet",
+    current: !IS_MAIN ? 'Testnet' : 'Mainnet',
     networks: [
       {
-        text: "Main",
-        link: "https://explore.vechain.org"
+        text: 'Main',
+        link: 'https://explore.vechain.org'
       },
       {
-        text: "Test",
-        link: "https://explore-testnet.vechain.org"
+        text: 'Test',
+        link: 'https://explore-testnet.vechain.org'
       }
     ]
   },
@@ -98,4 +123,4 @@ export default {
      */
     extend(config, ctx) {}
   }
-};
+}
