@@ -1,8 +1,10 @@
 const morgan = require('morgan')
 require('dotenv').config()
 const IS_MAIN = process.env['NETWORK'] !== 'testnet'
+const IS_DEV =  process.env.NODE_ENV !== 'production'
 
 const title = IS_MAIN ? '' : '(Test)'
+
 export default {
   server: {
     host: '0.0.0.0'
@@ -39,6 +41,19 @@ export default {
         content: 'telephone=no'
       },
     ],
+    script: [{
+      type: 'application/ld+json',
+      json: {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "https://explore.vechain.org/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://explore.vechain.org/search?content={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    }],
     link: [{ rel: 'icon', type: 'image/x-icon', href: `/${IS_MAIN ? '' : 'test.'}favicon.png` }]
   },
   pwa: {
@@ -74,10 +89,29 @@ export default {
    ** Nuxt.js dev-modules
    */
   buildModules: [
-    '@nuxt/typescript-build'
+    '@nuxt/typescript-build',
+    '@nuxtjs/google-analytics'
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
   ],
+  googleAnalytics: {
+    id: 'UA-132391998-2',
+    debug: {
+      enabled: IS_DEV,
+      sendHitTask: IS_DEV
+    },
+    disabled: !IS_DEV,
+    anonymize_ip: true,
+    autoTracking: {
+      pageviewTemplate (route) {
+        return {
+          page: route.path,
+          title: document.title,
+          location: window.location.href
+        }
+      }
+    }
+  },
   /*
    ** Nuxt.js modules
    */

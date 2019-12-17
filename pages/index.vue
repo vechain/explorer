@@ -105,6 +105,11 @@ import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
 import TxLink from '@/components/TxLink.vue'
 @Component({
+    head() {
+        return {
+            titleTemplate: `%s | Home`,
+        }
+    },
     components: {
         IdentBox,
         AccountLink,

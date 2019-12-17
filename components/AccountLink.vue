@@ -7,7 +7,6 @@
             :address="address"
         ></IdentBox>
         <nuxt-link
-            v-b-tooltip.hover.right :title="address | toChecksumAddress"
             class="text-monospace"
             :to="{
               name: 'accounts-id',
@@ -16,8 +15,8 @@
               }}"
         >
             <template v-if="!!short">
-                <small v-if="this.size === 'sm'">{{address | toChecksumAddress | shortAddress}}</small>
-                <span v-else>{{address | toChecksumAddress | shortAddress}}</span>
+                <small v-b-tooltip.hover.right :title="address | toChecksumAddress" v-if="this.size === 'sm'">{{address | toChecksumAddress | shortAddress}}</small>
+                <span v-b-tooltip.hover.right :title="address | toChecksumAddress" v-else>{{address | toChecksumAddress | shortAddress}}</span>
             </template>
             <template v-else>
                 <small v-if="this.size === 'sm'">{{address | toChecksumAddress}}</small>
