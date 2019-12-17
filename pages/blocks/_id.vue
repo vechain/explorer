@@ -24,6 +24,11 @@ import { Context } from '@nuxt/types'
 
 @Component(
     {
+        head() {
+            return {
+                titleTemplate: `%s | Block ${(this as Block).item!.block.number.toLocaleString()}`,
+            }
+        },
         async asyncData(ctx: Context) {
             const blockDetail = await ctx.$svc.block(ctx.params.id)
             const params = ctx.params
@@ -40,7 +45,7 @@ import { Context } from '@nuxt/types'
                     params
                 }
             }, {
-                text: `Transaction(${txCount})`,
+                text: `Transactions(${txCount})`,
                 route: {
                     name: 'blocks-id-txs',
                     params

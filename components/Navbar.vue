@@ -33,7 +33,7 @@
                     </b-nav-form>
                 </b-navbar-nav>
                 <b-navbar-nav>
-                    <b-nav-item-dropdown toggle-class="text-white" text="Network" right>
+                    <b-nav-item-dropdown toggle-class="text-white" text="Networks" right>
                         <b-dropdown-item
                             target="_blank"
                             v-for="item in networks"
