@@ -1,8 +1,7 @@
 {
-  "name": "bsv",
+  "name": "explorer",
   "version": "1.0.0",
   "description": "VeChain Blockchain Explorer",
-  "author": "Asbert Ma",
   "private": true,
   "scripts": {
     "dev": "nuxt",
