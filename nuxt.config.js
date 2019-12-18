@@ -1,7 +1,8 @@
 const morgan = require('morgan')
 require('dotenv').config()
+
 const IS_MAIN = process.env['NETWORK'] !== 'testnet'
-const IS_DEV =  process.env.NODE_ENV !== 'production'
+const IS_DEV =  process.env.NODE_ENV === 'development'
 
 const title = IS_MAIN ? '' : '(Test)'
 
@@ -58,6 +59,7 @@ export default {
   },
   pwa: {
     meta: {
+      name: `VeChain Explorer${title}`,
       ogSiteName: 'Vechain Explorer',
       ogTitle: `VeChain Explorer${title}`,
       ogDescription: `VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`,
@@ -96,12 +98,11 @@ export default {
   ],
   googleAnalytics: {
     id: 'UA-132391998-2',
+    dev: IS_DEV,
     debug: {
       enabled: IS_DEV,
       sendHitTask: IS_DEV
     },
-    disabled: !IS_DEV,
-    anonymize_ip: true,
     autoTracking: {
       pageviewTemplate (route) {
         return {
