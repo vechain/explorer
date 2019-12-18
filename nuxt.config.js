@@ -2,8 +2,6 @@ const morgan = require('morgan')
 require('dotenv').config()
 
 const IS_MAIN = process.env['NETWORK'] !== 'testnet'
-const IS_DEV =  process.env.NODE_ENV === 'development'
-
 const title = IS_MAIN ? '' : '(Test)'
 
 export default {
@@ -98,11 +96,7 @@ export default {
   ],
   googleAnalytics: {
     id: `UA-132391998-${IS_MAIN ? 3 : 4}`,
-    dev: IS_DEV,
-    debug: {
-      enabled: IS_DEV,
-      sendHitTask: IS_DEV
-    },
+    dev: false,
     autoTracking: {
       pageviewTemplate (route) {
         return {
