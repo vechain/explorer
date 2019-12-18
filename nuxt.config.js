@@ -28,10 +28,6 @@ export default {
           'VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain'
       },
       {
-        name: 'author',
-        content: 'vechain.org'
-      },
-      {
         name: 'keywords',
         content: 'vechain, explorer, vet, vtho, search, blockchain, official'
       },
@@ -58,7 +54,7 @@ export default {
   pwa: {
     meta: {
       name: `VeChain Explorer${title}`,
-      ogSiteName: 'VeChain Explorer',
+      ogSiteName: `VeChain Explorer${title}`,
       ogTitle: `VeChain Explorer${title}`,
       ogDescription: `VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`,
     }
