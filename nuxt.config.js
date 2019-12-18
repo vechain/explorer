@@ -60,7 +60,7 @@ export default {
   pwa: {
     meta: {
       name: `VeChain Explorer${title}`,
-      ogSiteName: 'Vechain Explorer',
+      ogSiteName: 'VeChain Explorer',
       ogTitle: `VeChain Explorer${title}`,
       ogDescription: `VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`,
     }
@@ -97,7 +97,7 @@ export default {
     // '@nuxtjs/eslint-module',
   ],
   googleAnalytics: {
-    id: 'UA-132391998-2',
+    id: `UA-132391998-${IS_MAIN ? 3 : 4}`,
     dev: IS_DEV,
     debug: {
       enabled: IS_DEV,
