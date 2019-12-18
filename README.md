@@ -1,22 +1,4 @@
-# VeChain explorer
+# VeChain Explorer
 
-> VeChain explorer
+> VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain
 
-## Build Setup
-
-``` bash
-# install dependencies
-$ npm run install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
