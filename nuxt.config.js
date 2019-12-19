@@ -3,6 +3,7 @@ const morgan = require('morgan')
 require('dotenv').config()
 
 const IS_MAIN = process.env['NETWORK'] !== 'testnet'
+const IS_DEV = process.env.NODE_ENV === 'development'
 const title = IS_MAIN ? '' : '(Test)'
 
 export default {
@@ -78,8 +79,8 @@ export default {
    */
   css: [
     '@fortawesome/fontawesome-svg-core/styles.css',
-    '@/assets/css/common.css',
-    !IS_MAIN ? '@/assets/css/test.css' : '@/assets/css/main.css'
+    '@/css/common.css',
+    !IS_MAIN ? '@/css/test.css' : '@/css/main.css'
   ],
   /*
    ** Plugins to load before mounting the App
@@ -165,6 +166,19 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) { }
+    extend(config, ctx) { },
+    extractCSS: !IS_DEV,
+    optimization: {
+      splitChunks: {
+        cacheGroups: {
+          styles: {
+            name: 'theme',
+            test: /\.(css|vue)$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
+      }
+    }
   }
 }
