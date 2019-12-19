@@ -37,7 +37,11 @@
             <ListItem>
                 <template slot="label">Clauses</template>
                 <template slot="item-content">
-                    <b-button to="#clauses" size="sm" variant="outline-primary">{{tx.clauses.length}}</b-button>
+                    <b-button
+                        to="#clauses"
+                        size="sm"
+                        variant="outline-primary"
+                    >{{tx.clauses.length}}</b-button>
                 </template>
             </ListItem>
             <ListItem>
@@ -68,64 +72,82 @@
                         <Amount :amount="tx.paid" sym="VTHO" />
                         <span class="mx-2">paid by</span>
                         <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
-                        <AccountLink v-else-if="tx.gasPayer !== tx.origin" :address="tx.gasPayer" size="sm" />
+                        <AccountLink
+                            v-else-if="tx.gasPayer !== tx.origin"
+                            :address="tx.gasPayer"
+                            size="sm"
+                        />
                         <strong v-else>Origin</strong>
                     </div>
                 </template>
             </ListItem>
-            <ListItem>
-                <template slot="label">Token Transferred</template>
-                <template slot="item-content">
-                    <ul v-if="transfersList.length" class="mb-0 pl-0">
-                        <li class="pt-1 pb-2" v-for="(item, i) in transfersList" :key="i">
-                            <TokenTransferItem :origin="tx.origin" :transfer="item" />
-                        </li>
-                    </ul>
-                    <span v-else>-</span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Size</template>
-                <template slot="item-content">{{tx.size}} B</template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Reward</template>
-                <template slot="item-content">
-                    <Amount :amount="tx.reward" sym="VTHO" />
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">BlockRef</template>
-                <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">
-                        <nuxt-link :to="{name: 'search', query: {content: blcokRefNum(tx.blockRef)}}">{{tx.blockRef | bNum | numFmt}}</nuxt-link>
-                    </span>
-                    <span class="text-monospace font-weight-lighter">({{tx.blockRef}})</span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Expiration</template>
-                <template slot="item-content">{{tx.expiration}}</template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Nonce</template>
-                <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">{{tx.nonce}}</span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Depends On</template>
-                <template slot="item-content">
-                    <TxLink :short="false" v-if="tx.dependsOn" :id="tx.dependsOn" />
-                    <span v-else>-</span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Chain Tag</template>
-                <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">0x{{tx.chainTag.toString(16)}}</span>
-                </template>
-            </ListItem>
+
+            <template v-if="isMore">
+                <ListItem>
+                    <template slot="label">Token Transferred</template>
+                    <template slot="item-content">
+                        <ul v-if="transfersList.length" class="mb-0 pl-0">
+                            <li class="pt-1 pb-2" v-for="(item, i) in transfersList" :key="i">
+                                <TokenTransferItem :origin="tx.origin" :transfer="item" />
+                            </li>
+                        </ul>
+                        <span v-else>-</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Size</template>
+                    <template slot="item-content">{{tx.size}} B</template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Reward</template>
+                    <template slot="item-content">
+                        <Amount :amount="tx.reward" sym="VTHO" />
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">BlockRef</template>
+                    <template slot="item-content">
+                        <span class="text-monospace font-weight-lighter">
+                            <nuxt-link
+                                :to="{name: 'search', query: {content: blcokRefNum(tx.blockRef)}}"
+                            >{{tx.blockRef | bNum | numFmt}}</nuxt-link>
+                        </span>
+                        <span class="text-monospace font-weight-lighter">({{tx.blockRef}})</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Expiration</template>
+                    <template slot="item-content">{{tx.expiration}}</template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Nonce</template>
+                    <template slot="item-content">
+                        <span class="text-monospace font-weight-lighter">{{tx.nonce}}</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Depends On</template>
+                    <template slot="item-content">
+                        <TxLink :short="false" v-if="tx.dependsOn" :id="tx.dependsOn" />
+                        <span v-else>-</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Chain Tag</template>
+                    <template slot="item-content">
+                        <span
+                            class="text-monospace font-weight-lighter"
+                        >0x{{tx.chainTag.toString(16)}}</span>
+                    </template>
+                </ListItem>
+            </template>
+            <b-list-group-item class="pl-1">
+                <b-button
+                    size="sm"
+                    variant="link"
+                    @click="isMore = !isMore"
+                >View {{ isMore? 'more' : 'less'}}</b-button>
+            </b-list-group-item>
         </b-list-group>
     </div>
 </template>
@@ -160,6 +182,7 @@ export default class TxInfo extends Vue {
     transfers!: DTO.Transfer[]
 
     showTip = false
+    isMore = false
     get txStatus() {
         const confirm = this.bestNum - this.tx.blockNumber
         return ` ${confirm > 0 ? confirm : 0} Confirmations`

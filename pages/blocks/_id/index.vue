@@ -79,38 +79,47 @@
                     <Amount :amount="item.reward" sym="VTHO" />
                 </template>
             </ListItem>
-            <ListItem>
-                <template slot="label">Size</template>
-                <template slot="item-content">{{item.size}} B</template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Feature</template>
-                <template slot="item-content">
-                    <span v-if="item.txsFeatures === 0">-</span>
-                    <span v-if="item.txsFeatures === 1">
-                        Support
-                        <b-badge variant="info">VIP191</b-badge>
-                    </span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">State Root</template>
-                <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">{{item.stateRoot}}</span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Txs Root</template>
-                <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">{{item.txsRoot}}</span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Receipts Root</template>
-                <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">{{item.receiptsRoot}}</span>
-                </template>
-            </ListItem>
+            <template v-if="isMore">
+                <ListItem>
+                    <template slot="label">Size</template>
+                    <template slot="item-content">{{item.size}} B</template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Feature</template>
+                    <template slot="item-content">
+                        <span v-if="item.txsFeatures === 0">-</span>
+                        <span v-if="item.txsFeatures === 1">
+                            Support
+                            <b-badge variant="info">VIP191</b-badge>
+                        </span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">State Root</template>
+                    <template slot="item-content">
+                        <span class="text-monospace font-weight-lighter">{{item.stateRoot}}</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Txs Root</template>
+                    <template slot="item-content">
+                        <span class="text-monospace font-weight-lighter">{{item.txsRoot}}</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Receipts Root</template>
+                    <template slot="item-content">
+                        <span class="text-monospace font-weight-lighter">{{item.receiptsRoot}}</span>
+                    </template>
+                </ListItem>
+            </template>
+            <b-list-group-item class="pl-1">
+                <b-button
+                    size="sm"
+                    variant="link"
+                    @click="isMore = !isMore"
+                >View {{ isMore? 'more' : 'less'}}</b-button>
+            </b-list-group-item>
         </b-list-group>
     </div>
 </template>
@@ -133,6 +142,8 @@ import { Context } from '@nuxt/types'
 export default class BlockInfo extends Vue {
     @Prop()
     blockDetail!: DTO.BlockDetail | null
+
+    isMore = false
 
     get item() {
         return this.blockDetail ? this.blockDetail.block : {}
