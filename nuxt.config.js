@@ -1,3 +1,4 @@
+import bvConfig from './bootstrapVue.config'
 const morgan = require('morgan')
 require('dotenv').config()
 
@@ -34,29 +35,38 @@ export default {
       {
         name: 'format-detection',
         content: 'telephone=no'
-      },
+      }
     ],
-    script: [{
-      type: 'application/ld+json',
-      json: {
-        "@context": "https://schema.org",
-        "@type": "WebSite",
-        "url": "https://explore.vechain.org/",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://explore.vechain.org/search?content={search_term_string}",
-          "query-input": "required name=search_term_string"
+    script: [
+      {
+        type: 'application/ld+json',
+        json: {
+          '@context': 'https://schema.org',
+          '@type': 'WebSite',
+          url: 'https://explore.vechain.org/',
+          potentialAction: {
+            '@type': 'SearchAction',
+            target:
+              'https://explore.vechain.org/search?content={search_term_string}',
+            'query-input': 'required name=search_term_string'
+          }
         }
       }
-    }],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: `/${IS_MAIN ? '' : 'test.'}favicon.png` }]
+    ],
+    link: [
+      {
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: `/${IS_MAIN ? '' : 'test.'}favicon.png`
+      }
+    ]
   },
   pwa: {
     meta: {
       name: `VeChain Explorer${title}`,
       ogSiteName: `VeChain Explorer${title}`,
       ogTitle: `VeChain Explorer${title}`,
-      ogDescription: `VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`,
+      ogDescription: `VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`
     }
   },
   /*
@@ -86,15 +96,18 @@ export default {
    */
   buildModules: [
     '@nuxt/typescript-build',
-    '@nuxtjs/google-analytics'
     // Doc: https://github.com/nuxt-community/eslint-module
     // '@nuxtjs/eslint-module',
   ],
+  /**
+   * Analytics
+   * See https://github.com/nuxt-community/analytics-module
+   */
   googleAnalytics: {
     id: `UA-132391998-${IS_MAIN ? 3 : 4}`,
     dev: false,
     autoTracking: {
-      pageviewTemplate (route) {
+      pageviewTemplate(route) {
         return {
           page: route.path,
           title: document.title,
@@ -111,8 +124,14 @@ export default {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/google-analytics'
   ],
+  /**
+   * BootstrapVue Config
+   * See https://bootstrap-vue.js.org/docs
+   */
+  bootstrapVue: bvConfig,
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
@@ -146,6 +165,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {}
+    extend(config, ctx) { }
   }
 }
