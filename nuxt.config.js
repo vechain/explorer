@@ -58,11 +58,20 @@ export default {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: `/${IS_MAIN ? '' : 'test.'}favicon.png`
+        href: `icon/${IS_MAIN ? 'main' : 'test'}/favicon.png`
       }
     ]
   },
   pwa: {
+    manifest: {
+      name: 'VeChain Explorer App',
+      lang: 'en',
+      short_name: 'VeChain Explorer',
+      theme_color: '#d2d2d2'
+    },
+    icon: {
+      iconSrc: `./static/icon/${IS_MAIN ? 'main' : 'test'}/icon.png`
+    },
     meta: {
       name: `VeChain Explorer${title}`,
       ogSiteName: `VeChain Explorer${title}`,
