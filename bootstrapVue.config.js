@@ -22,7 +22,8 @@ const componentPlugins = [
     'TablePlugin',
     'TabsPlugin',
     'PaginationPlugin',
-    'PaginationNavPlugin'
+    'PaginationNavPlugin',
+    'FormTextareaPlugin'
 ]
 
 export default {
