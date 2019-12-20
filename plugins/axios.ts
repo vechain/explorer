@@ -29,10 +29,11 @@ interface IfcSvc {
   blockTxs(id: string): Promise<DTO.BlockTxs>
   tx(id: string): Promise<DTO.TxDetail>
   account(addr: string): Promise<DTO.AccountDetail>
+  recentTxs(limit?: number): Promise<{txs: DTO.Tx[]}>
+  recentBlocks(limit?: number): Promise<{blocks: DTO.Block[]}>
   signedBlocks(addr: string, page: number, pageSize?: number): Promise<DTO.SignedBlocks & { pageCount: number }>
   accountTxs(addr: string, page: number, pageSize?: number): Promise<DTO.AccountTxs & { pageCount: number }>
   accountTfs(addr: string, page: number, pageSize?: number, type?: string): Promise<DTO.AccountTransfers & { pageCount: number }>
-
   search(id: string): Promise<{
     name: string,
     params: {
@@ -62,6 +63,23 @@ class Svc implements IfcSvc {
   async account(addr: string): Promise<DTO.AccountDetail> {
     return await this.axios.$get(`/api/accounts/${addr.toLowerCase()}`)
   }
+
+  async recentTxs(limit?: number): Promise<{txs: DTO.Tx[]}> {
+    return await this.axios.$get(`/api/transactions/recent`, {
+      params: {
+        limit: limit ? limit : 10
+      }
+    })
+  }
+
+  async recentBlocks(limit?: number): Promise<{blocks: DTO.Block[]}> {
+    return await this.axios.$get(`/api/blocks/recent`, {
+      params: {
+        limit: limit ? limit : 10
+      }
+    })
+  }
+
   async signedBlocks(addr: string, page: number, pageSize?: number): Promise<DTO.SignedBlocks & { pageCount: number }> {
     const limit = (pageSize || 10)
     const offset = (page - 1) * limit
