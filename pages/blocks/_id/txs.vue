@@ -32,6 +32,7 @@
         >
             <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
+                <RevertedIcon v-if="row.item.receipt.reverted" />
                 <TxLink :id="row.item.txID" />
             </template>
             <template v-slot:cell(clauses)="row">
@@ -49,7 +50,7 @@
                 <AccountLink :address="row.item.origin" />
             </template>
             <template v-slot:cell(value)="row">
-                <Amount :amount="row.item.clauses | countVal"/>
+                <Amount :amount="row.item.clauses | countVal" />
             </template>
         </b-table>
     </div>
@@ -60,11 +61,13 @@ import { Context } from '@nuxt/types'
 import TxLink from '@/components/TxLink.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import Amount from '@/components/Amount.vue'
+import RevertedIcon from '@/components/RevertedIcon.vue'
 @Component({
     components: {
         TxLink,
         AccountLink,
-        Amount
+        Amount,
+        RevertedIcon
     },
     async asyncData(ctx: Context) {
         const result = await ctx.$svc.blockTxs(ctx.params.id)
@@ -82,16 +85,20 @@ export default class BlockTxs extends Vue {
         {
             key: 'index',
             lable: 'Index'
-        }, {
+        },
+        {
             key: 'txID',
-            label: 'TxID',
-        }, {
+            label: 'TxID'
+        },
+        {
             key: 'clauses',
             label: 'Clauses'
-        }, {
+        },
+        {
             key: 'origin',
             label: 'Origin'
-        }, {
+        },
+        {
             key: 'value',
             label: 'Total VET',
             class: 'text-right'
@@ -100,14 +107,19 @@ export default class BlockTxs extends Vue {
 
     get pageItems() {
         if (this.rows > 0) {
-            return this.currentPage === this.pageCount ? (this.rows % this.perPage) || this.perPage : this.perPage
+            return this.currentPage === this.pageCount
+                ? this.rows % this.perPage || this.perPage
+                : this.perPage
         } else {
             return 0
         }
     }
 
     get pageCount() {
-        return Math.floor(this.rows / this.perPage) + (this.rows % this.perPage > 0 ? 1 : 0) || 1
+        return (
+            Math.floor(this.rows / this.perPage) +
+                (this.rows % this.perPage > 0 ? 1 : 0) || 1
+        )
     }
 }
 </script>
