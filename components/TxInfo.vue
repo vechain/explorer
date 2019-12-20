@@ -5,7 +5,11 @@
                 <template slot="label">Status</template>
                 <template slot="item-content">
                     <div class="d-flex align-items-center">
-                        <b-badge v-if="tx.reverted" style="background-color: red" class="mr-2">Reverted</b-badge>
+                        <b-badge
+                            v-if="tx.reverted"
+                            style="background-color: red"
+                            class="mr-2"
+                        >Reverted</b-badge>
                         <b-badge v-else class="mr-2" variant="success">Success</b-badge>
                         <span>{{txStatus}}</span>
                     </div>
@@ -144,7 +148,7 @@
                     size="sm"
                     variant="link"
                     @click="isMore = !isMore"
-                >View {{ isMore? 'more' : 'less'}}</b-button>
+                >View {{ isMore ? 'less' : 'more'}}</b-button>
             </b-list-group-item>
         </b-list-group>
     </div>

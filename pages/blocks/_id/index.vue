@@ -118,7 +118,7 @@
                     size="sm"
                     variant="link"
                     @click="isMore = !isMore"
-                >View {{ isMore? 'more' : 'less'}}</b-button>
+                >View {{ isMore ? 'less' : 'more'}}</b-button>
             </b-list-group-item>
         </b-list-group>
     </div>

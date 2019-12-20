@@ -43,7 +43,17 @@
                     <Balance :balance="account.energy" token="vtho" />
                 </template>
             </ListItem>
-            <template v-if="!isMore">
+            <ListItem v-if="account.master">
+                <template slot="label">Master</template>
+                <template slot="item-content">
+                    <AccountLink
+                        class="d-flex align-items-center"
+                        :address="account.master"
+                        :short="false"
+                    />
+                </template>
+            </ListItem>
+            <template v-if="isMore">
                 <ListItem v-if="tokens.length">
                     <template slot="label">Tokens</template>
                     <template slot="item-content">
@@ -56,29 +66,15 @@
                         ></TokenItem>
                     </template>
                 </ListItem>
-                <ListItem>
-                    <template slot="label">Master</template>
-                    <template slot="item-content">
-                        <AccountLink
-                            class="d-flex align-items-center"
-                            v-if="account.master"
-                            :address="account.master"
-                            :short="false"
-                        />
-                        <span v-else>-</span>
-                    </template>
-                </ListItem>
                 <template v-if="account.code">
-                    <ListItem>
+                    <ListItem v-if="account.sponsor">
                         <template slot="label">Sponsor</template>
                         <template slot="item-content">
                             <AccountLink
                                 class="d-flex align-items-center"
-                                v-if="account.sponsor"
                                 :address="account.sponsor"
                                 :short="false"
                             />
-                            <span v-else>-</span>
                         </template>
                     </ListItem>
                     <ListItem>
@@ -122,7 +118,11 @@
                 </template>
             </template>
             <b-list-group-item class="pl-1">
-                <b-button size="sm" variant="link" @click="isMore = !isMore">View {{ isMore? 'more' : 'less'}}</b-button>
+                <b-button
+                    size="sm"
+                    variant="link"
+                    @click="isMore = !isMore"
+                >View {{ isMore ? 'less' : 'more'}}</b-button>
             </b-list-group-item>
         </b-list-group>
     </div>
