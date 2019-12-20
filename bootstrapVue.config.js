@@ -20,6 +20,7 @@ const componentPlugins = [
     'CollapsePlugin',
     'TooltipPlugin',
     'TablePlugin',
+    'TabsPlugin',
     'PaginationPlugin',
     'PaginationNavPlugin'
 ]
