@@ -83,19 +83,19 @@
                     </div>
                 </template>
             </ListItem>
+            <ListItem>
+                <template slot="label">Token Transferred</template>
+                <template slot="item-content">
+                    <ul v-if="transfersList.length" class="mb-0 pl-0">
+                        <li class="pt-1 pb-2" v-for="(item, i) in transfersList" :key="i">
+                            <TokenTransferItem :origin="tx.origin" :transfer="item" />
+                        </li>
+                    </ul>
+                    <span v-else>-</span>
+                </template>
+            </ListItem>
 
             <template v-if="isMore">
-                <ListItem>
-                    <template slot="label">Token Transferred</template>
-                    <template slot="item-content">
-                        <ul v-if="transfersList.length" class="mb-0 pl-0">
-                            <li class="pt-1 pb-2" v-for="(item, i) in transfersList" :key="i">
-                                <TokenTransferItem :origin="tx.origin" :transfer="item" />
-                            </li>
-                        </ul>
-                        <span v-else>-</span>
-                    </template>
-                </ListItem>
                 <ListItem>
                     <template slot="label">Size</template>
                     <template slot="item-content">{{tx.size}} B</template>
