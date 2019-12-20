@@ -5,10 +5,8 @@
                 <template slot="label">Status</template>
                 <template slot="item-content">
                     <div class="d-flex align-items-center">
-                        <b-badge
-                            class="text-white mr-2"
-                            :variant="tx.reverted ? 'warning' : 'success'"
-                        >{{tx.reverted ? 'Reverted' : 'Success'}}</b-badge>
+                        <b-badge v-if="tx.reverted" style="background-color: red" class="mr-2">Reverted</b-badge>
+                        <b-badge v-else class="mr-2" variant="success">Success</b-badge>
                         <span>{{txStatus}}</span>
                     </div>
                 </template>

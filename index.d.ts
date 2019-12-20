@@ -123,6 +123,9 @@ declare namespace DTO {
     delegator: string | null
     size: number
     clauses: Clause[]
+    receipt?: {
+      reverted: boolean
+    }
   }
 
   type TxDetail = {

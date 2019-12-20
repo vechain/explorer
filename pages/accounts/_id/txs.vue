@@ -24,6 +24,7 @@
         </div>
         <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="txs">
             <template v-slot:cell(txID)="row">
+                <RevertedIcon v-if="row.item.receipt.reverted" />
                 <TxLink :id="row.item.txID" />
             </template>
             <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
@@ -47,11 +48,13 @@ import { Context } from '@nuxt/types'
 import AccountLink from '@/components/AccountLink.vue'
 import Amount from '@/components/Amount.vue'
 import TxLink from '@/components/TxLink.vue'
+import RevertedIcon from '@/components/RevertedIcon.vue'
 @Component({
     components: {
         AccountLink,
         Amount,
-        TxLink
+        TxLink,
+        RevertedIcon
     },
     async asyncData(ctx: Context) {
         const pageSize = 10

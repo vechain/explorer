@@ -68,18 +68,17 @@
                                 <b-col cols="sm-7 d-flex d-sm-block flex-column">
                                     <div class="text-truncate">
                                         TxID:
+                                        <RevertedIcon v-if="t.receipt.reverted" />
                                         <TxLink :id="t.txID" :short="false" />
                                     </div>
-                                    <span
-                                        class="text-muted small"
-                                    >{{t.meta.blockTimestamp | ago}}</span>
+                                    <span class="text-muted small">{{t.meta.blockTimestamp | ago}}</span>
                                 </b-col>
                                 <b-col
                                     cols="sm-5"
-                                    class="text-right flex-column mt-1  mt-sm-0 d-flex d-sm-block"
+                                    class="text-right flex-column mt-1 mt-sm-0 d-flex d-sm-block"
                                 >
                                     <div class="d-sm-block text-sm-right small">
-                                        <span class=" text-secondary">Origin </span>
+                                        <span class="text-secondary">Origin</span>
                                         <AccountLink :icon="false" :address="t.origin" />
                                     </div>
                                     <Amount
@@ -104,30 +103,24 @@ import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
 import TxLink from '@/components/TxLink.vue'
+import RevertedIcon from '@/components/RevertedIcon.vue'
 @Component({
     head() {
         return {
-            titleTemplate: `%s | Home`,
+            titleTemplate: `%s | Home`
         }
     },
     components: {
         IdentBox,
         AccountLink,
         Amount,
-        TxLink
+        TxLink,
+        RevertedIcon
     },
     layout: 'index',
     async asyncData(ctx: Context) {
-        const result = await ctx.$axios.$get(`/api/blocks/recent`, {
-            params: {
-                limit: 10
-            }
-        })
-        const txs = await ctx.$axios.$get(`/api/transactions/recent`, {
-            params: {
-                limit: 10
-            }
-        })
+        const result = await ctx.$svc.recentBlocks()
+        const txs = await ctx.$svc.recentTxs()
         return { recentBlocks: result.blocks, recentTxs: txs.txs }
     }
 })
@@ -138,18 +131,10 @@ export default class App extends Vue {
     timer: any = null
 
     getRecents() {
-        this.$axios.$get(`/api/blocks/recent`, {
-            params: {
-                limit: 10
-            }
-        }).then(r => {
+        this.$svc.recentBlocks().then(r => {
             this.recentBlocks = r.blocks
         })
-        this.$axios.$get(`/api/transactions/recent`, {
-            params: {
-                limit: 10
-            }
-        }).then((r: { txs: DTO.Tx[] }) => {
+        this.$svc.recentTxs().then(r => {
             this.recentTxs = r.txs
         })
     }
