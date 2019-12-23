@@ -147,12 +147,15 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    timeout: 2000,
     proxy: true
   },
+  /**
+   * https://github.com/chimurai/http-proxy-middleware#appusepath-proxy
+   */
   proxy: {
     '/api/': {
-      target: process.env['API_URL']
+      target: process.env['API_URL'],
+      timeout: 5000
     }
   },
   env: {
