@@ -39,7 +39,7 @@
                             <b-col cols="12" sm="2" class="align-self-center">
                                 <span class="text-left font-weight-bold align-middle">Data</span>
                             </b-col>
-                            <b-col cols="12" sm="9">
+                            <b-col cols="12" sm="9" class="text-break">
                                 <small class="text-monospace">{{event.data}}</small>
                             </b-col>
                         </b-row>
