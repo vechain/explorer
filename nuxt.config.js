@@ -58,7 +58,7 @@ export default {
       {
         rel: 'icon',
         type: 'image/x-icon',
-        href: `icon/${IS_MAIN ? 'main' : 'test'}/favicon.png`
+        href: `/icon/${IS_MAIN ? 'main' : 'test'}/favicon.png`
       }
     ]
   },
