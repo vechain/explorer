@@ -1,5 +1,8 @@
 import { Context } from '@nuxt/types'
 
+
+console.log(`%cREV.${process.env.Version}`, 'color: #3c5999;')
+
 interface LocalS {
   getItem(key: string): any,
   setItem(key: string, item: any): void
