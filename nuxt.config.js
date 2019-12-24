@@ -5,6 +5,7 @@ require('dotenv').config()
 const IS_MAIN = process.env['NETWORK'] === 'mainnet'
 const IS_DEV = process.env.NODE_ENV === 'development'
 const title = IS_MAIN ? '' : '(Test)'
+const Version = process.env.COMMIT_REV
 
 export default {
   server: {
@@ -160,6 +161,7 @@ export default {
   },
   env: {
     current: !IS_MAIN ? 'Testnet' : 'Mainnet',
+    Version,
     networks: [
       {
         text: 'Main',
