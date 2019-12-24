@@ -53,77 +53,69 @@
                     />
                 </template>
             </ListItem>
-            <template v-if="isMore">
-                <ListItem v-if="tokens.length">
-                    <template slot="label">Tokens</template>
+
+            <ListItem v-if="tokens.length">
+                <template slot="label">Tokens</template>
+                <template slot="item-content">
+                    <TokenItem
+                        class="my-2"
+                        :amount="item.balance"
+                        :symbol="item.symbol"
+                        v-for="(item, i) in tokens"
+                        :key="i"
+                    ></TokenItem>
+                </template>
+            </ListItem>
+            <template v-if="account.code">
+                <ListItem v-if="account.sponsor">
+                    <template slot="label">Sponsor</template>
                     <template slot="item-content">
-                        <TokenItem
-                            class="my-2"
-                            :amount="item.balance"
-                            :symbol="item.symbol"
-                            v-for="(item, i) in tokens"
-                            :key="i"
-                        ></TokenItem>
+                        <AccountLink
+                            class="d-flex align-items-center"
+                            :address="account.sponsor"
+                            :short="false"
+                        />
                     </template>
                 </ListItem>
-                <template v-if="account.code">
-                    <ListItem v-if="account.sponsor">
-                        <template slot="label">Sponsor</template>
-                        <template slot="item-content">
-                            <AccountLink
-                                class="d-flex align-items-center"
-                                :address="account.sponsor"
-                                :short="false"
-                            />
-                        </template>
-                    </ListItem>
-                    <ListItem>
-                        <template slot="label">Code</template>
-                        <template slot="item-content">
-                            <b-form-textarea
-                                class="text-monospace"
-                                readonly
-                                v-model="account.code"
-                                rows="3"
-                                max-rows="8"
-                            ></b-form-textarea>
-                        </template>
-                    </ListItem>
-                </template>
-                <template v-if="authority">
-                    <ListItem>
-                        <template slot="label">Endorsor</template>
-                        <template slot="item-content">
-                            <AccountLink
-                                class="d-flex align-items-center"
-                                v-if="authority.endorsor"
-                                :address="authority.endorsor"
-                                :short="false"
-                            />
-                            <span v-else>-</span>
-                        </template>
-                    </ListItem>
-                    <ListItem>
-                        <template slot="label">Signed blocks</template>
-                        <template slot="item-content">
-                            <span class="text-monospace">{{authority.signed | numFmt}}</span>
-                        </template>
-                    </ListItem>
-                    <ListItem>
-                        <template slot="label">Block rewards</template>
-                        <template slot="item-content">
-                            <Amount :amount="authority.reward" sym="VTHO" />
-                        </template>
-                    </ListItem>
-                </template>
+                <ListItem>
+                    <template slot="label">Code</template>
+                    <template slot="item-content">
+                        <b-form-textarea
+                            class="text-monospace"
+                            readonly
+                            v-model="account.code"
+                            rows="3"
+                            max-rows="8"
+                        ></b-form-textarea>
+                    </template>
+                </ListItem>
             </template>
-            <b-list-group-item class="pl-1">
-                <b-button
-                    size="sm"
-                    variant="link"
-                    @click="isMore = !isMore"
-                >View {{ isMore ? 'less' : 'more'}}</b-button>
-            </b-list-group-item>
+            <template v-if="authority">
+                <ListItem>
+                    <template slot="label">Endorsor</template>
+                    <template slot="item-content">
+                        <AccountLink
+                            class="d-flex align-items-center"
+                            v-if="authority.endorsor"
+                            :address="authority.endorsor"
+                            :short="false"
+                        />
+                        <span v-else>-</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Signed blocks</template>
+                    <template slot="item-content">
+                        <span class="text-monospace">{{authority.signed | numFmt}}</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Block rewards</template>
+                    <template slot="item-content">
+                        <Amount :amount="authority.reward" sym="VTHO" />
+                    </template>
+                </ListItem>
+            </template>
         </b-list-group>
     </div>
 </template>
@@ -153,8 +145,6 @@ export default class Summary extends Vue {
     authority!: object
     @Prop({ default: [] })
     tokens!: DTO.Token[]
-
-    isMore = false
 
     checksumAddress(addr: string) {
         return Vue.filter('toChecksumAddress')(addr)
