@@ -33,6 +33,7 @@
                     v-if="row.item.clauses.length === 1 && row.item.clauses[0].to"
                     :address="row.item.clauses[0].to"
                 />
+                <span v-else-if="row.item.clauses.length === 1 && !row.item.clauses[0].to">Contract Creation</span>
                 <span v-else-if="row.item.clauses.length > 1">Multiple</span>
                 <span v-else>-</span>
             </template>
