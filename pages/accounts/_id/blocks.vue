@@ -10,7 +10,7 @@
                     <small
                         v-if="count > 50000"
                         class="d-block mount text-secondary"
-                    >(Showing the last 50K txns)</small>
+                    >(Showing the last 50K blocks)</small>
                 </div>
             </div>
             <b-pagination-nav
