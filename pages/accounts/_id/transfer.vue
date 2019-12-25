@@ -44,12 +44,14 @@
                     </b-dropdown>
                 </div>
                 <div>
-                    {{transfers.length}}
-                    <span class="text-secondary">entries</span>
-                    , {{currentPage}}
-                    <span class="text-secondary">of</span>
-                    {{pageCount | numFmt}}
-                    <span class="text-secondary">pages</span>
+                    <small>
+                        {{count | numFmt}}
+                        <span class="text-secondary">transfers found </span>
+                    </small>
+                    <small
+                        v-if="count > 50000"
+                        class="d-block mount text-secondary"
+                    >(Showing the last 50K txns)</small>
                 </div>
             </div>
             <b-pagination-nav
@@ -64,6 +66,7 @@
             ></b-pagination-nav>
         </div>
         <b-table responsive show-empty empty-text="No Data" :fields="fields" :items="transfers">
+            <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
             </template>
@@ -115,11 +118,10 @@ import { Route } from 'vue-router'
         TxLink
     },
     async asyncData(ctx: Context) {
-        const pageSize = 10
         const page = parseInt((ctx.query.page as string) || '1', 10)
         const type = (ctx.query.token as string) || ''
 
-        const result = await ctx.$svc.accountTfs(ctx.params.id, page, pageSize, type)
+        const result = await ctx.$svc.accountTfs(ctx.params.id, page, 10, type)
         return {
             account: ctx.params.id.toLowerCase(),
             ...result,
@@ -131,9 +133,14 @@ export default class AccountTransfer extends Vue {
     count = 0
     currentPage = 1
     pageCount = 0
+    perPage = 10
     transfers: DTO.AccountTransfer[] = []
     isAuthority = false
     fields = [
+        {
+            key: 'index',
+            lable: 'Index'
+        },
         {
             key: 'txID',
             label: 'TXID',
@@ -205,15 +212,14 @@ export default class AccountTransfer extends Vue {
 
     @Watch('$route')
     async queryChange(n: Route, o: Route) {
-        const pageSize = 10
         let page = parseInt((this.$route.query.page as string) || '1', 10)
         if (n.query.token !== o.query.token) {
             page = 1
         }
-        const end = page * pageSize
+        const end = page * this.perPage
         const type = (this.$route.query.token as string) || ''
 
-        const result = await this.$svc.accountTfs(this.$route.params.id, page, pageSize, type)
+        const result = await this.$svc.accountTfs(this.$route.params.id, page, this.perPage, type)
         this.pageCount = result.pageCount
         this.currentPage = page
         this.transfers = result.transfers
