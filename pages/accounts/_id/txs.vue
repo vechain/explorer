@@ -3,12 +3,14 @@
         <div class="d-flex justify-content-between align-items-center px-2">
             <div class="d-flex align-middle">
                 <div>
-                    {{txs.length}}
-                    <span class="text-secondary">entries</span>
-                    , {{currentPage}}
-                    <span class="text-secondary">of</span>
-                    {{pageCount | numFmt}}
-                    <span class="text-secondary">pages</span>
+                    <small>
+                        {{count | numFmt}}
+                        <span class="text-secondary">transactions found </span>
+                    </small>
+                    <small
+                        v-if="count > 50000"
+                        class="d-block mount text-secondary"
+                    >(Showing the last 50K txns)</small>
                 </div>
             </div>
             <b-pagination-nav
@@ -23,6 +25,7 @@
             ></b-pagination-nav>
         </div>
         <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="txs">
+            <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
                 <RevertedIcon v-if="row.item.receipt.reverted" />
                 <TxLink :id="row.item.txID" />
@@ -33,12 +36,14 @@
                     v-if="row.item.clauses.length === 1 && row.item.clauses[0].to"
                     :address="row.item.clauses[0].to"
                 />
-                <span v-else-if="row.item.clauses.length === 1 && !row.item.clauses[0].to">Contract Creation</span>
+                <span
+                    v-else-if="row.item.clauses.length === 1 && !row.item.clauses[0].to"
+                >Contract Creation</span>
                 <span v-else-if="row.item.clauses.length > 1">Multiple</span>
                 <span v-else>-</span>
             </template>
             <template v-slot:cell(value)="row">
-                <Amount :amount="row.item.clauses | countVal"/>
+                <Amount :amount="row.item.clauses | countVal" />
             </template>
         </b-table>
     </div>
@@ -58,10 +63,10 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
         RevertedIcon
     },
     async asyncData(ctx: Context) {
-        const pageSize = 10
+        
         const page = parseInt((ctx.query.page as string) || '1', 10)
 
-        const result = await ctx.$svc.accountTxs(ctx.params.id, page, pageSize)
+        const result = await ctx.$svc.accountTxs(ctx.params.id, page, 10)
         return {
             ...result,
             currentPage: page
@@ -71,20 +76,28 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
 export default class AccountTxs extends Vue {
     count = 0
     pageCount = 0
+    perPage = 10
     txs: DTO.AccountTx[] = []
     currentPage = 1
     isAuthority = false
     fields = [
         {
+            key: 'index',
+            lable: 'Index'
+        },
+        {
             key: 'txID',
-            label: 'TXID',
-        }, {
+            label: 'TXID'
+        },
+        {
             key: 'time',
             label: 'Time'
-        }, {
+        },
+        {
             key: 'to',
             label: 'To'
-        }, {
+        },
+        {
             key: 'value',
             label: 'Total VET',
             class: 'text-right'
@@ -104,15 +117,17 @@ export default class AccountTxs extends Vue {
 
     @Watch('$route')
     async queryChange() {
-        const pageSize = 10
         const page = parseInt((this.$route.query.page as string) || '1', 10)
 
-        const result = await this.$svc.accountTxs(this.$route.params.id, page, pageSize)
+        const result = await this.$svc.accountTxs(
+            this.$route.params.id,
+            page,
+            this.perPage
+        )
         this.currentPage = page
         this.pageCount = result.pageCount
         this.txs = result.txs
         this.count = result.count
-
     }
 }
 </script>

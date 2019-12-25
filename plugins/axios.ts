@@ -29,11 +29,11 @@ interface IfcSvc {
   blockTxs(id: string): Promise<DTO.BlockTxs>
   tx(id: string): Promise<DTO.TxDetail>
   account(addr: string): Promise<DTO.AccountDetail>
-  recentTxs(limit?: number): Promise<{txs: DTO.Tx[]}>
-  recentBlocks(limit?: number): Promise<{blocks: DTO.Block[]}>
-  signedBlocks(addr: string, page: number, pageSize?: number): Promise<DTO.SignedBlocks & { pageCount: number }>
-  accountTxs(addr: string, page: number, pageSize?: number): Promise<DTO.AccountTxs & { pageCount: number }>
-  accountTfs(addr: string, page: number, pageSize?: number, type?: string): Promise<DTO.AccountTransfers & { pageCount: number }>
+  recentTxs(limit?: number): Promise<{ txs: DTO.Tx[] }>
+  recentBlocks(limit?: number): Promise<{ blocks: DTO.Block[] }>
+  signedBlocks(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.SignedBlocks & { pageCount: number }>
+  accountTxs(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.AccountTxs & { pageCount: number }>
+  accountTfs(addr: string, page: number, pageSize?: number, type?: string, max?: number): Promise<DTO.AccountTransfers & { pageCount: number }>
   search(id: string): Promise<{
     name: string,
     params: {
@@ -64,7 +64,7 @@ class Svc implements IfcSvc {
     return await this.axios.$get(`/api/accounts/${addr.toLowerCase()}`)
   }
 
-  async recentTxs(limit?: number): Promise<{txs: DTO.Tx[]}> {
+  async recentTxs(limit?: number): Promise<{ txs: DTO.Tx[] }> {
     return await this.axios.$get(`/api/transactions/recent`, {
       params: {
         limit: limit ? limit : 10
@@ -72,7 +72,7 @@ class Svc implements IfcSvc {
     })
   }
 
-  async recentBlocks(limit?: number): Promise<{blocks: DTO.Block[]}> {
+  async recentBlocks(limit?: number): Promise<{ blocks: DTO.Block[] }> {
     return await this.axios.$get(`/api/blocks/recent`, {
       params: {
         limit: limit ? limit : 10
@@ -80,7 +80,9 @@ class Svc implements IfcSvc {
     })
   }
 
-  async signedBlocks(addr: string, page: number, pageSize?: number): Promise<DTO.SignedBlocks & { pageCount: number }> {
+  async signedBlocks(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.SignedBlocks & { pageCount: number }> {
+    let pageCount = 0
+    let maxShow = (max || 50 * 1000)
     const limit = (pageSize || 10)
     const offset = (page - 1) * limit
     const result = await this.axios.$get(`/api/accounts/${addr.toLowerCase()}/signed`, {
@@ -89,13 +91,19 @@ class Svc implements IfcSvc {
         offset
       }
     })
-    const pageCount = Math.floor(result.count / limit) + (result.count % limit > 0 ? 1 : 0) || 1
+    if (result.count > maxShow) {
+      pageCount = maxShow / limit
+    } else {
+      pageCount = Math.floor(result.count / limit) + (result.count % limit > 0 ? 1 : 0) || 1
+    }
     return {
       ...result,
       pageCount
     }
   }
-  async accountTxs(addr: string, page: number, pageSize?: number): Promise<DTO.AccountTxs & { pageCount: number }> {
+  async accountTxs(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.AccountTxs & { pageCount: number }> {
+    let pageCount = 0
+    let maxShow = (max || 50 * 1000)
     const limit = (pageSize || 10)
     const offset = (page - 1) * limit
     const result = await this.axios.$get(`/api/accounts/${addr.toLowerCase()}/transactions`, {
@@ -104,13 +112,21 @@ class Svc implements IfcSvc {
         offset
       }
     })
-    const pageCount = Math.floor(result.count / limit) + (result.count % limit > 0 ? 1 : 0) || 1
+
+    if (result.count > maxShow) {
+      pageCount = maxShow / limit
+    } else {
+      pageCount = Math.floor(result.count / limit) + (result.count % limit > 0 ? 1 : 0) || 1
+    }
+
     return {
       ...result,
       pageCount
     }
   }
-  async accountTfs(addr: string, page: number, pageSize?: number, type?: string): Promise<DTO.AccountTransfers & { pageCount: number }> {
+  async accountTfs(addr: string, page: number, pageSize?: number, type?: string, max?: number): Promise<DTO.AccountTransfers & { pageCount: number }> {
+    let pageCount = 0
+    let maxShow = (max || 50 * 1000)
     const limit = (pageSize || 10)
     const offset = (page - 1) * limit
     const params: {
@@ -127,7 +143,11 @@ class Svc implements IfcSvc {
     const result = await this.axios.$get(`/api/accounts/${addr.toLowerCase()}/transfers`, {
       params
     })
-    const pageCount = Math.floor(result.count / limit) + (result.count % limit > 0 ? 1 : 0) || 1
+    if (result.count > maxShow) {
+      pageCount = maxShow / limit
+    } else {
+      pageCount = Math.floor(result.count / limit) + (result.count % limit > 0 ? 1 : 0) || 1
+    }
     return {
       ...result,
       pageCount
