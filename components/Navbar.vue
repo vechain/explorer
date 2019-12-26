@@ -44,7 +44,7 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        <b-jumbotron v-if="jumbotron" class="nav-bar-styles py-4 rounded-0">
+        <b-jumbotron v-if="jumbotron" class="nav-bar-styles py-4 rounded-0 mb-0">
             <b-container>
                 <b-row class="justify-content-center">
                     <b-col cols="12" md="8" class="pb-2 align-middle d-flex">
