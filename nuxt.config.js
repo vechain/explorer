@@ -116,6 +116,11 @@ export default {
    */
   googleAnalytics: {
     id: `UA-132391998-${IS_MAIN ? 3 : 4}`,
+    set: [
+      {
+        field: 'anonymizeIp', value: 1
+      }
+    ],
     dev: false,
     autoTracking: {
       pageviewTemplate(route) {
