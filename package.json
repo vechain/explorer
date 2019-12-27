@@ -22,6 +22,7 @@
     "bootstrap-vue": "^2.0.0",
     "morgan": "^1.9.1",
     "nuxt": "^2.0.0",
+    "qrious": "^4.0.2",
     "thor-devkit": "1.2.2",
     "timeago.js": "4.0.1",
     "vue-clipboard2": "0.3.1"

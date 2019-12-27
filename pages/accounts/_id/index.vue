@@ -28,6 +28,15 @@
                         >
                             <font-awesome-icon small icon="copy" />
                         </b-button>
+                        <b-button
+                            id="accounts-id-btn"
+                            class="ml-1 ml-sm-3"
+                            size="sm"
+                            v-b-modal.account-qrcode
+                            variant="outline-secondary"
+                        >
+                            <font-awesome-icon small icon="qrcode" />
+                        </b-button>
                     </div>
                 </template>
             </ListItem>
@@ -117,6 +126,12 @@
                 </ListItem>
             </template>
         </b-list-group>
+        <b-modal header-class="border-bottom-0" id="account-qrcode" size="sm" :ok-only="true" :visible="qrShow" :centered="true" button-size="sm">
+            <template v-slot:modal-header>
+                <div></div>
+            </template>
+            <QRCode class="m-auto" :size="200" :content="account.address | toChecksumAddress" />
+        </b-modal>
     </div>
 </template>
 <script lang="ts">
@@ -145,6 +160,8 @@ export default class Summary extends Vue {
     authority!: object
     @Prop({ default: [] })
     tokens!: DTO.Token[]
+
+    qrShow = false
 
     checksumAddress(addr: string) {
         return Vue.filter('toChecksumAddress')(addr)
