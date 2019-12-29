@@ -130,7 +130,7 @@
             <template v-slot:modal-header>
                 <div></div>
             </template>
-            <QRCode class="m-auto" :size="200" :content="account.address | toChecksumAddress" />
+            <qrcode class="m-auto" :size="200" :content="account.address | toChecksumAddress" />
         </b-modal>
     </div>
 </template>
