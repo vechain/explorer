@@ -14,6 +14,7 @@
                 </div>
             </div>
             <b-pagination-nav
+                :disabled="loading"
                 class="mt-3 d-flex"
                 :number-of-pages="pageCount"
                 v-model="currentPage"
@@ -24,7 +25,13 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="blocks">
+        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="blocks" :busy="loading">
+            <template v-slot:table-busy>
+                <div class="text-center">
+                    <b-spinner type="grow"></b-spinner>
+                    <div>Loading</div>
+                </div>
+            </template>
             <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(blcok)="row">
                 <nuxt-link
@@ -81,6 +88,7 @@ export default class AccountBlocks extends Vue {
     blocks: DTO.Block[] = []
     perPage = 10
     pageCount = 0
+    loading = false
     fields = [
         {
             key: 'index',
@@ -113,12 +121,14 @@ export default class AccountBlocks extends Vue {
 
     @Watch('$route')
     async queryChange() {
+        this.loading = true
         const page = parseInt((this.$route.query.page as string) || '1', 10)
         const result = await this.$svc.signedBlocks(
             this.$route.params.id,
             page,
             this.perPage
         )
+        this.loading = false
         this.currentPage = page
         this.pageCount = result.pageCount
         this.blocks = result.blocks

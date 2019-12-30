@@ -14,6 +14,7 @@
                 </div>
             </div>
             <b-pagination-nav
+                :disabled="loading"
                 class="mt-3 d-flex"
                 size="sm"
                 :number-of-pages="pageCount"
@@ -24,7 +25,13 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="txs">
+        <b-table show-empty empty-text="No Data" responsive :fields="fields" :items="txs" :busy="loading">
+            <template v-slot:table-busy>
+                <div class="text-center">
+                    <b-spinner type="grow"></b-spinner>
+                    <div>Loading</div>
+                </div>
+            </template>
             <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
                 <RevertedIcon v-if="row.item.receipt.reverted" />
@@ -78,6 +85,7 @@ export default class AccountTxs extends Vue {
     pageCount = 0
     perPage = 10
     txs: DTO.AccountTx[] = []
+    loading = false
     currentPage = 1
     isAuthority = false
     fields = [
@@ -117,6 +125,7 @@ export default class AccountTxs extends Vue {
 
     @Watch('$route')
     async queryChange() {
+        this.loading = true
         const page = parseInt((this.$route.query.page as string) || '1', 10)
 
         const result = await this.$svc.accountTxs(
@@ -125,6 +134,7 @@ export default class AccountTxs extends Vue {
             this.perPage
         )
         this.currentPage = page
+        this.loading = false
         this.pageCount = result.pageCount
         this.txs = result.txs
         this.count = result.count
