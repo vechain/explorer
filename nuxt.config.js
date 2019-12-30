@@ -28,7 +28,7 @@ export default {
         hid: 'description',
         name: 'description',
         content:
-          'VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain'
+          `VeChain Explorer${title} enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`
       },
       {
         name: 'keywords',
@@ -58,26 +58,31 @@ export default {
     link: [
       {
         rel: 'icon',
-        type: 'image/x-icon',
         href: `/icon/${IS_MAIN ? 'main' : 'test'}/favicon.png`
+      }, {
+        rel: 'search',
+        type: 'application/opensearchdescription+xml',
+        href: `opensearch/${IS_MAIN ? 'main' : 'test'}/opensearch.xml`,
+        title: `VeChain ${IS_MAIN ? '' : 'Testnet'} Explorer`
       }
     ]
   },
   pwa: {
     manifest: {
-      name: 'VeChain Explorer App',
+      name: `VeChain Explorer${title}`,
       lang: 'en',
-      short_name: 'VeChain Explorer',
+      short_name: `VeChain Explorer${title}`,
       theme_color: '#d2d2d2'
     },
     icon: {
-      iconSrc: `./static/icon/${IS_MAIN ? 'main' : 'test'}/icon.png`
+      iconSrc: `./static/icon/${IS_MAIN ? 'main' : 'test'}/icon.png`,
+      sizes: [144, 152, 192, 384, 512]
     },
     meta: {
       name: `VeChain Explorer${title}`,
       ogSiteName: `VeChain Explorer${title}`,
       ogTitle: `VeChain Explorer${title}`,
-      ogDescription: `VeChain Explorer enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`
+      ogDescription: `VeChain Explorer${title} enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`
     }
   },
   /*
