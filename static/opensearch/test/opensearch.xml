@@ -1,0 +1,11 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+<ShortName>VeChain Testnet Explorer</ShortName>
+<Description>
+explore and search transactions, addresses, and other activities taking place on the VeChainThor blockchain
+</Description>
+<InputEncoding>UTF-8</InputEncoding>
+<Image width="16" height="16" type="image/x-icon">
+/icon/test/favicon.png
+</Image>
+<Url type="text/html" method="get" template="https://explore.vechain.org/search?content={searchTerms}"/>
+</OpenSearchDescription>
