@@ -46,7 +46,7 @@
                 <div>
                     <small>
                         {{count | numFmt}}
-                        <span class="text-secondary">transfers found </span>
+                        <span class="text-secondary">transfers found</span>
                     </small>
                     <small
                         v-if="count > 50000"
@@ -56,6 +56,7 @@
             </div>
             <b-pagination-nav
                 class="mt-3 d-flex"
+                :disabled="loading"
                 :number-of-pages="pageCount"
                 v-model="currentPage"
                 size="sm"
@@ -65,7 +66,20 @@
                 align="right"
             ></b-pagination-nav>
         </div>
-        <b-table responsive show-empty empty-text="No Data" :fields="fields" :items="transfers">
+        <b-table
+            responsive
+            show-empty
+            empty-text="No Data"
+            :fields="fields"
+            :items="transfers"
+            :busy="loading"
+        >
+            <template v-slot:table-busy>
+                <div class="text-center">
+                    <b-spinner type="grow"></b-spinner>
+                    <div>Loading</div>
+                </div>
+            </template>
             <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(txID)="row">
                 <TxLink :id="row.item.txID" />
@@ -136,6 +150,7 @@ export default class AccountTransfer extends Vue {
     perPage = 10
     transfers: DTO.AccountTransfer[] = []
     isAuthority = false
+    loading = false
     fields = [
         {
             key: 'index',
@@ -143,18 +158,22 @@ export default class AccountTransfer extends Vue {
         },
         {
             key: 'txID',
-            label: 'TXID',
-        }, {
+            label: 'TXID'
+        },
+        {
             key: 'time',
             label: 'Time'
-        }, {
+        },
+        {
             key: 'from-to',
             label: 'From/To'
-        }, {
+        },
+        {
             key: 'value',
             label: 'Value',
             class: 'text-right'
-        }, {
+        },
+        {
             key: 'symbol',
             label: 'Token',
             class: 'text-right'
@@ -167,7 +186,10 @@ export default class AccountTransfer extends Vue {
             token?: string
         } = { page: pageNum }
         if (this.btnContent) {
-            query.token = (this.btnContent as { symbol: string, imgUrl: string }).symbol
+            query.token = (this.btnContent as {
+                symbol: string
+                imgUrl: string
+            }).symbol
         }
         return {
             path: this.$route.path,
@@ -178,9 +200,11 @@ export default class AccountTransfer extends Vue {
     get btnContent() {
         const temp: string = (this.$route.query.token as string) || ''
         if (temp) {
-            return this.tokens.find((item: DTO.Token | { symbol: string, imgUrl: string }) => {
-                return temp.toLowerCase() === item.symbol.toLowerCase()
-            })
+            return this.tokens.find(
+                (item: DTO.Token | { symbol: string; imgUrl: string }) => {
+                    return temp.toLowerCase() === item.symbol.toLowerCase()
+                }
+            )
         } else {
             return temp
         }
@@ -200,11 +224,13 @@ export default class AccountTransfer extends Vue {
 
     get tokens() {
         if (this.$store.state.tokens) {
-            return [{
-                symbol: 'VET',
-                decimals: 18,
-                imgUrl: require('~/assets/vet.png')
-            }].concat(this.$store.state.tokens)
+            return [
+                {
+                    symbol: 'VET',
+                    decimals: 18,
+                    imgUrl: require('~/assets/vet.png')
+                }
+            ].concat(this.$store.state.tokens)
         } else {
             return []
         }
@@ -212,6 +238,7 @@ export default class AccountTransfer extends Vue {
 
     @Watch('$route')
     async queryChange(n: Route, o: Route) {
+        this.loading = true
         let page = parseInt((this.$route.query.page as string) || '1', 10)
         if (n.query.token !== o.query.token) {
             page = 1
@@ -219,8 +246,15 @@ export default class AccountTransfer extends Vue {
         const end = page * this.perPage
         const type = (this.$route.query.token as string) || ''
 
-        const result = await this.$svc.accountTfs(this.$route.params.id, page, this.perPage, type)
+        const result = await this.$svc.accountTfs(
+            this.$route.params.id,
+            page,
+            this.perPage,
+            type
+        )
+
         this.pageCount = result.pageCount
+        this.loading = false
         this.currentPage = page
         this.transfers = result.transfers
         this.count = result.count
