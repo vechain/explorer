@@ -181,6 +181,10 @@ class Svc implements IfcSvc {
 
 export default function (ctx: Context, inject: any) {
   ctx.$axios.onResponseError((error: AxiosError) => {
+    const urls = ['/api/blocks/best', '/api/blocks/recent', '/api/transactions/recent']
+    if (urls.includes(error.response!.config.url || '')) {
+      return
+    }
     if (error.response) {
       ctx.redirect('/error', {
         code: error.response.status.toString(),
