@@ -66,7 +66,7 @@ declare namespace DTO {
   type AccountDetail = {
     account: Account
     authority: Authority | null
-    token: TokenBalance[]
+    tokens: TokenBalance[]
   }
 
   type Meta = {
