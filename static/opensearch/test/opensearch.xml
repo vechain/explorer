@@ -7,5 +7,5 @@ explore and search transactions, addresses, and other activities taking place on
 <Image width="16" height="16" type="image/x-icon">
 /icon/test/favicon.png
 </Image>
-<Url type="text/html" method="get" template="https://explore.vechain.org/search?content={searchTerms}"/>
+<Url type="text/html" method="get" template="https://explore-testnet.vechain.org/search?content={searchTerms}"/>
 </OpenSearchDescription>
