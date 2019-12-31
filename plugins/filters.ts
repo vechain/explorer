@@ -69,7 +69,15 @@ Vue.filter('toChecksumAddress', (val: string) => {
 })
 
 Vue.filter('datetime', (val: number) => {
-  return new Date(val * 1000).toLocaleString()
+  return new Date(val * 1000).toLocaleString(undefined, {
+    hour12: false,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  })
 })
 
 Vue.filter('numFmt', (val: number) => {
