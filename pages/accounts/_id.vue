@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import { Route } from 'vue-router'
 @Component({
@@ -86,5 +86,15 @@ export default class Account extends Vue {
     authority: DTO.Authority | null = null
     tokens: DTO.TokenBalance[] = []
     title: string | null = null
+    
+    @Watch('$route')
+    async onRouterChange(to: Route, from: Route){
+        if(to.name === 'accounts-id') {
+            const temp = await this.$svc.account(to.params.id)
+            this.account = temp.account
+            this.authority = temp.authority
+            this.tokens = temp.tokens
+        }
+    }
 }
 </script>
