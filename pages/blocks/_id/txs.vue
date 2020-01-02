@@ -84,7 +84,7 @@ export default class BlockTxs extends Vue {
     fields = [
         {
             key: 'index',
-            lable: 'Index'
+            label: 'Index'
         },
         {
             key: 'txID',

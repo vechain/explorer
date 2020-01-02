@@ -143,23 +143,23 @@ export default class TxClause extends Vue {
     fields = [
         {
             key: 'index',
-            lable: 'Index'
+            label: 'Index'
         },
         {
             key: 'type',
-            lable: 'Type'
+            label: 'Type'
         },
         {
             key: 'to',
-            lable: 'To'
+            label: 'To'
         },
         {
             key: 'value',
-            lable: 'Value'
+            label: 'VET Value'
         },
         {
             key: 'action',
-            lable: ' '
+            label: ' '
         }
     ]
 }
