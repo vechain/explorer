@@ -37,7 +37,11 @@ export default {
       {
         name: 'format-detection',
         content: 'telephone=no'
-      }
+      },
+      IS_MAIN ? {
+        name: 'google-site-verification',
+        comtent: 'yvT2mNLTy-gN9NFUXxNNJR7zIsWLrEvcWNZg_m91pwA'
+      } : {}
     ],
     script: [
       {
@@ -45,11 +49,11 @@ export default {
         json: {
           '@context': 'https://schema.org',
           '@type': 'WebSite',
-          url: 'https://explore.vechain.org/',
+          url: `https://explore${IS_MAIN ? '' : '-testnet'}.vechain.org/`,
           potentialAction: {
             '@type': 'SearchAction',
             target:
-              'https://explore.vechain.org/search?content={search_term_string}',
+              `https://explore${IS_MAIN ? '' : '-testnet'}.vechain.org/search?content={search_term_string}`,
             'query-input': 'required name=search_term_string'
           }
         }
