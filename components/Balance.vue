@@ -2,12 +2,24 @@
     <blockquote class="blockquote mb-0 balance">
         <p class="mb-0 text-monospace">
             <small>
-                <Amount :amount="balance" :sym="token" />
+                <nuxt-link
+                    :to="{
+                    name: 'accounts-id-transfer',
+                    params: {
+                        id: $route.params.id
+                    },
+                    query: {
+                        token: token.toUpperCase()
+                    }
+            }"
+                >
+                    <Amount :amount="balance" :sym="token" />
+                </nuxt-link>
             </small>
         </p>
         <footer v-if="isMainnet" class="blockquote-footer text-monospace">
-            <small v-if="btc"> {{ balance | calcBtc(btc) }} BTC</small>
-            <small v-else> -- </small>
+            <small v-if="btc">{{ balance | calcBtc(btc) }} BTC</small>
+            <small v-else>--</small>
         </footer>
     </blockquote>
 </template>
@@ -30,7 +42,11 @@ export default class Balance extends Vue {
     isMainnet = (process.env['current'] || '').toLowerCase() === 'mainnet'
 
     get btc() {
-        if (this.$store.state.price && this.$store.state.price.btc && this.$store.state.price.btc[this.token.toUpperCase()]) {
+        if (
+            this.$store.state.price &&
+            this.$store.state.price.btc &&
+            this.$store.state.price.btc[this.token.toUpperCase()]
+        ) {
             return this.$store.state.price.btc[this.token.toUpperCase()]
         } else {
             return 0
@@ -43,6 +59,6 @@ export default class Balance extends Vue {
     line-height: 1.1;
 }
 .balance .blockquote-footer::before {
-    content: "\2248";
+    content: '\2248';
 }
 </style>
