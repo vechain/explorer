@@ -70,16 +70,20 @@
             <ListItem>
                 <template slot="label">Fee</template>
                 <template slot="item-content">
-                    <div class="d-flex align-items-center">
+                    <div class="d-inline-block d-sm-flex align-items-center">
                         <Amount :amount="tx.paid" sym="VTHO" />
-                        <span class="mx-2">paid by</span>
-                        <AccountLink v-if="tx.delegator" :address="tx.delegator" size="sm" />
-                        <AccountLink
-                            v-else-if="tx.gasPayer !== tx.origin"
-                            :address="tx.gasPayer"
-                            size="sm"
-                        />
-                        <strong v-else>Origin</strong>
+                        <template v-if="tx.delegator">
+                            <span class="mx-2">delegated by</span>
+                            <AccountLink :address="tx.delegator" size="sm" />
+                        </template>
+                        <template v-else-if="tx.gasPayer !== tx.origin">
+                            <span class="mx-2">sponsored by</span>
+                            <AccountLink :address="tx.gasPayer" size="sm" />
+                        </template>
+                        <template v-else>
+                            <span class="mx-2">paid by</span>
+                            <strong>Origin</strong>
+                        </template>
                     </div>
                 </template>
             </ListItem>
