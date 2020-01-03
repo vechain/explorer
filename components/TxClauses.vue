@@ -159,7 +159,7 @@ export default class TxClause extends Vue {
         },
         {
             key: 'action',
-            label: ' '
+            label: ''
         }
     ]
 }
