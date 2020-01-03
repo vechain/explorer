@@ -1,10 +1,8 @@
 html, body, #__nuxt, #__layout {
   height: 100%;
-  overflow: hidden;
 }
 #page_body {
   height: 100%;
-  overflow: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
