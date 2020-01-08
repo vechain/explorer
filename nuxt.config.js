@@ -136,7 +136,7 @@ export default {
       pageviewTemplate(route) {
         return {
           page: route.path,
-          title: document.title,
+          title: route.name,
           location: window.location.href
         }
       }
