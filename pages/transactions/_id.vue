@@ -1,34 +1,58 @@
 <template>
     <div>
-        <div class="my-3">
-            <h3 class="d-inline-block mr-3">Transaction</h3>
-            <h5 class="d-inline-block text-secondary">
-                <RevertedIcon v-if="tx.reverted"/>
-                <span>{{tx.txID | shortID}}</span>
-                @
-                <nuxt-link
-                    :to="{
+        <template v-if="tx">
+            <div class="my-3">
+                <h3 class="d-inline-block mr-3">Transaction</h3>
+                <h5 class="d-inline-block text-secondary">
+                    <RevertedIcon v-if="tx.reverted" />
+                    <span>{{tx.txID | shortID}}</span>
+                    @
+                    <nuxt-link
+                        :to="{
                         name: 'blocks-id', params: {
                             id: tx.blockID
                         }
                     }"
-                >{{tx.blockNumber | numFmt}}</nuxt-link>
-            </h5>
-        </div>
-        <b-nav class="border-0" tabs align="left">
-            <b-nav-item
-                link-classes="border-0"
-                v-for="item in links"
-                :key="item.hash"
-                exact
-                exact-active-class="active"
-                :to="item.hash"
-            >{{item.text}}</b-nav-item>
-        </b-nav>
-        <div style="background-color: #fff" v-show="isMounted">
-            <TxInfo :bestNum="best.number" v-show="tab === 'info'" :tx="tx" :transfers="transfers" />
-            <TxClauses :clauseList="clauseList" v-show="tab === 'clauses'" />
-        </div>
+                    >{{tx.blockNumber | numFmt}}</nuxt-link>
+                </h5>
+            </div>
+            <b-nav class="border-0" tabs align="left">
+                <b-nav-item
+                    link-classes="border-0"
+                    v-for="item in links"
+                    :key="item.hash"
+                    exact
+                    exact-active-class="active"
+                    :to="item.hash"
+                >{{item.text}}</b-nav-item>
+            </b-nav>
+            <div style="background-color: #fff" v-show="isMounted">
+                <TxInfo
+                    :bestNum="best.number"
+                    v-show="tab === 'info'"
+                    :tx="tx"
+                    :transfers="transfers"
+                />
+                <TxClauses :clauseList="clauseList" v-show="tab === 'clauses'" />
+            </div>
+        </template>
+        <template v-else>
+            <div class="my-3">
+                <h3 class="d-inline-block mr-3">Sorry we can not lcoate the transaction</h3>
+                <ol class="pl-3 mt-3">
+                    <li>If you have just submitted a transaction please refreshing this page after at least 30 seconds.</li>
+                    <li>Please make sure the transaction is same as the explorer network.</li>
+                    <li>If it still does not show up after 1 hour, please check with your sender/exchange/wallet/transaction provider for additional information.</li>
+                </ol>
+
+                <b-button
+                    class="mt-3"
+                    squared
+                    variant="outline-primary"
+                    :to="{name: 'index'}"
+                >BACK TO HOMEPAGE</b-button>
+            </div>
+        </template>
     </div>
 </template>
 <script lang="ts">
@@ -50,6 +74,12 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
     },
     async asyncData(ctx: Context) {
         const result: DTO.TxDetail = await ctx.$svc.tx(ctx.params.id)
+
+        if (!result.tx) {
+            return {
+                tx: null
+            }
+        }
 
         const data = {
             tx: {},
