@@ -62,11 +62,11 @@ export default {
     link: [
       {
         rel: 'icon',
-        href: `/icon/${IS_MAIN ? 'main' : 'test'}/favicon.png`
+        href: `/favicon.png`
       }, {
         rel: 'search',
         type: 'application/opensearchdescription+xml',
-        href: `opensearch/${IS_MAIN ? 'main' : 'test'}/opensearch.xml`,
+        href: `/opensearch.xml`,
         title: `VeChain ${IS_MAIN ? '' : 'Testnet'} Explorer`
       }
     ]
@@ -79,7 +79,7 @@ export default {
       theme_color: '#d2d2d2'
     },
     icon: {
-      iconSrc: `./static/icon/${IS_MAIN ? 'main' : 'test'}/icon.png`,
+      iconSrc: `./static/icon.png`,
       sizes: [144, 152, 192, 384, 512]
     },
     meta: {
