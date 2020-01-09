@@ -5,7 +5,7 @@
                 <img v-if="!jumbotron" style="height: 24px; width: 24px" src="~/assets/logo.png" />
                 <span class="font-weight-lighter">VeChain</span>
                 <strong>Explorer</strong>
-                <small class="font-weight-lighter" style="font-size: 60%"> Beta</small>
+                <small class="font-weight-lighter" style="font-size: 60%">Beta</small>
                 <small>
                     <b-badge class="net-badge text-capitalize">{{network}}</b-badge>
                 </small>
@@ -14,10 +14,12 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="ml-auto"></b-navbar-nav>
                 <b-navbar-nav v-if="!jumbotron" class="mt-3 mt-sm-0 mr-sm-1">
-                    <b-nav-form @submit.prevent="onsearch">
+                    <b-nav-form action="/" @submit.prevent="onsearch">
                         <b-input-group>
                             <b-form-input
+                                type="search"
                                 size="sm"
+                                ref="input-search"
                                 v-model.trim="search"
                                 placeholder="Account/TxID/Block#"
                             ></b-form-input>
@@ -54,9 +56,11 @@
                         >What are you looking for?</span>
                     </b-col>
                     <b-col cols="12" md="8">
-                        <b-form @submit.prevent="onsearch">
+                        <b-form action="/" @submit.prevent="onsearch">
                             <b-input-group>
                                 <b-form-input
+                                    type="search"
+                                    ref="input-search"
                                     v-model.trim="search"
                                     placeholder="Account/TxID/Block#"
                                 ></b-form-input>
@@ -82,10 +86,13 @@ export default class Navbar extends Vue {
     @Prop({ default: false })
     jumbotron!: boolean
 
+    isVisible = false
+
     network = process.env.current
     search = ''
     networks = process.env.networks
     onsearch() {
+        (this.$refs['input-search'] as HTMLInputElement).blur()
         if (this.search.trim()) {
             this.$router.push({
                 name: 'search',
