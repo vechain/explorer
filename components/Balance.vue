@@ -9,7 +9,7 @@
                         id: $route.params.id
                     },
                     query: {
-                        token: token.toUpperCase()
+                        token: token
                     }
             }"
                 >

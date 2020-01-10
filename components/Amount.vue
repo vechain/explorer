@@ -1,7 +1,7 @@
 <template>
     <span :class="{small: sm}">
         <span  class="text-monospace">{{amount | hexToVal(decimals) | balance}}</span>
-        <small v-if="sym && showSym" class="text-secondary text-uppercase">{{sym}}</small>
+        <small v-if="sym && showSym" class="text-secondary">{{sym}}</small>
     </span>
 </template>
 <script lang="ts">

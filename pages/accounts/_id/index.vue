@@ -43,13 +43,13 @@
             <ListItem>
                 <template slot="label">VET</template>
                 <template slot="item-content">
-                    <Balance :balance="account.balance" token="vet" />
+                    <Balance :balance="account.balance" token="VET" />
                 </template>
             </ListItem>
             <ListItem>
                 <template slot="label">VTHO</template>
                 <template slot="item-content">
-                    <Balance :balance="account.energy" token="vtho" />
+                    <Balance :balance="account.energy" token="VTHO" />
                 </template>
             </ListItem>
             <ListItem v-if="account.master">
