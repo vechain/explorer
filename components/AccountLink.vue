@@ -1,11 +1,6 @@
 <template>
     <div class="d-inline-block align-items-center" :class="{ 'd-sm-flex' : icon}">
-        <IdentBox
-            v-if="icon"
-            class="d-inline-block mr-1 rounded"
-            :style="style"
-            :address="address"
-        ></IdentBox>
+        <IdentBox v-if="icon" class="d-inline-block mr-1 rounded" :style="style" :address="address"></IdentBox>
         <nuxt-link
             class="text-monospace"
             :to="{
@@ -15,14 +10,18 @@
               }}"
         >
             <template v-if="!!short">
-                <small v-b-tooltip.hover fallback-placement="clockwise" :title="address | toChecksumAddress" v-if="this.size === 'sm'">{{address | toChecksumAddress | shortAddress}}</small>
-                <span v-b-tooltip.hover fallback-placement="clockwise" :title="address | toChecksumAddress" v-else>{{address | toChecksumAddress | shortAddress}}</span>
+                <small
+                    ref="address-short"
+                    v-if="this.size === 'sm'"
+                >{{address | toChecksumAddress | shortAddress}}</small>
+                <span ref="address-short" v-else>{{address | toChecksumAddress | shortAddress}}</span>
             </template>
             <template v-else>
                 <small v-if="this.size === 'sm'">{{address | toChecksumAddress}}</small>
                 <span v-else>{{address | toChecksumAddress}}</span>
             </template>
         </nuxt-link>
+        <b-tooltip v-if="!!short" placement="top" :target="() => $refs['address-short']" :title="address | toChecksumAddress" fallback-placement="clockwise"></b-tooltip>
     </div>
 </template>
 <script lang="ts">
@@ -37,13 +36,13 @@ export default class AccountLink extends Vue {
     @Prop()
     size!: 'sm' | 'normal' | null
 
-    @Prop({default: true})
+    @Prop({ default: true })
     short!: boolean
 
     @Prop(String)
     address!: string
 
-    @Prop({default: true})
+    @Prop({ default: true })
     icon!: boolean
 
     sizes = {
@@ -54,6 +53,5 @@ export default class AccountLink extends Vue {
     get style() {
         return this.sizes['sm']
     }
-
 }
 </script>
