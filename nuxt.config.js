@@ -87,6 +87,23 @@ export default {
       ogSiteName: `VeChain Explorer${title}`,
       ogTitle: `VeChain Explorer${title}`,
       ogDescription: `VeChain Explorer${title} enables you to explore and search transactions, addresses,  and other activities taking place on the VeChainThor blockchain`
+    },
+    workbox: {
+      runtimeCaching: [
+        {
+          urlPattern: 'https://vechain.github.io/token-registry/assets/',
+          strategyOptions: {
+            cacheExpiration: {
+              maxAgeSeconds: 24*60*60
+            }
+          }
+        }
+      ],
+      cacheNames: {
+        prefix: `explorer-${IS_MAIN ? 'mainnet' : 'testnet'}`,
+        precache: 'precache',
+        runtime: 'runtime'
+      }
     }
   },
   /*
