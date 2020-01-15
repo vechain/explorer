@@ -1,6 +1,6 @@
 import { Context } from '@nuxt/types'
 
-
+const IS_MAIN = process.env['NETWORK'] === 'mainnet'
 console.log(`%cREV.${process.env.Version}`, 'color: #3c5999;')
 
 interface LocalS {
@@ -29,7 +29,7 @@ const getItem = function (key: string) {
 }
 
 async function fetchTokens() {
-  const resp = await fetch(`https://vechain.github.io/token-registry/main.json`)
+  const resp = await fetch(`https://vechain.github.io/token-registry/${IS_MAIN ? 'main' : 'test'}.json`)
   if (resp.status !== 200) {
     return
   }
