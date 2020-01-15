@@ -93,14 +93,13 @@ export default {
         {
           urlPattern: 'https://vechain.github.io/token-registry/assets/',
           strategyOptions: {
-            cacheExpiration: {
-              maxAgeSeconds: 24*60*60
-            }
+            cacheName: 'git-static'
           }
         }
       ],
       cacheNames: {
         prefix: `explorer-${IS_MAIN ? 'mainnet' : 'testnet'}`,
+        suffix: Version,
         precache: 'precache',
         runtime: 'runtime'
       }
@@ -127,7 +126,8 @@ export default {
     '~/plugins/axios.ts',
     { src: '~/plugins/init.ts', mode: 'client' },
     { src: '~/plugins/clipboard.ts', mode: 'client' },
-    { src: '~/plugins/qrcode.ts', mode: 'client' }
+    { src: '~/plugins/qrcode.ts', mode: 'client' },
+    { src: '~/plugins/sw.ts', mode: 'client' }
   ],
   /*
    ** Nuxt.js dev-modules
