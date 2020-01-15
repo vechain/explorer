@@ -1,6 +1,6 @@
 import { Context } from '@nuxt/types'
 
-const IS_MAIN = process.env['NETWORK'] === 'mainnet'
+const IS_MAIN = (process.env['current'] || '').toLowerCase() === 'mainnet'
 console.log(`%cREV.${process.env.Version}`, 'color: #3c5999;')
 
 interface LocalS {
