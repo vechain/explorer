@@ -40,7 +40,7 @@ export default {
       },
       IS_MAIN ? {
         name: 'google-site-verification',
-        comtent: 'yvT2mNLTy-gN9NFUXxNNJR7zIsWLrEvcWNZg_m91pwA'
+        content: 'yvT2mNLTy-gN9NFUXxNNJR7zIsWLrEvcWNZg_m91pwA'
       } : {}
     ],
     script: [
