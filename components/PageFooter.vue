@@ -48,6 +48,10 @@ export default class PageFooter extends Vue {
                 {
                     name: 'Vexplorer (beta)',
                     link: 'https://vexplorer.io'
+                },
+                {
+                    name: 'VechainThorScan (beta)',
+                    link: 'https://vechainthorscan.com'
                 }
             ]
         },
