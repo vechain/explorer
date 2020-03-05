@@ -2,7 +2,7 @@
     <span v-b-tooltip.hover title="Reverted">
         <font-awesome-icon
             style="color: red"
-            icon="exclamation-triangle"
+            icon="exclamation-circle"
         />
     </span>
 </template>
