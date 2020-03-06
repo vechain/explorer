@@ -32,7 +32,7 @@ interface IfcSvc {
   recentTxs(limit?: number): Promise<{ txs: DTO.Tx[] }>
   recentBlocks(limit?: number): Promise<{ blocks: DTO.Block[] }>
   signedBlocks(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.SignedBlocks & { pageCount: number }>
-  accountTxs(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.AccountTxs & { pageCount: number }>
+  accountTxs(addr: string, page: number, action?: 'In' | 'Out', pageSize?: number, max?: number): Promise<DTO.AccountTxs & { pageCount: number }>
   accountTfs(addr: string, page: number, pageSize?: number, type?: string, max?: number): Promise<DTO.AccountTransfers & { pageCount: number }>
   search(id: string): Promise<{
     name: string,
@@ -101,17 +101,22 @@ class Svc implements IfcSvc {
       pageCount
     }
   }
-  async accountTxs(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.AccountTxs & { pageCount: number }> {
+  async accountTxs(addr: string, page: number, action?: 'In' | 'Out', pageSize?: number, max?: number): Promise<DTO.AccountTxs & { pageCount: number }> {
     let pageCount = 0
     let maxShow = (max || 50 * 1000)
     const limit = (pageSize || 10)
     const offset = (page - 1) * limit
-    const result = await this.axios.$get(`/api/accounts/${addr.toLowerCase()}/transactions`, {
-      params: {
-        limit,
-        offset
-      }
-    })
+    const params: {
+      limit: number,
+      offset: number,
+      type?: 'In' | 'Out' | null
+    } = {
+      limit,
+      offset,
+      type: action ? action : null
+    }
+
+    const result = await this.axios.$get(`/api/accounts/${addr.toLowerCase()}/transactions`, { params })
 
     if (result.count > maxShow) {
       pageCount = maxShow / limit
@@ -132,13 +137,13 @@ class Svc implements IfcSvc {
     const params: {
       limit: number
       offset: number
-      type?: string
+      asset?: string
     } = {
       limit,
       offset
     }
     if (type) {
-      params.type = type
+      params.asset = type
     }
     const result = await this.axios.$get(`/api/accounts/${addr.toLowerCase()}/transfers`, {
       params
