@@ -102,6 +102,7 @@
                     />
                     <template v-if="row.item.origin === account">
                         <AccountLink
+                            size="sm"
                             v-if="row.item.clauses.length === 1 && row.item.clauses[0].to"
                             :address="row.item.clauses[0].to"
                         />
@@ -113,6 +114,7 @@
                     </template>
                     <template v-else>
                         <AccountLink
+                            size="sm"
                             :address="row.item.origin"
                         />
                     </template>
