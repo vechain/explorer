@@ -40,6 +40,42 @@
                     </div>
                 </template>
             </ListItem>
+            <template v-if="extraInfo">
+                <ListItem>
+                    <template slot="label">Name</template>
+                    <template slot="item-content">
+                        <span>{{extraInfo.name}}</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Symbol</template>
+                    <template slot="item-content">
+                        <span>{{extraInfo.symbol}}</span>
+                    </template>
+                </ListItem>
+                <ListItem>
+                    <template slot="label">Description</template>
+                    <template slot="item-content">
+                        <span>{{extraInfo.desc}}</span>
+                    </template>
+                </ListItem>
+                <ListItem v-if="extraInfo.website">
+                    <template slot="label">Website</template>
+                    <template slot="item-content">
+                        <a :href="extraInfo.website">{{extraInfo.website}}</a>
+                    </template>
+                </ListItem>
+                <ListItem v-if="extraInfo.links">
+                    <template slot="label">Website</template>
+                    <template slot="item-content">
+                        <template v-for="item in extraInfo.links">
+                            <a v-for="(value, key) in item" :key="value" :href="value" target="_blank" class="mr-3 text-dark">
+                                <font-awesome-icon :icon="['fab' , key ]" />
+                            </a>
+                        </template>
+                    </template>
+                </ListItem>
+            </template>
             <ListItem>
                 <template slot="label">VET</template>
                 <template slot="item-content">
@@ -52,6 +88,7 @@
                     <Balance :balance="account.energy" token="VTHO" />
                 </template>
             </ListItem>
+
             <ListItem v-if="account.master">
                 <template slot="label">Master</template>
                 <template slot="item-content">
@@ -62,7 +99,20 @@
                     />
                 </template>
             </ListItem>
-
+            <template v-if="extraInfo">
+                <ListItem v-if="extraInfo.decimals">
+                    <template slot="label">Decimals</template>
+                    <template slot="item-content">
+                        <span>{{extraInfo.decimals}}</span>
+                    </template>
+                </ListItem>
+                <ListItem v-if="extraInfo.totalSupply">
+                    <template slot="label">Total Supply</template>
+                    <template slot="item-content">
+                        <span>{{extraInfo.totalSupply}}</span>
+                    </template>
+                </ListItem>
+            </template>
             <ListItem v-if="tokens.length">
                 <template slot="label">Tokens</template>
                 <template slot="item-content">
@@ -126,7 +176,15 @@
                 </ListItem>
             </template>
         </b-list-group>
-        <b-modal header-class="border-bottom-0" id="account-qrcode" size="sm" :ok-only="true" :visible="qrShow" :centered="true" button-size="sm">
+        <b-modal
+            header-class="border-bottom-0"
+            id="account-qrcode"
+            size="sm"
+            :ok-only="true"
+            :visible="qrShow"
+            :centered="true"
+            button-size="sm"
+        >
             <template v-slot:modal-header>
                 <div></div>
             </template>
@@ -155,11 +213,14 @@ import TokenItem from '@/components/TokenItem.vue'
 })
 export default class Summary extends Vue {
     @Prop()
-    account!: object
+    account!: any
     @Prop()
     authority!: object
     @Prop({ default: [] })
     tokens!: DTO.Token[]
+
+    @Prop()
+    extraInfo!: DTO.Token
 
     qrShow = false
 
@@ -177,6 +238,19 @@ export default class Summary extends Vue {
             return token.imgUrl
         }
     }
+
+    // mounted() {
+    //     if (
+    //         (this.account.code,
+    //         this.$store.getters.tokenAddressList.includes(this.account.address))
+    //     ) {
+    //         this.extraInfo = this.$store.state.tokens.find(
+    //             (item: DTO.Token) => {
+    //                 return item.address === this.account.address
+    //             }
+    //         )
+    //     }
+    // }
 
     onCopy() {
         const t = this.$refs['accounts-id-btn-tip'] as Vue

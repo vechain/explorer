@@ -20,6 +20,7 @@
             :account="account"
             :authority="authority"
             :tokens="tokens"
+            :extraInfo="extraInfo"
         />
     </div>
 </template>
@@ -37,6 +38,10 @@ import { Route } from 'vue-router'
     async asyncData(ctx: Context) {
         const params = ctx.params
         const result = await ctx.$svc.account(ctx.params.id)
+        const tokenList = await ctx.$svc.tokens()
+        const extraInfo = tokenList.find(item => {
+            return item.address === result.account.address
+        })
         const links = [
             {
                 text: 'Summary',
@@ -76,7 +81,7 @@ import { Route } from 'vue-router'
             ? 'Authority'
             : 'Account'
 
-        return { links, ...result, title }
+        return { links, ...result, title, extraInfo }
     }
 })
 
@@ -85,12 +90,17 @@ export default class Account extends Vue {
     account: DTO.Account | null = null
     authority: DTO.Authority | null = null
     tokens: DTO.TokenBalance[] = []
+    extraInfo: DTO.Token | null = null
     title: string | null = null
     
     @Watch('$route')
     async onRouterChange(to: Route, from: Route){
         if(to.name === 'accounts-id') {
             const temp = await this.$svc.account(to.params.id)
+            const tokenList = await this.$svc.tokens()
+            this.extraInfo = tokenList.find(item => {
+                return item.address === temp.account.address
+            }) || null
             this.account = temp.account
             this.authority = temp.authority
             this.tokens = temp.tokens

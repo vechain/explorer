@@ -82,6 +82,11 @@ declare namespace DTO {
     icon: string
     desc: string
     imgUrl: string
+    website?: string
+    whitePaper?: string
+    links?: {
+      [key: string]: string
+    }[]
   }
   type Output = {
     contractAddress: string | null

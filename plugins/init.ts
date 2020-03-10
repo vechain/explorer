@@ -29,7 +29,7 @@ const getItem = function (key: string) {
 }
 
 async function fetchTokens() {
-  const resp = await fetch(`https://vechain.github.io/token-registry/${IS_MAIN ? 'main' : 'test'}.json`)
+  const resp = await fetch(`/api/registry/tokens`)
   if (resp.status !== 200) {
     return
   }
@@ -37,10 +37,10 @@ async function fetchTokens() {
 }
 
 async function setToken() {
-  const tokens = await fetchTokens()
+  const result = await fetchTokens()
   const obj = {
     time: Date.now(),
-    list: tokens
+    list: result.tokens
   }
   setItem('tokens', obj)
 }
