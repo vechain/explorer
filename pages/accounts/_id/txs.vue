@@ -31,7 +31,7 @@
                                 }
                             }"
                         >
-                            <span class="text-secondary">Send</span>
+                            <span class="text-secondary">Sent</span>
                         </b-dropdown-item>
                         <b-dropdown-item
                             class="text-left"
@@ -95,11 +95,16 @@
             <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(from-to)="row">
                 <div class="d-flex align-items-center">
-                    <font-awesome-icon
-                        small
-                        class="mr-1"
-                        :icon=" row.item.origin !== account ? 'arrow-left' : 'arrow-right'"
-                    />
+                    <span
+                        v-b-tooltip.hover
+                        :title="row.item.origin !== account ? 'From' : 'To'"
+                    >
+                        <font-awesome-icon
+                            small
+                            class="mr-1"
+                            :icon=" row.item.origin !== account ? 'arrow-left' : 'arrow-right'"
+                        />
+                    </span>
                     <template v-if="row.item.origin === account">
                         <AccountLink
                             size="sm"
@@ -113,10 +118,7 @@
                         <span v-else>-</span>
                     </template>
                     <template v-else>
-                        <AccountLink
-                            size="sm"
-                            :address="row.item.origin"
-                        />
+                        <AccountLink size="sm" :address="row.item.origin" />
                     </template>
                 </div>
             </template>
@@ -195,7 +197,7 @@ export default class AccountTxs extends Vue {
                 result = 'Recevied'
                 break
             case 'Out':
-                result = 'Send'
+                result = 'Sent'
             default:
                 break
         }
