@@ -88,15 +88,21 @@
             <template v-slot:cell(from-to)="row">
                 <div class="text-monospace d-flex align-items-center">
                     <template v-if="account !== row.item.sender">
-                        <font-awesome-icon style="color: green" small icon="arrow-left" />
+                        <span v-b-tooltip.hover title="From">
+                            <font-awesome-icon style="color: green" small icon="arrow-left" />
+                        </span>
                         <AccountLink class="ml-1" size="sm" :address="row.item.sender" />
                     </template>
                     <template v-if="account !== row.item.recipient">
-                        <font-awesome-icon style="color: red" small icon="arrow-right" />
+                        <span v-b-tooltip.hover title="To">
+                            <font-awesome-icon style="color: red" small icon="arrow-right" />
+                        </span>
                         <AccountLink class="ml-1" size="sm" :address="row.item.recipient" />
                     </template>
                     <template v-if="row.item.sender === row.item.recipient">
-                        <font-awesome-icon style="color: #666666" small icon="exchange-alt" />
+                        <span v-b-tooltip.hover title="I'm rich">
+                            <font-awesome-icon style="color: #666666" small icon="exchange-alt" />
+                        </span>
                         <AccountLink class="ml-1" size="sm" :address="row.item.sender" />
                     </template>
                 </div>
