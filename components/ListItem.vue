@@ -16,3 +16,9 @@
         </b-container>
     </b-list-group-item>
 </template>
+<script lang="ts">
+import { Vue, Component } from 'vue-property-decorator'
+@Component
+export default class ListItem extends Vue {
+}
+</script>
