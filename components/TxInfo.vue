@@ -92,6 +92,7 @@
                 <template slot="item-content">
                     <ul v-if="transfersList.length" class="mb-0 pl-0">
                         <li class="pt-1 pb-2" v-for="(item, i) in transfersList" :key="i">
+                            <b-link :href="'#clauses-' + (item.clauseIndex + 1)"> <small> @clause#{{item.clauseIndex + 1}} </small></b-link>
                             <TokenTransferItem :origin="tx.origin" :transfer="item" />
                         </li>
                     </ul>
@@ -179,7 +180,7 @@ import { Context } from '@nuxt/types'
 })
 export default class TxInfo extends Vue {
     @Prop(Object)
-    tx!: DTO.Tx & DTO.Meta
+    tx!: DTO.Tx & DTO.BlockMeta
 
     @Prop(Number)
     bestNum!: number
@@ -195,9 +196,11 @@ export default class TxInfo extends Vue {
     }
 
     get transfersList() {
+        
         return this.transfers.map(item => {
             return {
                 sender: item.sender,
+                clauseIndex: item.meta.clauseIndex,
                 recipient: item.recipient,
                 amount: item.amount,
                 symbol: item.symbol

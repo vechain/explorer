@@ -29,7 +29,9 @@
             :fields="fields"
             :items="clauses"
         >
-            <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
+            <template v-slot:cell(index)="row">
+                <div :id="'clauses-' +(row.index + 1)">{{(currentPage - 1) * perPage + row.index + 1}}</div>
+            </template>
             <template v-slot:cell(type)="row">
                 <b-badge variant="primary">{{row.item.type}}</b-badge>
             </template>
@@ -38,7 +40,7 @@
                 <span v-else>-</span>
             </template>
             <template v-slot:cell(value)="row">
-                <Amount :amount="row.item.value"/>
+                <Amount :amount="row.item.value" />
             </template>
             <template v-slot:cell(action)="row">
                 <b-button @click="row.toggleDetails" variant="outline-secondary" size="sm">
@@ -87,14 +89,19 @@ export default class TxClause extends Vue {
 
     get pageItems() {
         if (this.rows > 0) {
-            return this.currentPage === this.pageCount ? (this.rows % this.perPage) || this.perPage : this.perPage
+            return this.currentPage === this.pageCount
+                ? this.rows % this.perPage || this.perPage
+                : this.perPage
         } else {
             return 0
         }
     }
 
     get pageCount() {
-        return Math.floor(this.rows / this.perPage) + (this.rows % this.perPage > 0 ? 1 : 0) || 1
+        return (
+            Math.floor(this.rows / this.perPage) +
+                (this.rows % this.perPage > 0 ? 1 : 0) || 1
+        )
     }
 
     getToken(address: string) {
@@ -106,7 +113,7 @@ export default class TxClause extends Vue {
 
     get clauses() {
         if (this.clauseList && this.clauseList.length) {
-            return this.clauseList.map((item) => {
+            return this.clauseList.map((item, index) => {
                 let temp
                 if (item.to) {
                     if (this.tokensAddress.includes(item.to)) {
@@ -131,6 +138,7 @@ export default class TxClause extends Vue {
                 }
 
                 return {
+                    _showDetails: this.$route.hash.split('-')[1] === (index + 1).toString(),
                     ...item,
                     ...temp
                 }
