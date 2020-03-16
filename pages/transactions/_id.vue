@@ -21,8 +21,8 @@
                     link-classes="border-0"
                     v-for="item in links"
                     :key="item.hash"
-                    exact
-                    exact-active-class="active"
+                    :active="$route.hash.includes(item.hash)"
+                    active-class="active"
                     :to="item.hash"
                 >{{item.text}}</b-nav-item>
             </b-nav>
@@ -33,7 +33,7 @@
                     :tx="tx"
                     :transfers="transfers"
                 />
-                <TxClauses :clauseList="clauseList" v-show="tab === 'clauses'" />
+                <TxClauses :clauseList="clauseList" v-show="tab.includes('clauses')" />
             </div>
         </template>
         <template v-else>
@@ -116,9 +116,8 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
 export default class Transaction extends Vue {
     isMounted = false
     beforeMount() {
-        const tabs = ['info', 'clauses']
         const temp = this.$route.hash.substr(1).toLowerCase()
-        if (!tabs.includes(temp)) {
+        if (!(temp.includes('info') || temp.includes('clauses'))) {
             location.hash = '#info'
         }
     }
@@ -130,12 +129,11 @@ export default class Transaction extends Vue {
         return this.$store.state.best
     }
     get tab() {
-        const tabs = ['info', 'clauses']
         const temp = this.$route.hash.substr(1).toLowerCase()
-        if (tabs.includes(temp)) {
+        if (temp.includes('info') || temp.includes('clauses')) {
             return temp
         } else {
-            return tabs[0]
+            return 'info'
         }
     }
 }
