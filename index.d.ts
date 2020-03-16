@@ -31,13 +31,13 @@ declare namespace DTO {
     clauseIndex: number
     logIndex: number
   }
-  type AccountTx = Tx & { meta: Meta }
+  type AccountTx = Tx & { meta: BlockMeta }
 
   type AccountTxs = {
     count: number
     txs: AccountTx[]
   }
-  type AccountTransfer = Transfer & { meta: Meta } & {
+  type AccountTransfer = Transfer & { meta: BlockMeta } & {
     moveIndex: MoveIndex
   }
   type AccountTransfers = {
@@ -69,7 +69,7 @@ declare namespace DTO {
     tokens: TokenBalance[]
   }
 
-  type Meta = {
+  type BlockMeta = {
     blockID: string
     blockNumber: number
     blockTimestamp: number
@@ -93,10 +93,17 @@ declare namespace DTO {
     events: []
     transfers: Transfer[]
   }
+
+  type TransferMeta = {
+    txIndex: number
+    clauseIndex: number
+    logIndex: number
+  }
   type Transfer = {
     sender: string
     recipient: string
     amount: string
+    meta: TransferMeta
     symbol?: string
   }
   type Receipt = {
@@ -134,14 +141,14 @@ declare namespace DTO {
   }
 
   type TxDetail = {
-    meta: Meta
+    meta: BlockMeta
     receipt: Receipt
     tx: Tx
     transfers: Transfer[]
   }
 
   type BlockTxs = {
-    meta: Meta
+    meta: BlockMeta
     txs: Tx[]
   }
 
