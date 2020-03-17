@@ -1,10 +1,15 @@
 <template>
     <div>
         <div class="my-3">
-            <h3 class="d-inline-block mr-3">{{ title }}</h3>
-            <h5
-                class="text-secondary d-inline-block"
-            >{{ account.address | toChecksumAddress | shortAddress }}</h5>
+            <div>
+                <h3 class="d-inline-block mr-3">{{ title }}</h3>
+                <h5
+                    class="text-secondary d-inline-block"
+                >{{ account.address | toChecksumAddress | shortAddress }}</h5>
+            </div>
+            <h6>
+                <b-badge v-if="extraInfo" pill variant="info">{{ extraInfo.symbol}}</b-badge>
+            </h6>
         </div>
         <b-nav class="border-0" tabs align="left">
             <b-nav-item
@@ -84,7 +89,6 @@ import { Route } from 'vue-router'
         return { links, ...result, title, extraInfo }
     }
 })
-
 export default class Account extends Vue {
     links: any[] = []
     account: DTO.Account | null = null
@@ -92,15 +96,16 @@ export default class Account extends Vue {
     tokens: DTO.TokenBalance[] = []
     extraInfo: DTO.Token | null = null
     title: string | null = null
-    
+
     @Watch('$route')
-    async onRouterChange(to: Route, from: Route){
-        if(to.name === 'accounts-id') {
+    async onRouterChange(to: Route, from: Route) {
+        if (to.name === 'accounts-id') {
             const temp = await this.$svc.account(to.params.id)
             const tokenList = await this.$svc.tokens()
-            this.extraInfo = tokenList.find(item => {
-                return item.address === temp.account.address
-            }) || null
+            this.extraInfo =
+                tokenList.find(item => {
+                    return item.address === temp.account.address
+                }) || null
             this.account = temp.account
             this.authority = temp.authority
             this.tokens = temp.tokens
