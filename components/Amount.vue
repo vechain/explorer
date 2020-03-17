@@ -17,6 +17,9 @@ export default class Amount extends Vue {
     @Prop({ default: true })
     showSym!: boolean
 
+    @Prop({default: 18})
+    decimal!: number
+
 
     @Prop({default:false})
     sm!: boolean
@@ -34,6 +37,9 @@ export default class Amount extends Vue {
     }
 
     get decimals() {
+        if (this.decimal) {
+            return this.decimal
+        }
         const temp = this.tokens.find(item => {
             return item.symbol === this.sym
         })
