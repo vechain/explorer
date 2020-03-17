@@ -91,8 +91,8 @@
                 <template slot="label">Token Transferred</template>
                 <template slot="item-content">
                     <ul v-if="transfersList.length" class="mb-0 pl-0">
-                        <li class="pt-1 pb-2" v-for="(item, i) in transfersList" :key="i">
-                            <b-link :href="'#clauses-' + (item.clauseIndex + 1)"> <small> @clause#{{item.clauseIndex + 1}} </small></b-link>
+                        <li class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center" v-for="(item, i) in transfersList" :key="i">
+                            <b-link class="d-inline-block d-sm-flex mr-1" :href="'#clauses-' + (item.clauseIndex + 1)"> <small> @clause#{{item.clauseIndex + 1}} </small></b-link>
                             <TokenTransferItem :origin="tx.origin" :transfer="item" />
                         </li>
                     </ul>
