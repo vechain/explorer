@@ -62,15 +62,30 @@
                 <ListItem v-if="extraInfo.website">
                     <template slot="label">Website</template>
                     <template slot="item-content">
-                        <a :href="extraInfo.website">{{extraInfo.website}}</a>
+                        <a target="_blank" :href="extraInfo.website">{{extraInfo.website}}</a>
+                    </template>
+                </ListItem>
+                <ListItem v-if="extraInfo.whitePaper">
+                    <template slot="label">White Paper</template>
+                    <template slot="item-content">
+                        <a target="_blank" :href="extraInfo.whitePaper">{{extraInfo.whitePaper}}</a>
                     </template>
                 </ListItem>
                 <ListItem v-if="extraInfo.links">
-                    <template slot="label">Website</template>
+                    <template slot="label">Links</template>
                     <template slot="item-content">
                         <template v-for="item in extraInfo.links">
-                            <a v-for="(value, key) in item" :key="value" :href="value" target="_blank" class="mr-3 text-dark">
-                                <font-awesome-icon :icon="['fab' , key ]" />
+                            <a
+                                v-for="(value, key) in item"
+                                :key="value"
+                                :href="value"
+                                target="_blank"
+                                class="mr-4 text-dark"
+                            >
+                                <font-awesome-icon
+                                    :style="{color: colors[key]}"
+                                    :icon="['fab' , key ]"
+                                />
                             </a>
                         </template>
                     </template>
@@ -109,7 +124,12 @@
                 <ListItem v-if="extraInfo.totalSupply">
                     <template slot="label">Total Supply</template>
                     <template slot="item-content">
-                        <Amount v-if="extraInfo.symbol !== 'VTHO'" :decimal="extraInfo.decimals" :amount="extraInfo.totalSupply" :sym="extraInfo.symbol"></Amount>
+                        <Amount
+                            v-if="extraInfo.symbol !== 'VTHO'"
+                            :decimal="extraInfo.decimals"
+                            :amount="extraInfo.totalSupply"
+                            :sym="extraInfo.symbol"
+                        ></Amount>
                         <span v-else>{{extraInfo.totalSupply}}</span>
                     </template>
                 </ListItem>
@@ -225,6 +245,15 @@ export default class Summary extends Vue {
 
     qrShow = false
 
+    colors = {
+        facebook: '#3b5998',
+        twitter: '#00aced',
+        slack: '#82c91e',
+        medium: '#000000',
+        github: '#495057',
+        telegram: '#0088CC'
+    }
+
     checksumAddress(addr: string) {
         return Vue.filter('toChecksumAddress')(addr)
     }
@@ -239,19 +268,6 @@ export default class Summary extends Vue {
             return token.imgUrl
         }
     }
-
-    // mounted() {
-    //     if (
-    //         (this.account.code,
-    //         this.$store.getters.tokenAddressList.includes(this.account.address))
-    //     ) {
-    //         this.extraInfo = this.$store.state.tokens.find(
-    //             (item: DTO.Token) => {
-    //                 return item.address === this.account.address
-    //             }
-    //         )
-    //     }
-    // }
 
     onCopy() {
         const t = this.$refs['accounts-id-btn-tip'] as Vue
