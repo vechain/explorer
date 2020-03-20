@@ -103,17 +103,6 @@
                     <Balance :balance="account.energy" token="VTHO" />
                 </template>
             </ListItem>
-
-            <ListItem v-if="account.master">
-                <template slot="label">Master</template>
-                <template slot="item-content">
-                    <AccountLink
-                        class="d-flex align-items-center"
-                        :address="account.master"
-                        :short="false"
-                    />
-                </template>
-            </ListItem>
             <template v-if="extraInfo">
                 <ListItem v-if="extraInfo.decimals">
                     <template slot="label">Decimals</template>
@@ -144,6 +133,16 @@
                         v-for="(item, i) in tokens"
                         :key="i"
                     ></TokenItem>
+                </template>
+            </ListItem>
+            <ListItem v-if="account.master">
+                <template slot="label">Master</template>
+                <template slot="item-content">
+                    <AccountLink
+                        class="d-flex align-items-center"
+                        :address="account.master"
+                        :short="false"
+                    />
                 </template>
             </ListItem>
             <template v-if="account.code">

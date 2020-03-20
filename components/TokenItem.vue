@@ -3,7 +3,6 @@
         <b-col cols="2" sm="1">
             <div :style="item.style" class="token-icon"></div>
         </b-col>
-        <b-col class="d-none d-sm-block" cols="2" sm="1" align-self="center">{{item.symbol}}</b-col>
         <b-col align-self="center">
             <nuxt-link
                 :to="{
