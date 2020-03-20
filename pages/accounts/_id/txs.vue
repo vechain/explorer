@@ -17,7 +17,7 @@
                                 }
                             }"
                         >
-                            <span class="text-secondary">All</span>
+                            <span class="text-secondary">ALL</span>
                         </b-dropdown-item>
                         <b-dropdown-item
                             class="text-left"
@@ -31,7 +31,7 @@
                                 }
                             }"
                         >
-                            <span class="text-secondary">Sent</span>
+                            <span class="text-secondary">SENT</span>
                         </b-dropdown-item>
                         <b-dropdown-item
                             class="text-left"
@@ -45,7 +45,7 @@
                                 }
                             }"
                         >
-                            <span class="text-secondary">Recevied</span>
+                            <span class="text-secondary">RECEVIED</span>
                         </b-dropdown-item>
                     </b-dropdown>
                 </div>
@@ -165,7 +165,7 @@ export default class AccountTxs extends Vue {
     loading = false
     currentPage = 1
     isAuthority = false
-    currentType = 'All'
+    currentType = 'ALL'
     fields = [
         {
             key: 'index',
@@ -191,13 +191,13 @@ export default class AccountTxs extends Vue {
 
     get btnContent() {
         const action = this.$route.query.type
-        let result = 'All'
+        let result = 'ALL'
         switch (action) {
             case 'In':
-                result = 'Recevied'
+                result = 'RECEVIED'
                 break
             case 'Out':
-                result = 'Sent'
+                result = 'SENT'
             default:
                 break
         }
