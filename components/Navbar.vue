@@ -5,7 +5,6 @@
                 <img v-if="!jumbotron" style="height: 24px; width: 24px" src="~/assets/logo.png" />
                 <span class="font-weight-lighter">VeChain</span>
                 <strong>Explorer</strong>
-                <small class="font-weight-lighter" style="font-size: 60%">Beta</small>
                 <small>
                     <b-badge class="net-badge text-capitalize">{{network}}</b-badge>
                 </small>
