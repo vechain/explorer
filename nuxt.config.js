@@ -11,7 +11,10 @@ export default {
   server: {
     host: '0.0.0.0'
   },
-  serverMiddleware: [{ path: '/', handler: morgan('tiny') }],
+  serverMiddleware: [
+    { path: '/', handler: morgan('tiny') },
+    { path: '/api/export', handler: '~/server/captcha.js'}
+  ],
   mode: 'universal',
   /*
    ** Headers of the page
@@ -187,9 +190,8 @@ export default {
    * https://github.com/chimurai/http-proxy-middleware#appusepath-proxy
    */
   proxy: {
-    '/api/': {
+    '/api': {
       target: process.env['API_URL'],
-      timeout: 5000
     }
   },
   env: {
@@ -206,9 +208,6 @@ export default {
       }
     ]
   },
-  serverMiddleware: [
-    { path: '/api/export/transfers', handler: '~/servermiddleware/captcha.js' },
-  ],
   /*
    ** Build configuration
    */
