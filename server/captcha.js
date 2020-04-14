@@ -4,7 +4,7 @@ const getRawBody = require('raw-body')
 const http = require('http')
 const https = require('https')
 
-export const token = process.env['CAPTCHA_TOKEN']
+export const token = process.env['CAPTCHA_SECRET']
 export const apiURL = process.env['API_URL']
 
 /**
