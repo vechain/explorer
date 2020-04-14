@@ -27,6 +27,12 @@
             :tokens="tokens"
             :extraInfo="extraInfo"
         />
+        <div v-if="$route.name.includes('transfer')" class="float-right">
+            <span class="text-muted">Download</span>
+            <b-link
+                :to="{name: 'download', query: {address: account.address}}"
+            >CSV Export</b-link>
+        </div>
     </div>
 </template>
 

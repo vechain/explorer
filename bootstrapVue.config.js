@@ -13,6 +13,8 @@ const componentPlugins = [
     'NavPlugin',
     'JumbotronPlugin',
     'FormPlugin',
+    'FormGroupPlugin',
+    'FormDatepickerPlugin',
     'FormInputPlugin',
     'BadgePlugin',
     'CollapsePlugin',

@@ -125,6 +125,7 @@ export default {
     '~/plugins/fontawesome.ts',
     '~/plugins/axios.ts',
     { src: '~/plugins/init.ts', mode: 'client' },
+    { src: '~/plugins/captcha.ts', mode: 'client' },
     { src: '~/plugins/clipboard.ts', mode: 'client' },
     { src: '~/plugins/qrcode.ts', mode: 'client' },
     { src: '~/plugins/sw.ts', mode: 'client' }
@@ -205,6 +206,9 @@ export default {
       }
     ]
   },
+  serverMiddleware: [
+    { path: '/api/export/transfers', handler: '~/servermiddleware/captcha.js' },
+  ],
   /*
    ** Build configuration
    */
