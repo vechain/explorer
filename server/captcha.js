@@ -4,7 +4,7 @@ const getRawBody = require('raw-body')
 const http = require('http')
 const https = require('https')
 
-export const token = process.env['CAPTCHA_SECRET']
+export const secret = process.env['CAPTCHA_SECRET']
 export const apiURL = process.env['API_URL']
 
 /**
@@ -17,7 +17,6 @@ const verify = async (secret, response) => {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
     })
     
-    console.log('verify response', ret)
     if (ret.data['success']) {
         return true
     } else {
@@ -32,7 +31,7 @@ const captcha = (req, res, next) => {
                 const raw = await getRawBody(req, 'utf8')
                 const body = QS.parse(raw)
                 
-                const ret = await verify(body['h-captcha-response'], token)
+                const ret = await verify(secret, body['h-captcha-response'])
                 if (ret) {
                     const client = apiURL.startsWith('http://') ? http.request : https.request
                     const request = client(`${apiURL}/api/export${req.url}`, {
