@@ -4,6 +4,7 @@
         <b-card class="border-0 shadow-sm">
             <div>
                 <b-form
+                    target="_blank"
                     action="/api/export/transfers/0x15bccf377f1a9bbd0cd8e24d031c9451326f29a0"
                     method="post"
                     class="my-a"
@@ -28,7 +29,7 @@
                         @expired="onExpired"
                         @error="onError"
                         class="d-flex mb-4 justify-content-center"
-                        sitekey="ed3004d2-90db-435b-90c9-837d5adc5400"
+                        sitekey="0ce95d72-89f4-4579-bee2-e27d65023ba8"
                     ></vue-hcaptcha>
                     <input type="text" class="d-none" name="from" v-model="from" />
                     <input type="text" class="d-none" name="to" v-model="to" />
@@ -71,6 +72,13 @@ export default class Download extends Vue {
 
     onError(r: any) {
         console.log(r)
+    }
+
+    mounted() {
+        const date = new Date()
+        this.to = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+        date.setFullYear(date.getFullYear() - 1)
+        this.from = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     }
 }
 </script>
