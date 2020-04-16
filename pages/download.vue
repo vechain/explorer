@@ -77,7 +77,7 @@ export default class Download extends Vue {
     mounted() {
         const date = new Date()
         this.to = date.toISOString().split('T')[0]
-        date.setFullYear(date.getFullYear() - 1)
+        date.setMonth(date.getMonth() - 1)
         this.from = date.toISOString().split('T')[0]
     }
 }
