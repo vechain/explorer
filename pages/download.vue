@@ -5,14 +5,14 @@
             <div>
                 <b-form
                     target="_blank"
-                    action="/api/export/transfers/0x15bccf377f1a9bbd0cd8e24d031c9451326f29a0"
+                    :action="'/api/export/transfers/' + $route.query.address"
                     method="post"
                     class="my-a"
                 >
-                    <b-form-group label="Address" label-class="text-dark">
+                    <b-form-group label="Address" label-class="text-dark font-weight-bolder">
                         <AccountLink :short="false" :address="$route.query.address" />
                     </b-form-group>
-                    <b-form-group label="Time Period">
+                    <b-form-group label="Time Period" label-class="text-dark font-weight-bolder">
                         <div class="d-flex flex-row align-content-center mb-3">
                             <div class="align-self-center mr-2">From</div>
                             <div>
@@ -44,7 +44,7 @@
                 </b-form>
             </div>
             <p class="mt-3 text-muted">
-                <small>Tip: earliest 50k of records will be export, if the file over x|x records, please adjust the start date</small>
+                <small>Tip: earliest 50k of records will be export, if you need more records, please adjust the time period</small>
             </p>
         </b-card>
     </div>
