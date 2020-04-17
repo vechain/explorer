@@ -13,13 +13,19 @@ export const apiURL = process.env['API_URL']
  * @param {string} response h-captcha-response
  */
 const verify = async (secret, response) => {
-    const ret = await Axios.post('https://hcaptcha.com/siteverify', QS.stringify({ secret, response }), {
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-    })
-    
-    if (ret.data['success']) {
-        return true
-    } else {
+    try {
+        const ret = await Axios.post('https://hcaptcha.com/siteverify', QS.stringify({ secret, response }), {
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        })
+
+        if (ret.data['success']) {
+            return true
+        } else {
+            return false
+        }
+    } catch (e) {
+        console.log(e.message)
+        e.response && console.log( e.response.data)
         return false
     }
 }
@@ -49,7 +55,7 @@ const captcha = (req, res, next) => {
                 }
             } catch (e) {
                 console.log(e)
-                res.writeHead(500).end('Server Error!')
+                res.writeHead(500).end('Server Error')
             }
         } else {
             return next()
