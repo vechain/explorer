@@ -1,24 +1,24 @@
 <template>
     <div class="d-flex align-items-center flex-column">
         <h5 class="text-center my-5">Export Transfer History</h5>
-        <b-card class="border-0 shadow-sm">
+        <b-card class="border-0 shadow-sm mw-100 overflow-hidden">
             <div>
                 <b-form
                     target="_blank"
                     :action="'/api/export/transfers/' + $route.query.address"
                     method="post"
-                    class="my-a"
+                    class="my-a px-2 px-md-0"
                 >
                     <b-form-group label="Address" label-class="text-dark font-weight-bolder">
-                        <AccountLink :short="false" :address="$route.query.address" />
+                        <AccountLink class="text-break" :short="false" :address="$route.query.address" />
                     </b-form-group>
                     <b-form-group label="Time Period" label-class="text-dark font-weight-bolder">
-                        <div class="d-flex flex-row align-content-center mb-3">
-                            <div class="align-self-center mr-2">From</div>
+                        <div class="d-flex flex-md-row flex-column align-content-center mb-3">
+                            <div class="align-self-start align-self-md-center mb-2 mb-md-0 mr-2 text-left">From</div>
                             <div>
                                 <b-form-datepicker v-model="from"></b-form-datepicker>
                             </div>
-                            <div class="align-self-center mx-2">To</div>
+                            <div class="align-self-start align-self-md-center my-2 my-md-0 mr-2 mx-md-2 text-left">To</div>
                             <div>
                                 <b-form-datepicker v-model="to"></b-form-datepicker>
                             </div>
