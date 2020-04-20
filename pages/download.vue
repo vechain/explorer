@@ -7,6 +7,7 @@
                     target="_blank"
                     :action="'/api/export/transfers/' + $route.query.address"
                     method="post"
+                    @submit="onsubmit"
                     class="my-a px-2 px-md-0"
                 >
                     <b-form-group label="Address" label-class="text-dark font-weight-bolder">
@@ -28,6 +29,7 @@
                         @verify="onVerify"
                         @expired="onExpired"
                         @error="onError"
+                        ref="hcaptcha"
                         class="d-flex mb-4 justify-content-center"
                         sitekey="0ce95d72-89f4-4579-bee2-e27d65023ba8"
                     ></vue-hcaptcha>
@@ -51,6 +53,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import VueHcaptcha from '@hcaptcha/vue-hcaptcha/src/component/vue-hcaptcha.vue'
 import AccountLink from '@/components/AccountLink.vue'
 @Component({
     components: {
@@ -65,9 +68,13 @@ export default class Download extends Vue {
     onVerify(token: string) {
         this.disabled = false
     }
-
+    onsubmit() {
+        (this.$refs['hcaptcha'] as any).reset()
+        this.disabled = true
+    }
     onExpired(r: any) {
-        console.log(r)
+        (this.$refs['hcaptcha'] as any).reset()
+        this.disabled = true
     }
 
     onError(r: any) {
