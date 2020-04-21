@@ -25,8 +25,10 @@ const verify = async (secret, response) => {
         }
     } catch (e) {
         console.log(e.message)
-        e.response && console.log( e.response.data)
-        return false
+        if (e.response) {
+            console.log(e.response.data)
+        }
+            return false
     }
 }
 
@@ -37,7 +39,7 @@ const captcha = (req, res, next) => {
                 const raw = await getRawBody(req, 'utf8')
                 const body = QS.parse(raw)
                 
-                const ret = await verify(secret, body['h-captcha-response'])
+                const ret = await verify(secret, body['token'])
                 if (ret) {
                     const client = apiURL.startsWith('http://') ? http.request : https.request
                     const request = client(`${apiURL}/api/export${req.url}`, {
