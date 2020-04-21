@@ -35,6 +35,8 @@
                     ></vue-hcaptcha>
                     <input type="text" class="d-none" name="from" v-model="from" />
                     <input type="text" class="d-none" name="to" v-model="to" />
+                    <input type="text" class="d-none" name="token" v-model="token" />
+
                     <b-button
                         :disabled="disabled"
                         type="submit"
@@ -63,9 +65,11 @@ import AccountLink from '@/components/AccountLink.vue'
 export default class Download extends Vue {
     from: string = ''
     to: string = ''
+    token: string = ''
     disabled = true
 
     onVerify(token: string) {
+        this.token = token
         this.disabled = false
     }
     onsubmit() {
