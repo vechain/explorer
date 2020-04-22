@@ -48,7 +48,7 @@
                 </b-form>
             </div>
             <p class="mt-3 text-muted">
-                <small>Tip: earliest 50k of records will be export, if you need more records, please adjust the time period</small>
+                <small>Tip: earliest 5k of records will be export, if you need more records, please adjust the time period</small>
             </p>
         </b-card>
     </div>
