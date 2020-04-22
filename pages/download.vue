@@ -1,7 +1,7 @@
 <template>
     <div class="d-flex align-items-center flex-column">
         <h5 class="text-center my-5">Export Transfer History</h5>
-        <b-card class="border-0 shadow-sm mw-100 overflow-hidden">
+        <b-card class="border-0 shadow-sm mw-100">
             <div>
                 <b-form
                     target="_blank"
