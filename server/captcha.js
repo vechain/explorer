@@ -44,7 +44,10 @@ const captcha = (req, res, next) => {
                     const client = apiURL.startsWith('http://') ? http.request : https.request
                     const request = client(`${apiURL}/api/export${req.url}`, {
                         method: 'POST',
-                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-Forwarded-For': req.headers['x-forwarded-for']||req.connection.remoteAddress
+                        },
                     }, (response) => {
                         res.writeHead(response.statusCode, response.headers);
                         return response.pipe(res, {end: true});
