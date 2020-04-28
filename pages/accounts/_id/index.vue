@@ -115,7 +115,7 @@
                     <template slot="item-content">
                         <Amount
                             v-if="extraInfo.symbol !== 'VTHO'"
-                            :decimal="extraInfo.decimals"
+                            :dec="extraInfo.decimals"
                             :amount="extraInfo.totalSupply"
                             :sym="extraInfo.symbol"
                         ></Amount>
