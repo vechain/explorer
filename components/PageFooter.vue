@@ -91,6 +91,10 @@ export default class PageFooter extends Vue {
                 {
                     name: 'VeChain',
                     link: 'https://github.com/vechain'
+                },
+                {
+                    name: 'Report an Issue',
+                    link: 'https://github.com/vechain/explorer/issues/new'
                 }
             ]
         }
