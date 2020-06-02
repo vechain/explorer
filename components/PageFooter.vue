@@ -69,6 +69,10 @@ export default class PageFooter extends Vue {
                 {
                     name: 'Inspector',
                     link: 'https://inspector.vecha.in/'
+                },
+                {
+                    name: 'Master Node',
+                    link: 'https://an.vechain.org'
                 }
             ]
         },
