@@ -86,15 +86,15 @@ export default class PageFooter extends Vue {
             ]
         },
         {
-            group: 'Github',
+            group: 'Need Help?',
             list: [
-                {
-                    name: 'VeChain',
-                    link: 'https://github.com/vechain'
-                },
                 {
                     name: 'Report an Issue',
                     link: 'https://github.com/vechain/explorer/issues/new'
+                },
+                {
+                    name: 'Contact us',
+                    link: 'mailto:support@vechain.com'
                 }
             ]
         }
