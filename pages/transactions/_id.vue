@@ -38,7 +38,7 @@
         </template>
         <template v-else>
             <div class="my-3">
-                <h3 class="d-inline-block mr-3">Sorry we can not locate the transaction</h3>
+                <h3 class="d-inline-block mr-3">Sorry we cannot locate the transaction</h3>
                 <ol class="pl-3 mt-3">
                     <li>If you have just submitted a transaction please refreshing this page after at least 30 seconds.</li>
                     <li>Please make sure the transaction is same as the explorer network.</li>
