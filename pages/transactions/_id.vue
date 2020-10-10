@@ -67,6 +67,9 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
             titleTemplate: `%s | Tx`
         }
     },
+    validate({ params }) {
+        return !!params.id
+    },
     components: {
         TxInfo,
         TxClauses,
