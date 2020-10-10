@@ -46,6 +46,9 @@ import { Route } from 'vue-router'
             titleTemplate: `%s | ${(this as Account).title}`
         }
     },
+    validate({ params }) {
+        return !!params.id
+    },
     async asyncData(ctx: Context) {
         const params = ctx.params
         const result = await ctx.$svc.account(ctx.params.id)

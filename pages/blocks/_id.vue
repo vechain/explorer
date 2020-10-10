@@ -48,6 +48,9 @@ import { Context } from '@nuxt/types'
             }
         }
     },
+    validate({ params }) {
+        return !!params.id
+    },
     async asyncData(ctx: Context) {
         const blockDetail = await ctx.$svc.block(ctx.params.id)
 
