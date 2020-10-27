@@ -47,7 +47,7 @@ export const actions = {
 }
 export const mutations = {
   setPrice(state: App.State, payload: { [symbol: string]: App.Currency }) {
-    const symbols = Object.keys(payload)
+    const symbols = Object.keys(payload || {})
     symbols.forEach(item => {
       const temp = payload[item]
       if (!state.price[item]) {
