@@ -1,5 +1,7 @@
 import bvConfig from './bootstrapVue.config'
 const morgan = require('morgan')
+const http = require('http')
+const https = require('https')
 require('dotenv').config()
 
 const IS_MAIN = process.env['NETWORK'] === 'mainnet'
@@ -192,6 +194,7 @@ export default {
   proxy: {
     '/api': {
       target: process.env['API_URL'],
+      agent: process.env['API_URL'].startsWith('http://') ? new http.Agent({keepAlive: true}) : process.env['API_URL'].startsWith('https://') ? new https.Agent({keepAlive: true}) : undefined
     }
   },
   env: {
