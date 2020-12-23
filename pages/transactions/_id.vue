@@ -68,7 +68,7 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
         }
     },
     validate({ params }) {
-        return !!params.id
+        return !!params.id && /^0x[0-9a-fA-F]{64}$/.test(params.id)
     },
     components: {
         TxInfo,
