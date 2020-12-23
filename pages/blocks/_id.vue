@@ -49,7 +49,7 @@ import { Context } from '@nuxt/types'
         }
     },
     validate({ params }) {
-        return !!params.id
+        return !!params.id && /^0x[0-9a-fA-F]{64}$/.test(params.id)
     },
     async asyncData(ctx: Context) {
         const blockDetail = await ctx.$svc.block(ctx.params.id)

@@ -47,7 +47,7 @@ import { Route } from 'vue-router'
         }
     },
     validate({ params }) {
-        return !!params.id
+        return !!params.id && /^0x[0-9a-fA-F]{40}$/.test(params.id)
     },
     async asyncData(ctx: Context) {
         const params = ctx.params

@@ -58,6 +58,9 @@ import { Vue, Component } from 'vue-property-decorator'
 import VueHcaptcha from '@hcaptcha/vue-hcaptcha/src/component/vue-hcaptcha.vue'
 import AccountLink from '@/components/AccountLink.vue'
 @Component({
+    validate({query}){
+        return !!query.address && typeof query.address === 'string' && /^0x[0-9a-fA-F]{40}$/.test(query.address)
+    },
     components: {
         AccountLink
     }
