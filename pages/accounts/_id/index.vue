@@ -145,6 +145,16 @@
                     />
                 </template>
             </ListItem>
+            <ListItem v-if="account.deployer">
+                <template slot="label">Deployer</template>
+                <template slot="item-content">
+                    <AccountLink
+                        class="d-flex align-items-center"
+                        :address="account.deployer"
+                        :short="false"
+                    />
+                </template>
+            </ListItem>
             <template v-if="account.code">
                 <ListItem v-if="account.sponsor">
                     <template slot="label">Sponsor</template>
