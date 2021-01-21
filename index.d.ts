@@ -121,23 +121,10 @@ declare namespace DTO {
     value: string
     data: string
   }
-  type Tx = {
-    txID: string
-    txIndex: number
-    chainTag: number
-    blockRef: string
-    expiration: number
-    gasPriceCoef: number
-    gas: number
-    nonce: string
-    dependsOn: string | null
-    origin: string
-    delegator: string | null
-    size: number
+  type Tx = Receipt & BlockMeta & {
+    outputs: Output[]
     clauses: Clause[]
-    receipt?: {
-      reverted: boolean
-    }
+    reverted: boolean
   }
 
   type TxDetail = {
