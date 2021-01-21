@@ -107,7 +107,7 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
             }
         ]
 
-        const clauseList = data.clauses.map((item: any, index: number) => {
+        const clauseList = data.clauses.map((item: DTO.Clause, index: number) => {
             return {
                 ...item,
                 ...data.outputs[index]

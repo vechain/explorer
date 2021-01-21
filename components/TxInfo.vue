@@ -88,11 +88,41 @@
                 </template>
             </ListItem>
             <ListItem>
+                <template slot="label">Contract Addresses</template>
+                <template slot="item-content">
+                    <ul v-if="contractAddr.length" class="mb-0 pl-0">
+                        <li
+                            class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center"
+                            v-for="(item, i) in contractAddr"
+                            :key="i"
+                        >
+                            <b-link
+                                class="d-inline-block d-sm-flex mr-1"
+                                :href="'#clauses-' + (item.index + 1)"
+                            >
+                                <small>@clause#{{item.index + 1}}</small>
+                            </b-link>
+                            <AccountLink :address="item.address" size="sm" :short="false"/>
+                        </li>
+                    </ul>
+                    <span v-else>-</span>
+                </template>
+            </ListItem>
+            <ListItem>
                 <template slot="label">Token Transferred</template>
                 <template slot="item-content">
                     <ul v-if="transfersList.length" class="mb-0 pl-0">
-                        <li class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center" v-for="(item, i) in transfersList" :key="i">
-                            <b-link class="d-inline-block d-sm-flex mr-1" :href="'#clauses-' + (item.clauseIndex + 1)"> <small> @clause#{{item.clauseIndex + 1}} </small></b-link>
+                        <li
+                            class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center"
+                            v-for="(item, i) in transfersList"
+                            :key="i"
+                        >
+                            <b-link
+                                class="d-inline-block d-sm-flex mr-1"
+                                :href="'#clauses-' + (item.clauseIndex + 1)"
+                            >
+                                <small>@clause#{{item.clauseIndex + 1}}</small>
+                            </b-link>
                             <TokenTransferItem :origin="tx.origin" :transfer="item" />
                         </li>
                     </ul>
@@ -196,7 +226,6 @@ export default class TxInfo extends Vue {
     }
 
     get transfersList() {
-        
         return this.transfers.map(item => {
             return {
                 sender: item.sender,
@@ -208,11 +237,25 @@ export default class TxInfo extends Vue {
         })
     }
 
+    get contractAddr() {
+        const result: { address: string; index: number }[] = []
+        this.tx.outputs.forEach((item, i) => {
+            if (item.contractAddress) {
+                result.push({
+                    address: item.contractAddress,
+                    index: i
+                })
+            }
+        })
+        return result
+    }
+
     blcokRefNum(blockRef: string) {
         return Vue.filter('bNum')(blockRef)
     }
 
     onCopy() {
+        console.log(this.tx)
         const t = this.$refs['tx-id-btn-tip'] as Vue
         t.$emit('open')
         setTimeout(() => {
