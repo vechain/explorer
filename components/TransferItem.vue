@@ -33,10 +33,6 @@ import Amount from '@/components/Amount.vue'
 })
 export default class TransferItem extends Vue {
     @Prop()
-    transfer!: {
-        sender: string,
-        recipient: string,
-        amount: string
-    }
+    transfer!: DTO.TransferItem
 }
 </script>

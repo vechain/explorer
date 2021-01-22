@@ -119,10 +119,7 @@ import { abi } from 'thor-devkit/dist/abi'
 })
 export default class Decoded extends Vue {
     @Prop(Object)
-    event!: {
-        data: string
-        topics?: string[]
-    }
+    event!: DTO.Event
 
     @Prop(String)
     inputData!: string

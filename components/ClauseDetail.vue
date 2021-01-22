@@ -7,7 +7,7 @@
           <small v-else>No Data</small>
         </b-card>
       </b-tab>
-      <b-tab title="Transfers">
+      <b-tab v-if="!!transfers" title="Transfers">
         <b-card :class="{'text-center': !(transfers.length > 0)}">
           <template v-if="transfers.length > 0">
             <TransferItem v-for="(item, i) in transfers" :key="i" :transfer="item" />
@@ -15,7 +15,7 @@
           <small v-else>No transfers</small>
         </b-card>
       </b-tab>
-      <b-tab title="Events">
+      <b-tab v-if="!!events" title="Events">
         <template v-if="events.length > 0">
           <b-card class="mb-1" no-body v-for="(item, i) in events" :key="i">
             <b-card-header header-class="py-1 px-3">
@@ -55,9 +55,9 @@ export default class ClauseDetail extends Vue {
   inputData!: string
 
   @Prop({ default: [] })
-  events!: any[]
+  events!: DTO.Event[]
 
   @Prop({ default: [] })
-  transfers!: any[]
+  transfers!: DTO.TransferItem[]
 }
 </script>

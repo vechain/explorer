@@ -121,9 +121,19 @@ declare namespace DTO {
     value: string
     data: string
   }
-  type Tx = Receipt & BlockMeta & {
-    outputs: Output[]
+  type Tx = {
+    blockRef: string
+    chainTag: number
     clauses: Clause[]
+    delegator: null | string
+    dependsOn: null | string
+    expiration: number
+    gas: number
+    nonce: string
+    origin: string
+    size: number
+    gasPriceCoef: number
+    txID: string
     reverted: boolean
   }
 
@@ -164,5 +174,15 @@ declare namespace DTO {
     prev: string | null
     next: string | null
     block: Block
+  }
+  type Event = {
+    data: string
+    topics?: string[]
+  }
+
+  type TransferItem = {
+    sender: string,
+    recipient: string,
+    amount: string
   }
 }
