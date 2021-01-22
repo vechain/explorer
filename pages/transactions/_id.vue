@@ -6,14 +6,17 @@
                 <h5 class="d-inline-block text-secondary">
                     <RevertedIcon v-if="tx.reverted" />
                     <span>{{tx.txID | shortID}}</span>
-                    @
-                    <nuxt-link
-                        :to="{
+                    <template v-if="tx.blockNumber">
+                        @
+                        <nuxt-link
+                            v-if="tx.blockNumber"
+                            :to="{
                         name: 'blocks-id', params: {
                             id: tx.blockID
                         }
                     }"
-                    >{{tx.blockNumber | numFmt}}</nuxt-link>
+                        >{{tx.blockNumber | numFmt}}</nuxt-link>
+                    </template>
                 </h5>
             </div>
             <b-nav class="border-0" tabs align="left">
@@ -27,7 +30,8 @@
                 >{{item.text}}</b-nav-item>
             </b-nav>
             <div style="background-color: #fff" v-show="isMounted">
-                <TxInfo
+                <component
+                    :is="meta ? 'TxInfo' : 'TxPending'"
                     :bestNum="best.number"
                     v-show="tab === 'info'"
                     :tx="tx"
@@ -58,6 +62,7 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import TxInfo from '@/components/TxInfo.vue'
+import TxPending from '@/components/TxPending.vue'
 import TxClauses from '@/components/TxClauses.vue'
 import { Context } from '@nuxt/types'
 import RevertedIcon from '@/components/RevertedIcon.vue'
@@ -73,27 +78,24 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
     components: {
         TxInfo,
         TxClauses,
-        RevertedIcon
+        RevertedIcon,
+        TxPending
     },
     async asyncData(ctx: Context) {
         const result: DTO.TxDetail = await ctx.$svc.tx(ctx.params.id)
 
-        if (!result.tx) {
-            return {
-                tx: null
-            }
-        }
-
         const data = {
             tx: {},
             clauses: result.tx.clauses,
-            outputs: result.receipt.outputs,
+            outputs: result.receipt ? result.receipt.outputs : null,
             transfers: result.transfers,
             meta: result.meta
         }
         Object.assign(data.tx, result.tx)
-        Object.assign(data.tx, result.receipt)
-        Object.assign(data.tx, result.meta)
+        if (result.receipt) {
+            Object.assign(data.tx, result.receipt)
+            Object.assign(data.tx, result.meta)
+        }
 
         const params = ctx.params
         const links = [
@@ -107,12 +109,14 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
             }
         ]
 
-        const clauseList = data.clauses.map((item: DTO.Clause, index: number) => {
-            return {
-                ...item,
-                ...data.outputs[index]
+        const clauseList = data.clauses.map(
+            (item: DTO.Clause, index: number) => {
+                return {
+                    ...item,
+                    ...(data.outputs ? data.outputs[index] : {})
+                }
             }
-        })
+        )
         return { links, ...data, clauseList }
     }
 })

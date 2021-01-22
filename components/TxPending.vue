@@ -5,13 +5,7 @@
                 <template slot="label">Status</template>
                 <template slot="item-content">
                     <div class="d-flex align-items-center">
-                        <b-badge
-                            v-if="tx.reverted"
-                            style="background-color: red"
-                            class="mr-2"
-                        >Reverted</b-badge>
-                        <b-badge v-else class="mr-2" variant="success">Success</b-badge>
-                        <span>{{txStatus}}</span>
+                        <b-badge class="mr-2" variant="info">Pending</b-badge>
                     </div>
                 </template>
             </ListItem>
@@ -33,10 +27,6 @@
                 </template>
             </ListItem>
             <ListItem>
-                <template slot="label">Timestamp</template>
-                <template slot="item-content">{{tx.blockTimestamp | datetime}}</template>
-            </ListItem>
-            <ListItem>
                 <template slot="label">Clauses</template>
                 <template slot="item-content">
                     <b-button
@@ -53,80 +43,9 @@
                 </template>
             </ListItem>
             <ListItem>
-                <template slot="label">Gas Used</template>
-                <template slot="item-content">
-                    <span class="text-monospace">{{tx.gasUsed | numFmt}}/{{tx.gas | numFmt}}</span>
-                    <sup>
-                        <strong>price coef {{tx.gasPriceCoef}}</strong>
-                    </sup>
-                </template>
-            </ListItem>
-            <ListItem>
                 <template slot="label">Origin</template>
                 <template slot="item-content">
                     <AccountLink :address="tx.origin" :short="false" />
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Fee</template>
-                <template slot="item-content">
-                    <div class="d-inline-block d-sm-flex align-items-center">
-                        <Amount :amount="tx.paid" sym="VTHO" />
-                        <template v-if="tx.delegator">
-                            <span class="mx-2">delegated by</span>
-                            <AccountLink :address="tx.delegator" size="sm" />
-                        </template>
-                        <template v-else-if="tx.gasPayer !== tx.origin">
-                            <span class="mx-2">sponsored by</span>
-                            <AccountLink :address="tx.gasPayer" size="sm" />
-                        </template>
-                        <template v-else>
-                            <span class="mx-2">paid by</span>
-                            <strong>Origin</strong>
-                        </template>
-                    </div>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Contract Addresses</template>
-                <template slot="item-content">
-                    <ul v-if="contractAddr.length" class="mb-0 pl-0">
-                        <li
-                            class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center"
-                            v-for="(item, i) in contractAddr"
-                            :key="i"
-                        >
-                            <b-link
-                                class="d-inline-block d-sm-flex mr-1"
-                                :href="'#clauses-' + (item.index + 1)"
-                            >
-                                <small>@clause#{{item.index + 1}}</small>
-                            </b-link>
-                            <AccountLink :address="item.address" size="sm" :short="false" />
-                        </li>
-                    </ul>
-                    <span v-else>-</span>
-                </template>
-            </ListItem>
-            <ListItem>
-                <template slot="label">Token Transferred</template>
-                <template slot="item-content">
-                    <ul v-if="transfersList.length" class="mb-0 pl-0">
-                        <li
-                            class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center"
-                            v-for="(item, i) in transfersList"
-                            :key="i"
-                        >
-                            <b-link
-                                class="d-inline-block d-sm-flex mr-1"
-                                :href="'#clauses-' + (item.clauseIndex + 1)"
-                            >
-                                <small>@clause#{{item.clauseIndex + 1}}</small>
-                            </b-link>
-                            <TokenTransferItem :origin="tx.origin" :transfer="item" />
-                        </li>
-                    </ul>
-                    <span v-else>-</span>
                 </template>
             </ListItem>
 
@@ -134,12 +53,6 @@
                 <ListItem>
                     <template slot="label">Size</template>
                     <template slot="item-content">{{tx.size}} B</template>
-                </ListItem>
-                <ListItem>
-                    <template slot="label">Reward</template>
-                    <template slot="item-content">
-                        <Amount :amount="tx.reward" sym="VTHO" />
-                    </template>
                 </ListItem>
                 <ListItem>
                     <template slot="label">BlockRef</template>
@@ -210,45 +123,13 @@ import { Context } from '@nuxt/types'
 })
 export default class TxInfo extends Vue {
     @Prop(Object)
-    tx!: DTO.Tx & DTO.BlockMeta & { outputs: DTO.Output[] }
+    tx!: DTO.Tx
 
     @Prop(Number)
     bestNum!: number
 
-    @Prop()
-    transfers!: DTO.Transfer[]
-
     showTip = false
     isMore = false
-    get txStatus() {
-        const confirm = this.bestNum - this.tx.blockNumber
-        return ` ${confirm > 0 ? confirm : 0} Confirmations`
-    }
-
-    get transfersList() {
-        return this.transfers.map(item => {
-            return {
-                sender: item.sender,
-                clauseIndex: item.meta.clauseIndex,
-                recipient: item.recipient,
-                amount: item.amount,
-                symbol: item.symbol
-            }
-        })
-    }
-
-    get contractAddr() {
-        const result: { address: string; index: number }[] = []
-        this.tx.outputs.forEach((item, i) => {
-            if (item.contractAddress) {
-                result.push({
-                    address: item.contractAddress,
-                    index: i
-                })
-            }
-        })
-        return result
-    }
 
     blcokRefNum(blockRef: string) {
         return Vue.filter('bNum')(blockRef)
@@ -264,5 +145,3 @@ export default class TxInfo extends Vue {
     }
 }
 </script>
-
-
