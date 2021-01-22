@@ -60,7 +60,7 @@
     </div>
 </template>
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import TxInfo from '@/components/TxInfo.vue'
 import TxPending from '@/components/TxPending.vue'
 import TxClauses from '@/components/TxClauses.vue'
@@ -132,6 +132,19 @@ export default class Transaction extends Vue {
     mounted() {
         this.isMounted = true
     }
+
+    @Watch('best')
+    async onBest() {
+        if (!this.$data.tx.meta) {
+            const result: DTO.TxDetail = await this.$svc.tx(this.$data.tx.txID)
+            if (result.meta) {
+                this.$router.go(0)
+            }
+        } else {
+            return
+        }
+    }
+
     get best(): DTO.Block {
         return this.$store.state.best
     }
