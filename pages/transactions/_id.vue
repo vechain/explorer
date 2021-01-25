@@ -30,7 +30,7 @@
                 >{{item.text}}</b-nav-item>
             </b-nav>
             <div style="background-color: #fff" v-show="isMounted">
-                <component
+                <NuxtDynamic
                     :is="meta ? 'TxInfo' : 'TxPending'"
                     :bestNum="best.number"
                     v-show="tab === 'info'"
@@ -82,46 +82,15 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
         TxPending
     },
     async asyncData(ctx: Context) {
-        const result: DTO.TxDetail = await ctx.$svc.tx(ctx.params.id)
-
-        const data = {
-            tx: {},
-            clauses: result.tx.clauses,
-            outputs: result.receipt ? result.receipt.outputs : null,
-            transfers: result.transfers,
-            meta: result.meta
+        const txDetail: DTO.TxDetail = await ctx.$svc.tx(ctx.params.id)
+        return {
+            txDetail
         }
-        Object.assign(data.tx, result.tx)
-        if (result.receipt) {
-            Object.assign(data.tx, result.receipt)
-            Object.assign(data.tx, result.meta)
-        }
-
-        const params = ctx.params
-        const links = [
-            {
-                text: 'Info',
-                hash: '#info'
-            },
-            {
-                text: `Clauses(${data.clauses.length})`,
-                hash: '#clauses'
-            }
-        ]
-
-        const clauseList = data.clauses.map(
-            (item: DTO.Clause, index: number) => {
-                return {
-                    ...item,
-                    ...(data.outputs ? data.outputs[index] : {})
-                }
-            }
-        )
-        return { links, ...data, clauseList }
     }
 })
 export default class Transaction extends Vue {
     isMounted = false
+    txDetail: DTO.TxDetail | null = null
     beforeMount() {
         const temp = this.$route.hash.substr(1).toLowerCase()
         if (!(temp.includes('info') || temp.includes('clauses'))) {
@@ -135,14 +104,57 @@ export default class Transaction extends Vue {
 
     @Watch('best')
     async onBest() {
-        if (!this.$data.tx.meta) {
-            const result: DTO.TxDetail = await this.$svc.tx(this.$data.tx.txID)
-            if (result.meta) {
-                this.$router.go(0)
-            }
+        if (this.txDetail && !this.txDetail.meta) {
+            this.txDetail = await this.$svc.tx(this.txDetail.tx.txID)
         } else {
             return
         }
+    }
+
+    get transfers() {
+        return this.txDetail ? this.txDetail.transfers : null
+    }
+
+    get tx() {
+        return {
+            ...this.txDetail!.tx,
+            ...(this.txDetail!.receipt ? this.txDetail!.receipt : {}),
+            ...(this.txDetail!.meta ? this.txDetail!.meta : {})
+        }
+    }
+
+    get outputs() {
+        return this.txDetail!.receipt ? this.txDetail!.receipt.outputs : null
+    }
+
+    get clauseList() {
+        return this.clauses ? this.clauses.map((item: DTO.Clause, index: number) => {
+            return {
+                ...item,
+                ...(this.outputs ? this.outputs[index] : {})
+            }
+        }) : []
+    }
+
+    get meta() {
+        return this.txDetail ? this.txDetail.meta : null
+    }
+
+    get clauses() {
+        return this.txDetail ? this.txDetail!.tx.clauses : null
+    }
+
+    get links() {
+        return [
+            {
+                text: 'Info',
+                hash: '#info'
+            },
+            {
+                text: `Clauses(${this.clauseList.length})`,
+                hash: '#clauses'
+            }
+        ]
     }
 
     get best(): DTO.Block {
