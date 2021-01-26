@@ -116,10 +116,14 @@ export default class Transaction extends Vue {
     }
 
     get tx() {
-        return {
-            ...this.txDetail!.tx,
-            ...(this.txDetail!.receipt ? this.txDetail!.receipt : {}),
-            ...(this.txDetail!.meta ? this.txDetail!.meta : {})
+        if (this.txDetail && this.txDetail.tx) {
+            return {
+                ...this.txDetail!.tx,
+                ...(this.txDetail!.receipt ? this.txDetail!.receipt : {}),
+                ...(this.txDetail!.meta ? this.txDetail!.meta : {})
+            }
+        } else {
+            return null
         }
     }
 
@@ -128,12 +132,14 @@ export default class Transaction extends Vue {
     }
 
     get clauseList() {
-        return this.clauses ? this.clauses.map((item: DTO.Clause, index: number) => {
-            return {
-                ...item,
-                ...(this.outputs ? this.outputs[index] : {})
-            }
-        }) : []
+        return this.clauses
+            ? this.clauses.map((item: DTO.Clause, index: number) => {
+                  return {
+                      ...item,
+                      ...(this.outputs ? this.outputs[index] : {})
+                  }
+              })
+            : []
     }
 
     get meta() {
