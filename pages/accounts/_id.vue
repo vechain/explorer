@@ -29,9 +29,7 @@
         />
         <div v-if="$route.name.includes('transfer')" class="text-right">
             <span class="text-muted">Download</span>
-            <b-link
-                :to="{name: 'download', query: {address: account.address}}"
-            >CSV Export</b-link>
+            <b-link :to="{name: 'download', query: {address: account.address}}">CSV Export</b-link>
         </div>
     </div>
 </template>
@@ -53,72 +51,91 @@ import { Route } from 'vue-router'
         const params = ctx.params
         const result = await ctx.$svc.account(ctx.params.id)
         const tokenList = await ctx.$svc.tokens()
-        const extraInfo = tokenList.find(item => {
-            return item.address === result.account.address
-        })
+
+        return {
+            detail: result,
+            tokenList,
+            params
+        }
+    }
+})
+export default class Account extends Vue {
+    detail: DTO.AccountDetail | null = null
+    tokenList: DTO.Token[] | null = null
+    params: any = null
+
+    @Watch('$route')
+    async onRouterChange(to: Route, from: Route) {
+        if (to.name === 'accounts-id') {
+            this.detail = await this.$svc.account(to.params.id)
+            const tokenList = await this.$svc.tokens()
+        }
+    }
+
+    // by tokenList
+    get extraInfo() {
+        if (this.tokenList && this.account) {
+            return (
+                this.tokenList.find(item => {
+                    return item.address === this.account!.address
+                }) || null
+            )
+        } else {
+            return null
+        }
+    }
+
+    // by detail
+    get title() {
+        return this.account!.code
+            ? 'Contract'
+            : this.authority
+            ? 'Authority'
+            : 'Account'
+    }
+    get account() {
+        return this.detail && this.detail.account
+    }
+    get authority() {
+        return this.detail && this.detail.authority
+    }
+    get tokens() {
+        return this.detail && this.detail.tokens
+    }
+    get links() {
         const links = [
             {
                 text: 'Summary',
                 route: {
                     name: 'accounts-id',
-                    params
+                    params: this.params
                 }
             },
             {
                 text: 'Transactions',
                 route: {
                     name: 'accounts-id-txs',
-                    params
+                    params: this.params
                 }
             },
             {
                 text: 'Transfers',
                 route: {
                     name: 'accounts-id-transfer',
-                    params
+                    params: this.params
                 }
             }
         ]
-
-        if (result && result.authority) {
+        if (this.detail && this.detail.authority) {
             links.push({
                 text: 'Signed Blocks',
                 route: {
                     name: 'accounts-id-blocks',
-                    params
+                    params: this.params
                 }
             })
         }
-        const title = result.account.code
-            ? 'Contract'
-            : result.authority
-            ? 'Authority'
-            : 'Account'
-
-        return { links, ...result, title, extraInfo }
-    }
-})
-export default class Account extends Vue {
-    links: any[] = []
-    account: DTO.Account | null = null
-    authority: DTO.Authority | null = null
-    tokens: DTO.TokenBalance[] = []
-    extraInfo: DTO.Token | null = null
-    title: string | null = null
-
-    @Watch('$route')
-    async onRouterChange(to: Route, from: Route) {
-        if (to.name === 'accounts-id') {
-            const temp = await this.$svc.account(to.params.id)
-            const tokenList = await this.$svc.tokens()
-            this.extraInfo =
-                tokenList.find(item => {
-                    return item.address === temp.account.address
-                }) || null
-            this.account = temp.account
-            this.authority = temp.authority
-            this.tokens = temp.tokens
-        }
+        return links
     }
 }
 </script>
