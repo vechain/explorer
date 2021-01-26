@@ -21,7 +21,7 @@
         <b-row no-gutters class="pt-2 justify-content-center">
             <b-col sm="8" class="text-center">
                 <small class="text-white">
-                    Copyright &copy; 2019
+                    Copyright &copy; 2021
                     <a
                         class="text-white"
                         href=" https://vechain.org"
@@ -46,7 +46,7 @@ export default class PageFooter extends Vue {
                     link: 'https://vechainstats.com'
                 },
                 {
-                    name: 'VechainThorScan (beta)',
+                    name: 'VechainThorScan',
                     link: 'https://vechainthorscan.com'
                 }
             ]
