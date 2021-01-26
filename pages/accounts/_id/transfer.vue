@@ -143,18 +143,15 @@ import { Route } from 'vue-router'
 
         const result = await ctx.$svc.accountTfs(ctx.params.id, page, 10, type)
         return {
-            account: ctx.params.id.toLowerCase(),
-            ...result,
+            transferDetail: result,
             currentPage: page
         }
     }
 })
 export default class AccountTransfer extends Vue {
-    count = 0
+    transferDetail: DTO.AccountTransfers & { pageCount: number } | null = null
     currentPage = 1
-    pageCount = 0
     perPage = 10
-    transfers: DTO.AccountTransfer[] = []
     isAuthority = false
     loading = false
     fields = [
@@ -203,6 +200,10 @@ export default class AccountTransfer extends Vue {
         }
     }
 
+    get account() {
+        return this.$route.params.id.toLowerCase()
+    }
+
     get btnContent() {
         const temp: string = (this.$route.query.token as string) || ''
         if (temp) {
@@ -242,6 +243,18 @@ export default class AccountTransfer extends Vue {
         }
     }
 
+    get transfers() {
+        return this.transferDetail ? this.transferDetail.transfers : []
+    }
+
+    get pageCount() {
+        return this.transferDetail ? this.transferDetail.pageCount : 0
+    }
+
+    get count() {
+        return this.transferDetail ? this.transferDetail.count : 0
+    }
+
     @Watch('$route')
     async queryChange(n: Route, o: Route) {
         this.loading = true
@@ -252,18 +265,14 @@ export default class AccountTransfer extends Vue {
         const end = page * this.perPage
         const type = (this.$route.query.token as string) || ''
 
-        const result = await this.$svc.accountTfs(
+        this.transferDetail = await this.$svc.accountTfs(
             this.$route.params.id,
             page,
             this.perPage,
             type
         )
-
-        this.pageCount = result.pageCount
         this.loading = false
         this.currentPage = page
-        this.transfers = result.transfers
-        this.count = result.count
     }
 }
 </script>

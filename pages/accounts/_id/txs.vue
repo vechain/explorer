@@ -95,10 +95,7 @@
             <template v-slot:cell(time)="row">{{row.item.meta.blockTimestamp | datetime}}</template>
             <template v-slot:cell(from-to)="row">
                 <div class="d-flex align-items-center">
-                    <span
-                        v-b-tooltip.hover
-                        :title="row.item.origin !== account ? 'From' : 'To'"
-                    >
+                    <span v-b-tooltip.hover :title="row.item.origin !== account ? 'From' : 'To'">
                         <font-awesome-icon
                             small
                             class="mr-1"
@@ -152,16 +149,14 @@ import { Route } from 'vue-router'
 
         const result = await ctx.$svc.accountTxs(ctx.params.id, page, type, 10)
         return {
-            ...result,
+            txDetail: result,
             currentPage: page
         }
     }
 })
 export default class AccountTxs extends Vue {
-    count = 0
-    pageCount = 0
+    txDetail: DTO.AccountTxs & { pageCount: number } | null = null
     perPage = 10
-    txs: DTO.AccountTx[] = []
     loading = false
     currentPage = 1
     isAuthority = false
@@ -234,6 +229,18 @@ export default class AccountTxs extends Vue {
         this.$emit('account-isAuthority', this.isAuthority)
     }
 
+    get pageCount() {
+        return this.txDetail ? this.txDetail.pageCount : 0
+    }
+
+    get txs() {
+        return this.txDetail ? this.txDetail.txs : []
+    }
+
+    get count() {
+        return this.txDetail ? this.txDetail.count : 0
+    }
+
     @Watch('$route')
     async queryChange(n: Route, o: Route) {
         this.loading = true
@@ -250,7 +257,7 @@ export default class AccountTxs extends Vue {
             ? (action as 'In' | 'Out')
             : undefined
 
-        const result = await this.$svc.accountTxs(
+        this.txDetail = await this.$svc.accountTxs(
             this.$route.params.id,
             page,
             type,
@@ -258,9 +265,6 @@ export default class AccountTxs extends Vue {
         )
         this.currentPage = page
         this.loading = false
-        this.pageCount = result.pageCount
-        this.txs = result.txs
-        this.count = result.count
     }
 }
 </script>
