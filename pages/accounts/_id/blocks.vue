@@ -71,23 +71,21 @@ import { Context } from '@nuxt/types'
     },
     async asyncData(ctx: Context) {
         const page = parseInt((ctx.query.page as string) || '1')
-        const result = await ctx.$svc.signedBlocks(
+        const signedBlocks = await ctx.$svc.signedBlocks(
             ctx.params.id,
             page,
             10
         )
         return {
-            ...result,
+            signedBlocks,
             currentPage: page
         }
     }
 })
 export default class AccountBlocks extends Vue {
-    count = 0
+    signedBlocks: DTO.SignedBlocks & { pageCount: number } | null = null
     currentPage = 1
-    blocks: DTO.Block[] = []
     perPage = 10
-    pageCount = 0
     loading = false
     fields = [
         {
@@ -119,20 +117,29 @@ export default class AccountBlocks extends Vue {
         }
     }
 
+    get pageCount() {
+        return this.signedBlocks ? this.signedBlocks.pageCount : 0
+    }
+
+    get blocks() {
+        return this.signedBlocks ? this.signedBlocks.blocks : []
+    }
+
+    get count() {
+        return this.signedBlocks ? this.signedBlocks.count : 0
+    }
+
     @Watch('$route')
     async queryChange() {
         this.loading = true
         const page = parseInt((this.$route.query.page as string) || '1', 10)
-        const result = await this.$svc.signedBlocks(
+        this.signedBlocks = await this.$svc.signedBlocks(
             this.$route.params.id,
             page,
             this.perPage
         )
         this.loading = false
         this.currentPage = page
-        this.pageCount = result.pageCount
-        this.blocks = result.blocks
-        this.count = result.count
     }
 }
 </script>
