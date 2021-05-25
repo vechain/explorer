@@ -9,11 +9,12 @@
                             v-if="tx.reverted"
                             style="background-color: red"
                             class="mr-2"
-                            v-b-tooltip.hover
-                            :title="tx.vmError.reason ? tx.vmError.reason : tx.vmError.error"
                         >Reverted</b-badge>
                         <b-badge v-else class="mr-2" variant="success">Success</b-badge>
                         <span>{{txStatus}}</span>
+                    </div>
+                    <div v-if="tx.reverted">
+                        <b-icon icon="arrow-return-right"/> <small>{{tx.vmError.reason ? tx.vmError.reason : tx.vmError.error}}</small>
                     </div>
                 </template>
             </ListItem>
