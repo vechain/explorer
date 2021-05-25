@@ -91,7 +91,7 @@
                 </template>
             </ListItem>
             <ListItem v-if="contractAddr.length">
-                <template slot="label">Contract Addresses</template>
+                <template slot="label">Contract Creation</template>
                 <template slot="item-content">
                     <ul class="mb-0 pl-0">
                         <li
@@ -105,7 +105,9 @@
                             >
                                 <small>@clause#{{item.index + 1}}</small>
                             </b-link>
-                            <AccountLink :address="item.address" size="sm" :short="false" />
+                            <strong>Origin</strong>
+                            <small class="mx-2"> deployed a contract </small>
+                            <AccountLink :address="item.address" size="sm" />
                         </li>
                     </ul>
                 </template>
