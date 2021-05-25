@@ -9,6 +9,8 @@
                             v-if="tx.reverted"
                             style="background-color: red"
                             class="mr-2"
+                            v-b-tooltip.hover
+                            :title="tx.vmError.error"
                         >Reverted</b-badge>
                         <b-badge v-else class="mr-2" variant="success">Success</b-badge>
                         <span>{{txStatus}}</span>
@@ -210,7 +212,7 @@ import { Context } from '@nuxt/types'
 })
 export default class TxInfo extends Vue {
     @Prop(Object)
-    tx!: DTO.Tx & DTO.BlockMeta & { outputs: DTO.Output[] }
+    tx!: DTO.Tx & DTO.BlockMeta & { outputs: DTO.Output[] } & DTO.Receipt
 
     @Prop(Number)
     bestNum!: number
