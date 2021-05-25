@@ -10,7 +10,7 @@
                             style="background-color: red"
                             class="mr-2"
                             v-b-tooltip.hover
-                            :title="tx.vmError.error"
+                            :title="tx.vmError.reason ? tx.vmError.reason : tx.vmError.error"
                         >Reverted</b-badge>
                         <b-badge v-else class="mr-2" variant="success">Success</b-badge>
                         <span>{{txStatus}}</span>
@@ -89,10 +89,10 @@
                     </div>
                 </template>
             </ListItem>
-            <ListItem>
+            <ListItem v-if="contractAddr.length">
                 <template slot="label">Contract Addresses</template>
                 <template slot="item-content">
-                    <ul v-if="contractAddr.length" class="mb-0 pl-0">
+                    <ul class="mb-0 pl-0">
                         <li
                             class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center"
                             v-for="(item, i) in contractAddr"
@@ -107,13 +107,12 @@
                             <AccountLink :address="item.address" size="sm" :short="false" />
                         </li>
                     </ul>
-                    <span v-else>-</span>
                 </template>
             </ListItem>
-            <ListItem>
+            <ListItem v-if="transfersList.length">
                 <template slot="label">Token Transferred</template>
                 <template slot="item-content">
-                    <ul v-if="transfersList.length" class="mb-0 pl-0">
+                    <ul class="mb-0 pl-0">
                         <li
                             class="pt-1 pb-2 d-inline-block d-sm-flex align-items-center"
                             v-for="(item, i) in transfersList"
@@ -128,7 +127,6 @@
                             <TokenTransferItem :origin="tx.origin" :transfer="item" />
                         </li>
                     </ul>
-                    <span v-else>-</span>
                 </template>
             </ListItem>
 
