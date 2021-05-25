@@ -27,37 +27,9 @@ const getItem = function (key: string) {
   }
 }
 
-async function fetchTokens() {
-  const resp = await fetch(`/api/registry/tokens`)
-  if (resp.status !== 200) {
-    return
-  }
-  return await resp.json()
-}
-
-async function setToken() {
-  const result = await fetchTokens()
-  const obj = {
-    time: Date.now(),
-    list: result
-  }
-  setItem('tokens', obj)
-}
-
 const _localStorage: LocalS = {
   getItem,
   setItem
-}
-
-const initTokens = async () => {
-  const tokens = getItem('tokens')
-  if (tokens) {
-    if ((Date.now() - tokens.time) > 24 * 60 * 60 * 1000) {
-      await setToken()
-    }
-  } else {
-    await setToken()
-  }
 }
 
 const getLocalAbis = (): { key: string, value: object }[] => {
@@ -75,7 +47,14 @@ const getLocalAbis = (): { key: string, value: object }[] => {
 }
 
 export default async (ctx: Context, inject: any) => {
-  await initTokens()
+  const tokens = getItem('tokens')
+  if ( !tokens || (tokens && (Date.now() - tokens.time) > 24 * 60 * 60 * 1000)) {
+    const list = await ctx.$svc.tokens()
+    setItem('tokens', {
+      time: Date.now(),
+      list: list
+    })
+  }
   ctx.store.commit('setTokens', getItem('tokens').list)
   const abis = getLocalAbis()
   abis.forEach(item => {
