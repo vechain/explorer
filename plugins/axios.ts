@@ -29,6 +29,7 @@ interface IfcSvc {
   blockTxs(id: string): Promise<DTO.BlockTxs>
   tx(id: string): Promise<DTO.TxDetail>
   tokens(): Promise<DTO.Token[]>
+  price(): Promise<DTO.Price>
   account(addr: string): Promise<DTO.AccountDetail>
   recentTxs(limit?: number): Promise<{ txs: DTO.Tx[] }>
   recentBlocks(limit?: number): Promise<{ blocks: DTO.Block[] }>
@@ -63,8 +64,16 @@ class Svc implements IfcSvc {
   }
 
   async tokens(): Promise<DTO.Token[]> {
-    const result = await this.axios.$get(`/api/registry/tokens`)
-    return result.tokens
+    return await this.axios.$get(`/api/registry/tokens`)
+  }
+  async price(): Promise<DTO.Price> {
+    const result = await this.axios.$get(`/api/registry/price`)
+    return {
+      btc: {
+        VET: result.vechain.btc,
+        VTHO: result['vethor-token'].btc
+      }
+    }
   }
   async account(addr: string): Promise<DTO.AccountDetail> {
     return await this.axios.$get(`/api/accounts/${addr.toLowerCase()}`)

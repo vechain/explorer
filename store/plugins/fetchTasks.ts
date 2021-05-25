@@ -9,27 +9,10 @@ export const fetchBest: Plugin<App.State> = (store: Store<App.State>) => {
   }
 }
 
-export const f = async () => {
-  const resp = await fetch(
-    'https://api.coingecko.com/api/v3/simple/price?ids=vechain%2Cvethor-token&vs_currencies=btc'
-  )
-
-  if (resp.status === 200) {
-    const body = await resp.json()
-    const payload = {
-      btc: {
-        VET: body.vechain.btc,
-        VTHO: body['vethor-token'].btc
-      }
-    }
-    return payload
-  }
-}
-
 export const fetchPrice: Plugin<App.State> = (store: Store<App.State>) => {
   if (process.browser) {
     setInterval(async () => {
-      const payload = await f()
+      const payload = await store.$svc.price()
       store.commit('setPrice', payload)
     }, 300000)
   }
