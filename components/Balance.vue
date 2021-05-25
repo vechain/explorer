@@ -18,7 +18,7 @@
             </small>
         </p>
         <footer v-if="isMainnet" class="blockquote-footer text-monospace">
-            <small v-if="btc">{{ balance | calcBtc(btc) }} BTC</small>
+            <small v-if="btc"> {{ balance | calcBtc(btc) }} BTC</small>
             <small v-else>--</small>
         </footer>
     </blockquote>
