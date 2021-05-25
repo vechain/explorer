@@ -114,11 +114,11 @@ declare namespace DTO {
   }
   type Receipt = {
     txID: string
-    txIndex: number
     gasUsed: number
     gasPayer: string
     paid: string
     reward: string
+    vmError: { error: string, clauseIndex: number, reason: string }
     reverted: boolean
     outputs: Output[]
   }
