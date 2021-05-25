@@ -1,7 +1,7 @@
 import { Vue } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import { ActionContext, Plugin } from 'vuex/types'
-import { fetchBest, fetchPrice, f } from './plugins/fetchTasks'
+import { fetchBest, fetchPrice } from './plugins/fetchTasks'
 
 const isMainnet = (process.env['current'] || '').toLowerCase() === 'mainnet'
 
@@ -18,7 +18,7 @@ export const actions = {
   async nuxtServerInit(actx: ActionContext<App.State, any>, ctx: Context) {
     try {
       if (isMainnet) {
-        const payload = await f()
+        const payload = await ctx.$svc.price()
         actx.commit('setPrice', payload)
       }
 

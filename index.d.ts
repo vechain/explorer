@@ -26,6 +26,12 @@ declare namespace DTO {
     txCount: number
   }
 
+  type Price = {
+    [k: string]: {
+      [k: string]: number
+    }
+  }
+
   type MoveIndex = {
     txIndex: number
     clauseIndex: number

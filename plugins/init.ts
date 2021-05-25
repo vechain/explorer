@@ -1,6 +1,5 @@
 import { Context } from '@nuxt/types'
 
-const IS_MAIN = (process.env['current'] || '').toLowerCase() === 'mainnet'
 console.log(`%cREV.${process.env.Version}`, 'color: #3c5999;')
 
 interface LocalS {
@@ -40,7 +39,7 @@ async function setToken() {
   const result = await fetchTokens()
   const obj = {
     time: Date.now(),
-    list: result.tokens
+    list: result
   }
   setItem('tokens', obj)
 }
