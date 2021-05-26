@@ -105,9 +105,10 @@
                             >
                                 <small>@clause#{{item.index + 1}}</small>
                             </b-link>
-                            <strong>Origin</strong>
-                            <small class="mx-2"> deployed a contract </small>
+                            <small class="mx-2">contract</small>
                             <AccountLink :address="item.address" size="sm" />
+                            <small class="mx-2">created by</small>
+                            <strong>Origin</strong>
                         </li>
                     </ul>
                 </template>
