@@ -45,7 +45,7 @@
                                 }
                             }"
                         >
-                            <span class="text-secondary">RECEVIED</span>
+                            <span class="text-secondary">RECEIVED</span>
                         </b-dropdown-item>
                     </b-dropdown>
                 </div>
