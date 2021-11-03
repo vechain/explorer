@@ -47,7 +47,7 @@
                     <font-awesome-icon small :icon="row.detailsShowing ?'angle-up' : 'angle-down'" />
                 </b-button>
             </template>
-            <template v-slot:row-details="row">
+            <template v-if="isMounted" v-slot:row-details="row">
                 <ClauseDetail
                     :inputData="row.item.data"
                     :transfers="row.item.transfers"
@@ -78,6 +78,7 @@ export default class TxClause extends Vue {
     clauseList!: any[]
     currentPage = 1
     perPage = 10
+    isMounted = false
 
     get tokensAddress(): string[] {
         return this.$store.getters.tokenAddressList
@@ -109,6 +110,10 @@ export default class TxClause extends Vue {
             return item.address === address
         })
         return item
+    }
+
+    mounted() {
+        this.isMounted = true
     }
 
     get clauses() {
