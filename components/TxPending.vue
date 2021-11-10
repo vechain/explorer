@@ -43,6 +43,18 @@
                 </template>
             </ListItem>
             <ListItem>
+                <template slot="label">Gas</template>
+                <template slot="item-content">
+                    <span class="text-monospace">{{tx.gas | numFmt}}</span>
+                </template>
+            </ListItem>
+            <ListItem>
+                <template slot="label">Gas Price Coef</template>
+                <template slot="item-content">
+                    <span>{{tx.gasPriceCoef}}</span>
+                </template>
+            </ListItem>
+            <ListItem>
                 <template slot="label">Origin</template>
                 <template slot="item-content">
                     <AccountLink :address="tx.origin" :short="false" />
