@@ -259,7 +259,6 @@ export default class TxInfo extends Vue {
     }
 
     onCopy() {
-        console.log(this.tx)
         const t = this.$refs['tx-id-btn-tip'] as Vue
         t.$emit('open')
         setTimeout(() => {
