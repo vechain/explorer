@@ -5,7 +5,8 @@
                 <template slot="label">Status</template>
                 <template slot="item-content">
                     <div class="d-flex align-items-center">
-                        <b-badge class="mr-2" variant="info">Pending</b-badge>
+                        <b-badge v-if="isPending" class="mr-2" variant="info">Pending</b-badge>
+                        <b-badge v-else class="mr-2" variant="dark">Stale</b-badge>
                     </div>
                 </template>
             </ListItem>
@@ -122,7 +123,7 @@ import AccountLink from '@/components/AccountLink.vue'
 import TxLink from '@/components/TxLink.vue'
 import TokenTransferItem from '@/components/TokenTransferItem.vue'
 import Amount from '@/components/Amount.vue'
-import { Context } from '@nuxt/types'
+
 @Component({
     components: {
         ListItem,
@@ -134,6 +135,7 @@ import { Context } from '@nuxt/types'
     }
 })
 export default class TxInfo extends Vue {
+    name = 'tx_unpacking'
     @Prop(Object)
     tx!: DTO.Tx
 
@@ -145,6 +147,10 @@ export default class TxInfo extends Vue {
 
     blcokRefNum(blockRef: string) {
         return Vue.filter('bNum')(blockRef)
+    }
+
+    get isPending() {
+        return this.tx.state === 'PENDING'
     }
 
     onCopy() {
