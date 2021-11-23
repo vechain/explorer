@@ -158,7 +158,7 @@
                 </ListItem>
                 <ListItem>
                     <template slot="label">Expiration</template>
-                    <template slot="item-content">{{tx.expiration}}</template>
+                    <template slot="item-content">{{tx.expiration + ' blocks'}}</template>
                 </ListItem>
                 <ListItem>
                     <template slot="label">Nonce</template>
