@@ -31,7 +31,7 @@
             </b-nav>
             <div style="background-color: #fff" v-show="isMounted">
                 <NuxtDynamic
-                    :is="meta ? 'TxInfo' : 'TxPending'"
+                    :is="meta ? 'TxInfo' : 'TxUnpacking'"
                     :bestNum="best.number"
                     v-show="tab === 'info'"
                     :tx="tx"
@@ -62,7 +62,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import TxInfo from '@/components/TxInfo.vue'
-import TxPending from '@/components/TxPending.vue'
+import TxUnpacking from '@/components/TxUnpacking.vue'
 import TxClauses from '@/components/TxClauses.vue'
 import { Context } from '@nuxt/types'
 import RevertedIcon from '@/components/RevertedIcon.vue'
@@ -79,7 +79,7 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
         TxInfo,
         TxClauses,
         RevertedIcon,
-        TxPending
+        TxUnpacking
     },
     async asyncData(ctx: Context) {
         const txDetail: DTO.TxDetail = await ctx.$svc.tx(ctx.params.id)
@@ -104,7 +104,7 @@ export default class Transaction extends Vue {
 
     @Watch('best')
     async onBest() {
-        if (this.txDetail && !this.txDetail.meta) {
+        if (this.txDetail && this.txDetail.tx.state === 'PENDING') {
             this.txDetail = await this.$svc.tx(this.txDetail.tx.txID)
         } else {
             return

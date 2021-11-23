@@ -140,6 +140,7 @@ declare namespace DTO {
     size: number
     gasPriceCoef: number
     txID: string
+    state: 'PENDING' | 'EXPIRED' | 'DEP REVERTED'
     reverted: boolean
   }
 
