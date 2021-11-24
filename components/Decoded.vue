@@ -15,6 +15,7 @@
             {{loadingAbi ? 'Decoding' : 'Decoded'}}</b-button>
             <b-button
                 size="sm"
+                v-if="isData"
                 :variant="current!=='utf8' ? 'outline-secondary' : ''"
                 @click="current = 'utf8'"
             >UTF-8</b-button>
@@ -109,8 +110,8 @@
             </div>
             <div class="mt-2 text-center small" v-else>Unable to decode data</div>
         </div>
-        <div v-show="current==='utf8'">
-            <b-form-textarea readonly class="mt-3" v-if="isData" :value="utf8Str" size="sm"></b-form-textarea>
+        <div v-if="isData" v-show="current==='utf8'">
+            <b-form-textarea readonly class="mt-3"  :value="utf8Str" size="sm"></b-form-textarea>
         </div>
     </div>
 </template>
