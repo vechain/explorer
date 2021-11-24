@@ -13,6 +13,11 @@
             >
             <b-spinner v-if="loadingAbi" small type="grow"></b-spinner>
             {{loadingAbi ? 'Decoding' : 'Decoded'}}</b-button>
+            <b-button
+                size="sm"
+                :variant="current!=='utf8' ? 'outline-secondary' : ''"
+                @click="current = 'utf8'"
+            >UTF-8</b-button>
         </b-button-group>
         <div v-show="current==='raw'">
             <b-form-textarea readonly class="mt-3" v-if="isData" :value="inputData" size="sm"></b-form-textarea>
@@ -104,6 +109,9 @@
             </div>
             <div class="mt-2 text-center small" v-else>Unable to decode data</div>
         </div>
+        <div v-show="current==='utf8'">
+            <b-form-textarea readonly class="mt-3" v-if="isData" :value="utf8Str" size="sm"></b-form-textarea>
+        </div>
     </div>
 </template>
 <script lang="ts">
@@ -133,6 +141,8 @@ export default class Decoded extends Vue {
         params: any[],
         canonicalName: string
     } | null = null
+
+    utf8Str?: string = ''
 
     get isData() {
         return !!this.inputData
@@ -185,11 +195,32 @@ export default class Decoded extends Vue {
         }
     }
 
+    utf8Decode() {
+        if (!this.inputData || this.inputData.length % 2 !== 0) {
+            return ''
+        }
+        const str = this.inputData.startsWith('0x') ? this.inputData.substring(2) : this.inputData
+        let temp = []
+        let result: Uint8Array
+        const decoder = new TextDecoder()
+        for (let i = 0; i < str.length; i+=2) {
+            temp.push(parseInt(str.substr(i, 2), 16))
+        }
+
+        result = Uint8Array.from(temp)
+
+        return decoder.decode(result).toString()
+    }
+
     async queryAbi(key: string) {
         this.loadingAbi = true
         const abi = await this.$store.dispatch('queryAbi', key)
         this.loadingAbi = false
         return abi
+    }
+
+    mounted() {
+        this.utf8Str = this.utf8Decode()
     }
 
     async created() {
