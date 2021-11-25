@@ -46,8 +46,8 @@ export default class PageFooter extends Vue {
                     link: 'https://vechainstats.com'
                 },
                 {
-                    name: 'VechainThorScan',
-                    link: 'https://vechainthorscan.com'
+                    name: 'VeBlcoks',
+                    link: 'https://www.veblocks.net'
                 }
             ]
         },
