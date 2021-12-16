@@ -129,7 +129,6 @@ import AccountLink from '@/components/AccountLink.vue'
 import { Context } from '@nuxt/types'
 import Amount from '@/components/Amount.vue'
 import TxLink from '@/components/TxLink.vue'
-import { Router } from 'express-serve-static-core'
 import { Route } from 'vue-router'
 @Component({
     components: {
