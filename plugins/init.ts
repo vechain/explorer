@@ -47,15 +47,6 @@ const getLocalAbis = (): { key: string, value: object }[] => {
 }
 
 export default async (ctx: Context, inject: any) => {
-  const tokens = getItem('tokens')
-  if ( !tokens || (tokens && (Date.now() - tokens.time) > 60 * 60 * 1000)) {
-    const list = await ctx.$svc.tokens()
-    setItem('tokens', {
-      time: Date.now(),
-      list: list
-    })
-  }
-  ctx.store.commit('setTokens', getItem('tokens').list)
   const abis = getLocalAbis()
   abis.forEach(item => {
     ctx.store.commit('setAbi', item)
