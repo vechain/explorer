@@ -123,16 +123,17 @@
                     </template>
                 </ListItem>
             </template>
-            <ListItem v-if="isMounted && pickedTokens.length">
+            <ListItem v-if="tokens.length">
                 <template slot="label">Tokens</template>
                 <template slot="item-content">
                     <TokenItem
                         class="my-2"
-                        :amount="item.balance"
                         :symbol="item.symbol"
-                        v-for="(item, i) in pickedTokens" 
+                        v-for="(item, i) in tokens" 
                         :key="i"
-                    ></TokenItem>
+                    >
+                    <Amount :sym="item.symbol" :dec="item.decimals" :amount="item.balance"/>
+                    </TokenItem>
                 </template>
             </ListItem>
             <ListItem v-if="account.master">
@@ -227,7 +228,6 @@ import { Vue, Component, Prop } from 'vue-property-decorator'
 import ListItem from '@/components/ListItem.vue'
 import AccountLink from '@/components/AccountLink.vue'
 import Balance from '@/components/Balance.vue'
-import { Context } from '@nuxt/types'
 import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
 import TokenItem from '@/components/TokenItem.vue'
@@ -276,25 +276,6 @@ export default class Summary extends Vue {
         )
         if (token) {
             return token.imgUrl
-        }
-    }
-
-    mounted() {
-        this.isMounted = true
-    }
-
-    get pickedTokens() {
-        return this.tokens.filter(item => {
-            return this.tokenSymbols.includes(item.symbol)
-        })
-    }
-
-    get tokenSymbols() {
-        const tl = this.$store.state.tokens as Array<DTO.Token>
-        if (tl) {
-            return tl.map(token => token.symbol)
-        } else {
-            return []
         }
     }
 

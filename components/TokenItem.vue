@@ -15,24 +15,18 @@
                     }
             }"
             >
-                <Amount :amount="amount" :sym="symbol" />
+            <slot />
             </nuxt-link>
         </b-col>
     </b-row>
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import Amount from './Amount.vue'
-@Component({
-    components: {
-        Amount
-    }
-})
+
+@Component
 export default class TokenItem extends Vue {
     @Prop(String)
     symbol!: string
-    @Prop()
-    amount!: string
 
     get item() {
         const temp: DTO.Token | null = this.$store.state.tokens.find(

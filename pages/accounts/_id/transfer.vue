@@ -114,10 +114,10 @@
                     class="text-monospace"
                 >
                     <span>{{account !== row.item.sender ? '+' : '-'}}</span>
-                    <Amount :amount="row.item.amount" :sym="row.item.symbol" :showSym="false" />
+                    <Amount :amount="row.item.amount" :dec="row.item.decimals" :sym="row.item.symbol" :showSym="false" />
                 </span>
                 <span v-else>
-                    <Amount :amount="row.item.amount" :sym="row.item.symbol" :showSym="false" />
+                    <Amount :amount="row.item.amount" :dec="row.item.decimals" :sym="row.item.symbol" :showSym="false" />
                 </span>
             </template>
         </b-table>
@@ -213,18 +213,6 @@ export default class AccountTransfer extends Vue {
             )
         } else {
             return temp
-        }
-    }
-
-    getDecimals(token: string) {
-        const temp = this.tokens.find(item => {
-            return item.symbol === token
-        })
-
-        if (temp) {
-            return temp.decimals
-        } else {
-            return 18
         }
     }
 
