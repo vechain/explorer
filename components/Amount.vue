@@ -1,6 +1,6 @@
 <template>
     <span :class="{small: sm}">
-        <span  class="text-monospace">{{amount | hexToVal(decimals) | balance}}</span>
+        <span  class="text-monospace">{{amount | hexToVal(dec) | balance}}</span>
         <small v-if="sym && showSym" class="text-secondary">{{sym}}</small>
     </span>
 </template>
@@ -21,32 +21,5 @@ export default class Amount extends Vue {
 
     @Prop({default:false})
     sm!: boolean
-
-    get tokens() {
-        if (this.$store.state.tokens) {
-            return [{
-                symbol: 'VET',
-                decimals: 18,
-                imgUrl: require('~/assets/vet.png')
-            }].concat(this.$store.state.tokens)
-        } else {
-            return []
-        }
-    }
-
-    get decimals() {
-        if (this.dec) {
-            return this.dec
-        }
-        const temp = this.tokens.find(item => {
-            return item.symbol === this.sym
-        })
-
-        if (temp) {
-            return temp.decimals
-        } else {
-            return 18
-        }
-    }
 }
 </script>
