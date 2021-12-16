@@ -123,14 +123,14 @@
                     </template>
                 </ListItem>
             </template>
-            <ListItem v-if="tokens.length">
+            <ListItem v-if="isMounted && pickedTokens.length">
                 <template slot="label">Tokens</template>
                 <template slot="item-content">
                     <TokenItem
                         class="my-2"
                         :amount="item.balance"
                         :symbol="item.symbol"
-                        v-for="(item, i) in tokens"
+                        v-for="(item, i) in pickedTokens" 
                         :key="i"
                     ></TokenItem>
                 </template>
@@ -253,6 +253,7 @@ export default class Summary extends Vue {
     extraInfo!: DTO.Token
 
     qrShow = false
+    isMounted = false
 
     colors = {
         facebook: '#3b5998',
@@ -275,6 +276,25 @@ export default class Summary extends Vue {
         )
         if (token) {
             return token.imgUrl
+        }
+    }
+
+    mounted() {
+        this.isMounted = true
+    }
+
+    get pickedTokens() {
+        return this.tokens.filter(item => {
+            return this.tokenSymbols.includes(item.symbol)
+        })
+    }
+
+    get tokenSymbols() {
+        const tl = this.$store.state.tokens as Array<DTO.Token>
+        if (tl) {
+            return tl.map(token => token.symbol)
+        } else {
+            return []
         }
     }
 
