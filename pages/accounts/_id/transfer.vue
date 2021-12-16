@@ -4,7 +4,7 @@
             <div class="d-flex flex-column align-middle mt-2">
                 <div class="mb-1">
                     <span class="text-secondary mr-1">Filter by</span>
-                    <b-dropdown no-flip size="sm" variant="outline-secondary">
+                    <b-dropdown class="dropdown-overflow" no-flip size="sm" variant="outline-secondary">
                         <template v-slot:button-content>
                             <div class="d-inline-flex align-items-center" v-if="btnContent">
                                 <img width="15px" :src="btnContent.imgUrl" alt />
@@ -263,3 +263,9 @@ export default class AccountTransfer extends Vue {
     }
 }
 </script>
+<style>
+.dropdown-overflow .dropdown-menu {
+    max-height: 350px;
+    overflow-y: auto;
+}
+</style>
