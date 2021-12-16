@@ -236,7 +236,8 @@ export default class TxInfo extends Vue {
                 clauseIndex: item.meta.clauseIndex,
                 recipient: item.recipient,
                 amount: item.amount,
-                symbol: item.symbol
+                symbol: item.symbol,
+                decimals: item.decimals
             }
         })
     }

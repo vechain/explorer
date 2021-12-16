@@ -111,6 +111,7 @@ declare namespace DTO {
     amount: string
     meta: TransferMeta
     symbol?: string
+    decimals: number
   }
   type Receipt = {
     txID: string
