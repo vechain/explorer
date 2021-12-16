@@ -51,7 +51,7 @@ import { Route } from 'vue-router'
         const params = ctx.params
         const result = await ctx.$svc.account(ctx.params.id)
         const tokenList = await ctx.$svc.tokens()
-
+        ctx.store.commit('setTokens', tokenList)
         return {
             detail: result,
             tokenList,
@@ -63,14 +63,6 @@ export default class Account extends Vue {
     detail: DTO.AccountDetail | null = null
     tokenList: DTO.Token[] | null = null
     params: any = null
-
-    @Watch('$route')
-    async onRouterChange(to: Route, from: Route) {
-        if (to.name === 'accounts-id') {
-            this.detail = await this.$svc.account(to.params.id)
-            const tokenList = await this.$svc.tokens()
-        }
-    }
 
     // by tokenList
     get extraInfo() {
