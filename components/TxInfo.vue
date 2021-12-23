@@ -226,7 +226,7 @@ export default class TxInfo extends Vue {
     isMore = false
     get txStatus() {
         const confirm = this.bestNum - this.tx.blockNumber
-        return ` ${confirm > 0 ? confirm : 0} Confirmations`
+        return ` ${confirm > 12 ? '≥ 12' : Math.max(0, confirm)} Confirmations`
     }
 
     get transfersList() {
