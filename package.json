@@ -28,7 +28,7 @@
     "nuxt": "^2.0.0",
     "qrious": "^4.0.2",
     "raw-body": "^2.4.1",
-    "thor-devkit": "^1.2.2",
+    "thor-devkit": "^2.0.4",
     "timeago.js": "4.0.1",
     "vue-clipboard2": "0.3.1"
   },
