@@ -110,18 +110,6 @@
                         <span>{{extraInfo.decimals}}</span>
                     </template>
                 </ListItem>
-                <ListItem v-if="extraInfo.totalSupply">
-                    <template slot="label">Total Supply</template>
-                    <template slot="item-content">
-                        <Amount
-                            v-if="extraInfo.symbol !== 'VTHO'"
-                            :dec="extraInfo.decimals"
-                            :amount="extraInfo.totalSupply"
-                            :sym="extraInfo.symbol"
-                        ></Amount>
-                        <span v-else>{{extraInfo.totalSupply}}</span>
-                    </template>
-                </ListItem>
             </template>
             <ListItem v-if="tokens.length">
                 <template slot="label">Tokens</template>
