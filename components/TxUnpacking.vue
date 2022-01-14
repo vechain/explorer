@@ -72,7 +72,7 @@
                     <template slot="item-content">
                         <span class="text-monospace font-weight-lighter">
                             <nuxt-link
-                                :to="{name: 'search', query: {content: blcokRefNum(tx.blockRef)}}"
+                                :to="{name: 'search', query: {content: blockRefNum(tx.blockRef)}}"
                             >{{tx.blockRef | bNum | numFmt}}</nuxt-link>
                         </span>
                         <span class="text-monospace font-weight-lighter">({{tx.blockRef}})</span>
@@ -145,7 +145,7 @@ export default class TxInfo extends Vue {
     showTip = false
     isMore = false
 
-    blcokRefNum(blockRef: string) {
+    blockRefNum(blockRef: string) {
         return Vue.filter('bNum')(blockRef)
     }
 
