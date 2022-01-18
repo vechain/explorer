@@ -50,8 +50,11 @@ import { Route } from 'vue-router'
     async asyncData(ctx: Context) {
         const params = ctx.params
         const result = await ctx.$svc.account(ctx.params.id)
-        const tokenList = await ctx.$svc.tokens()
-        ctx.store.commit('setTokens', tokenList)
+        let tokenList = ctx.store.state.tokens
+        if (!tokenList.length) {
+            tokenList = await ctx.$svc.tokens()
+            ctx.store.commit('setTokens', tokenList)
+        }
         return {
             detail: result,
             tokenList,
