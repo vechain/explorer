@@ -22,6 +22,8 @@ export const actions = {
         actx.commit('setPrice', payload)
       }
 
+      const tokenList = await ctx.$svc.tokens()
+      ctx.store.commit('setTokens', tokenList)
       const best: DTO.BlockDetail = await ctx.$svc.block('best')
       actx.commit('setBest', best.block)
     } catch (error) {
