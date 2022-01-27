@@ -4,8 +4,8 @@
     action="/"
     @submit.prevent="onsearch"
     @keydown="onkeydown"
+    tabindex="1"
     @focusout="onfocusout"
-    
   >
     <b-input-group ref="group">
       <b-form-input
@@ -16,27 +16,6 @@
         v-model.trim="search"
         placeholder="Account/TxID/Block#/Token"
       ></b-form-input>
-      <b-list-group ref="datalist" style="height: 450px; overflow: auto" v-if="tokens.length && showList" class="small-list">
-        <b-list-group-item
-          :href="`/accounts/${token.address}`"
-          v-for="token in tokens"
-          :key="token.address"
-        >
-          <div class="d-flex align-items-center">
-            <img width="30px" :src="token.imgUrl" alt />
-            <div class="ml-3">
-              <blockquote class="blockquote mb-0">
-                <div class="mb-0" style="font-size: 16px">
-                  {{ token.symbol }}
-                </div>
-                <div class="text-secondary" style="font-size: 14px">
-                  {{ token.name }}
-                </div>
-              </blockquote>
-            </div>
-          </div>
-        </b-list-group-item>
-      </b-list-group>
       <b-input-group-append>
         <b-button
           v-bind="attr"
@@ -46,7 +25,33 @@
           >Search</b-button
         >
       </b-input-group-append>
-    </b-input-group>
+      <b-list-group ref="datalist" style="height: 450px; overflow: auto" v-if="tokens.length && showList" class="small-list">
+          <b-list-group-item
+            :to="{
+              name: 'accounts-id',
+              params: {
+                id: token.address.toLowerCase()
+              }
+            }"
+            v-for="token in tokens"
+            :key="token.address"
+          >
+            <div class="d-flex align-items-center">
+              <img width="30px" :src="token.imgUrl" alt />
+              <div class="ml-3">
+                <blockquote class="blockquote mb-0">
+                  <div class="mb-0" style="font-size: 16px">
+                    {{ token.symbol }}
+                  </div>
+                  <div class="text-secondary" style="font-size: 14px">
+                    {{ token.name }}
+                  </div>
+                </blockquote>
+              </div>
+            </div>
+          </b-list-group-item>
+        </b-list-group>
+      </b-input-group>
   </Component>
 </template>
 <script lang="ts">
@@ -75,7 +80,14 @@ export default class Search extends Vue {
   showList = false
   inputSearch!: Vue
   mounted() {
+    (window as any).gh = this.$el
     this.inputSearch = this.$refs['input-search'] as Vue
+  }
+
+  @Watch('$route')
+  onRouteChange() {
+    this.search = ''
+    this.showList = false
   }
 
   onkeydown(event: KeyboardEvent) {
@@ -123,7 +135,6 @@ export default class Search extends Vue {
 
   onfocusout(event: FocusEvent) {
     const {relatedTarget, currentTarget} = event
-    console.log(relatedTarget)
     if (!(currentTarget as HTMLElement).contains(relatedTarget as HTMLElement)) {
       this.showList = false
     }
