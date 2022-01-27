@@ -13,25 +13,7 @@
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav class="ml-auto"></b-navbar-nav>
                 <b-navbar-nav v-if="!jumbotron" class="mt-3 mt-sm-0 mr-sm-1">
-                    <b-nav-form action="/" @submit.prevent="onsearch">
-                        <b-input-group>
-                            <b-form-input
-                                type="search"
-                                size="sm"
-                                ref="input-search"
-                                v-model.trim="search"
-                                placeholder="Account/TxID/Block#"
-                            ></b-form-input>
-                            <b-input-group-append>
-                                <b-button
-                                    size="sm"
-                                    class="border-0 shadow-none"
-                                    style="background-color: #5A86E6"
-                                    type="submit"
-                                >Search</b-button>
-                            </b-input-group-append>
-                        </b-input-group>
-                    </b-nav-form>
+                    <Search :small="true"/>
                 </b-navbar-nav>
                 <b-navbar-nav>
                     <b-nav-item-dropdown toggle-class="text-white" text="Networks" right>
@@ -55,23 +37,7 @@
                         >What are you looking for?</span>
                     </b-col>
                     <b-col cols="12" md="8">
-                        <b-form action="/" @submit.prevent="onsearch">
-                            <b-input-group>
-                                <b-form-input
-                                    type="search"
-                                    ref="input-search"
-                                    v-model.trim="search"
-                                    placeholder="Account/TxID/Block#"
-                                ></b-form-input>
-                                <b-input-group-append>
-                                    <b-button
-                                        class="border-0 shadow-none"
-                                        style="background-color: #5A86E6"
-                                        type="submit"
-                                    >Search</b-button>
-                                </b-input-group-append>
-                            </b-input-group>
-                        </b-form>
+                        <Search />
                     </b-col>
                 </b-row>
             </b-container>
@@ -80,27 +46,25 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-@Component
+import Search from './Search.vue'
+@Component({
+    components: {
+        Search
+    }
+})
 export default class Navbar extends Vue {
     @Prop({ default: false })
     jumbotron!: boolean
-
     isVisible = false
-
     network = process.env.current
-    search = ''
     networks = process.env.networks
-    onsearch() {
-        (this.$refs['input-search'] as HTMLInputElement).blur()
-        if (this.search.trim()) {
-            this.$router.push({
-                name: 'search',
-                query: {
-                    content: this.search.trim()
-                }
-            })
-        }
-        this.search = ''
-    }
 }
 </script>
+<style>
+.small-list {
+    position: absolute;
+    width: 100%;
+    top: 110%;
+    z-index: 1000;
+}
+</style>

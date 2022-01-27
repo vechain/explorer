@@ -37,7 +37,6 @@
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
-import { Route } from 'vue-router'
 @Component({
     head() {
         return {
@@ -51,10 +50,6 @@ import { Route } from 'vue-router'
         const params = ctx.params
         const result = await ctx.$svc.account(ctx.params.id)
         let tokenList = ctx.store.state.tokens
-        if (!tokenList.length) {
-            tokenList = await ctx.$svc.tokens()
-            ctx.store.commit('setTokens', tokenList)
-        }
         return {
             detail: result,
             tokenList,
