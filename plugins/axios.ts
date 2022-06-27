@@ -206,7 +206,8 @@ class Svc implements IfcSvc {
 
 export default function (ctx: Context, inject: any) {
   ctx.$axios.onResponseError((error: AxiosError) => {
-    const urls = ['/api/blocks/best', '/api/blocks/recent', '/api/transactions/recent']
+    // silence urls
+    const urls = ['/api/blocks/best', '/api/blocks/recent', '/api/transactions/recent', '/api/registry/price']
     if (urls.includes(error.response!.config.url || '')) {
       return
     }

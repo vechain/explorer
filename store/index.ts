@@ -53,13 +53,15 @@ export const mutations = {
       return
     }
     const symbols = Object.keys(payload || {})
-    symbols.forEach(item => {
-      const temp = payload[item]
-      if (!state.price[item]) {
-        Vue.set(state.price, item, {})
+    symbols.forEach(symbol => {
+      const temp = payload[symbol]
+      if (!state.price[symbol]) {
+        Vue.set(state.price, symbol, {})
       }
       for (const t in temp) {
-        Vue.set(state.price[item], t, temp[t])
+        if (!!temp[t]) {
+          Vue.set(state.price[symbol], t, temp[t])
+        }
       }
     })
   },
