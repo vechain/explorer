@@ -104,7 +104,13 @@ export default class Transaction extends Vue {
 
     @Watch('best')
     async onBest() {
-        if (this.txDetail && this.txDetail.tx.state === 'PENDING') {
+        if (this.txDetail &&
+            (
+                this.txDetail.tx.state === 'PENDING'
+                ||
+                (this.txDetail.receipt.reverted && this.txDetail.receipt.vmError === null)
+            )
+        ) {
             this.txDetail = await this.$svc.tx(this.txDetail.tx.txID)
         } else {
             return
