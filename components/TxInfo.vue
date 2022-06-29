@@ -13,7 +13,7 @@
                         <b-badge v-else class="mr-2" variant="success">Success</b-badge>
                         <span>{{txStatus}}</span>
                     </div>
-                    <div v-if="tx.reverted">
+                    <div v-if="tx.reverted && tx.vmError">
                         <b-icon icon="arrow-return-right"/> <small>{{tx.vmError.reason ? tx.vmError.reason : tx.vmError.error}}</small>
                     </div>
                 </template>
