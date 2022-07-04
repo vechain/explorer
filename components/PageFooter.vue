@@ -21,10 +21,10 @@
         <b-row no-gutters class="pt-2 justify-content-center">
             <b-col sm="8" class="text-center">
                 <small class="text-white">
-                    Copyright &copy; 2021
+                    Copyright &copy; {{year}}
                     <a
                         class="text-white"
-                        href=" https://vechain.org"
+                        href="https://www.vechain.org"
                         target="_blank"
                     >VeChain Foundation</a>
                 </small>
@@ -36,6 +36,7 @@
 import { Vue, Component } from 'vue-property-decorator'
 @Component
 export default class PageFooter extends Vue {
+    year = new Date().getFullYear()
     links = [
         {
             group: 'Community Projects',
