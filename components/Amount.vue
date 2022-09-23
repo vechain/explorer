@@ -1,6 +1,6 @@
 <template>
     <span :class="{small: sm}">
-        <span  class="text-monospace">{{amount | hexToVal(dec) | balance}}</span>
+        <span v-b-tooltip.hover="strBalance" class="text-monospace">{{amount | hexToVal(dec) | balance}}</span>
         <small v-if="sym && showSym" class="text-secondary">{{sym}}</small>
     </span>
 </template>
@@ -21,5 +21,9 @@ export default class Amount extends Vue {
 
     @Prop({default:false})
     sm!: boolean
+
+    get strBalance() {
+        return Vue.filter('hexToVal')(this.amount, this.dec)
+    }
 }
 </script>
