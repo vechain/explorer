@@ -59,7 +59,6 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Prop } from 'vue-property-decorator'
-import { Context } from '@nuxt/types'
 import ClauseDetail from '@/components/ClauseDetail.vue'
 import IdentBox from '@/components/IdentBox.vue'
 import AccountLink from '@/components/AccountLink.vue'

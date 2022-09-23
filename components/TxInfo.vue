@@ -201,7 +201,7 @@ import AccountLink from '@/components/AccountLink.vue'
 import TxLink from '@/components/TxLink.vue'
 import TokenTransferItem from '@/components/TokenTransferItem.vue'
 import Amount from '@/components/Amount.vue'
-import { Context } from '@nuxt/types'
+
 @Component({
     components: {
         ListItem,
