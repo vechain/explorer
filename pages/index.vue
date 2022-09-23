@@ -32,7 +32,9 @@
                                     <div class="d-flex d-sm-block">{{b.txCount}} Txs</div>
                                     <div
                                         class="d-flex d-sm-block small text-monospace"
-                                    >{{b.gasUsed | numFmt}} Gas</div>
+                                    >
+                                        <small v-b-tooltip.hover="tooltipGas(b.gasUsed, b.gasLimit)">{{b.gasUsed/b.gasLimit | percent}} Used</small>
+                                    </div>
                                 </b-col>
                                 <b-col
                                     cols="sm-4"
@@ -143,6 +145,10 @@ export default class App extends Vue {
         this.timer = setInterval(() => {
             this.getRecents()
         }, 10000)
+    }
+
+    tooltipGas(gasUsed: string, gasLimit: string) {
+        return Vue.filter('numFmt')(gasUsed) + ' / ' + Vue.filter('numFmt')(gasLimit)
     }
 
     clearTimer() {
