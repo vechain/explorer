@@ -25,7 +25,7 @@ declare module 'vuex/types/index' {
   }
 }
 interface IfcSvc {
-  block(id: string): Promise<DTO.BlockDetail>
+  block(id: string | number): Promise<DTO.BlockDetail>
   blockTxs(id: string): Promise<DTO.BlockTxs>
   tx(id: string): Promise<DTO.TxDetail>
   tokens(): Promise<DTO.Token[]>
@@ -55,8 +55,8 @@ class Svc implements IfcSvc {
     return await this.axios.$get(`/api/blocks/${id.toLowerCase()}/transactions`)
   }
 
-  async block(id: string): Promise<DTO.BlockDetail> {
-    return await this.axios.$get(`/api/blocks/${id.toLowerCase()}`)
+  async block(id: string | number): Promise<DTO.BlockDetail> {
+    return await this.axios.$get(`/api/blocks/${id.toString().toLowerCase()}`)
   }
 
   async tx(id: string): Promise<DTO.TxDetail> {
