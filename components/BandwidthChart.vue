@@ -39,6 +39,7 @@ export default class BandwidthChart extends Vue {
     async onPointsChanged(n: number[], o: number[]) {
         if (n && n.length && n.toString() !== (o || '').toString()) {
             const gls = await this.getGasLimits()
+            this.$emit('loaded')
             this.renderChart(gls)
         }
     }

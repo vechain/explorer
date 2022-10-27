@@ -3,6 +3,13 @@
         <b-row no-gutters>
             <b-col lg="6" class="px-0 px-sm-3">
                 <h5 class="ml-3">
+                    Bandwidth
+                </h5>
+                <div style="height: 100px; text-align: center;" class="mb-3">
+                    <b-spinner v-show="!chartLoaded" type="grow" middle/>
+                    <BandwidthChart v-show="chartLoaded" @loaded="chartLoaded = true" />
+                </div>
+                <h5 class="ml-3">
                     Recent Blocks
                     <b-spinner v-if="!recentBlocks" type="grow" small class="ml-3" />
                 </h5>
@@ -106,6 +113,7 @@ import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
 import TxLink from '@/components/TxLink.vue'
 import RevertedIcon from '@/components/RevertedIcon.vue'
+import BandwidthChart from '@/components/BandwidthChart.vue'
 @Component({
     head() {
         return {
@@ -117,7 +125,8 @@ import RevertedIcon from '@/components/RevertedIcon.vue'
         AccountLink,
         Amount,
         TxLink,
-        RevertedIcon
+        RevertedIcon,
+        BandwidthChart
     },
     layout: 'index',
     async asyncData(ctx: Context) {
@@ -131,6 +140,7 @@ export default class App extends Vue {
     recentTxs: any[] = []
     loading = false
     timer: any = null
+    chartLoaded = false
 
     getRecents() {
         this.$svc.recentBlocks().then(r => {
