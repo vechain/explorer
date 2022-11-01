@@ -85,7 +85,6 @@ export default class BandwidthChart extends Vue {
                 data: gls.map(() => low / 10),
                 borderDash: [6, 2],
             }, {
-                label: 'Bandwidth',
                 data: limits.map(s => s / 10),
                 fill: false,
                 pointRadius: 0,
@@ -104,11 +103,10 @@ export default class BandwidthChart extends Vue {
                         drawBorder: false
                     },
                     ticks: {
-                        fontSize: 8,
+                        fontSize: 10,
                     },
                     scaleLabel: {
-                        display: false,
-                        fontSize: 8,
+                        display: false
                     },
                 }],
                 yAxes: [{
@@ -117,7 +115,7 @@ export default class BandwidthChart extends Vue {
                         drawBorder: false
                     },
                     ticks: {
-                        fontSize: 8,
+                        fontSize: 10,
                         // Include a dollar sign in the ticks
                         callback: (value: number) => {
                             return prettyN(value) + 'gps'
@@ -127,9 +125,7 @@ export default class BandwidthChart extends Vue {
                         stepSize: (high - low) / 2 / 10
                     },
                     scaleLabel: {
-                        display: true,
-                        labelString: 'Bandwidth',
-                        fontSize: 8,
+                        display: false
                     }
                 }]
             },
