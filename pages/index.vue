@@ -1,14 +1,19 @@
 <template>
     <b-container class="mt-4">
+        <b-row align-v="stretch" class="shadow-sm border py-2 bg-white mb-3 mx-0 mx-sm-3">
+            <b-col lg="6" class="px-2 px-sm-3 align-self-center">
+                <Status :infos="status"/>
+            </b-col>
+            <b-col lg="6" class="px-0 px-sm-3 align-self-center">
+                <div class="text-truncate text-muted ml-3 small mb-2">Bandwidth</div>
+                <div style="height: 100px; text-align: center;">
+                    <b-spinner v-show="!chartLoaded" type="grow" middle/>
+                    <BandwidthChart class="px-2" v-show="chartLoaded" @loaded="chartLoaded = true" />
+                </div>
+            </b-col>
+        </b-row>
         <b-row no-gutters>
             <b-col lg="6" class="px-0 px-sm-3">
-                <h5 class="ml-3">
-                    Bandwidth
-                </h5>
-                <div style="height: 100px; text-align: center;" class="mb-3">
-                    <b-spinner v-show="!chartLoaded" type="grow" middle/>
-                    <BandwidthChart v-show="chartLoaded" @loaded="chartLoaded = true" />
-                </div>
                 <h5 class="ml-3">
                     Recent Blocks
                     <b-spinner v-if="!recentBlocks" type="grow" small class="ml-3" />
@@ -113,6 +118,7 @@ import IdentBox from '@/components/IdentBox.vue'
 import Amount from '@/components/Amount.vue'
 import TxLink from '@/components/TxLink.vue'
 import RevertedIcon from '@/components/RevertedIcon.vue'
+import Status from '@/components/Status.vue'
 import BandwidthChart from '@/components/BandwidthChart.vue'
 @Component({
     head() {
@@ -122,6 +128,7 @@ import BandwidthChart from '@/components/BandwidthChart.vue'
     },
     components: {
         IdentBox,
+        Status,
         AccountLink,
         Amount,
         TxLink,
@@ -138,6 +145,7 @@ import BandwidthChart from '@/components/BandwidthChart.vue'
 export default class App extends Vue {
     recentBlocks: any[] = []
     recentTxs: any[] = []
+    status: DTO.Status | null = null
     loading = false
     timer: any = null
     chartLoaded = false
@@ -148,6 +156,9 @@ export default class App extends Vue {
         })
         this.$svc.recentTxs().then(r => {
             this.recentTxs = r.txs
+        })
+        this.$svc.chainStatus().then(r => {
+            this.status = r
         })
     }
 
