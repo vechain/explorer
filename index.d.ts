@@ -16,6 +16,13 @@ declare namespace App {
   }
 }
 declare namespace DTO {
+  type Status = {
+    best: string | null,
+    finalized: string | null,
+    processing: number[],
+    voting: number
+  }
+
   type Account = {
     address: string,
     balance: string,
