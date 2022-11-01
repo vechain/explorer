@@ -139,14 +139,14 @@ import BandwidthChart from '@/components/BandwidthChart.vue'
     async asyncData(ctx: Context) {
         const result = await ctx.$svc.recentBlocks()
         const txs = await ctx.$svc.recentTxs()
-        return { recentBlocks: result.blocks, recentTxs: txs.txs }
+        const status = await ctx.$svc.chainStatus()
+        return { recentBlocks: result.blocks, recentTxs: txs.txs, status }
     }
 })
 export default class App extends Vue {
     recentBlocks: any[] = []
     recentTxs: any[] = []
     status: DTO.Status | null = null
-    loading = false
     timer: any = null
     chartLoaded = false
 
@@ -180,7 +180,6 @@ export default class App extends Vue {
     }
 
     mounted() {
-        this.loading = false
         this.startTimer()
     }
 
