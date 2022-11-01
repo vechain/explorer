@@ -25,6 +25,7 @@ declare module 'vuex/types/index' {
   }
 }
 interface IfcSvc {
+  chainStatus(): Promise<DTO.Status>
   block(id: string | number): Promise<DTO.BlockDetail>
   blockTxs(id: string): Promise<DTO.BlockTxs>
   tx(id: string): Promise<DTO.TxDetail>
@@ -49,6 +50,10 @@ class Svc implements IfcSvc {
   private axios: NuxtAxiosInstance
   constructor(axios: NuxtAxiosInstance) {
     this.axios = axios
+  }
+
+  async chainStatus(): Promise<DTO.Status> {
+    return await this.axios.$get(`/api/chain/status`)
   }
 
   async blockTxs(id: string): Promise<DTO.BlockTxs> {
@@ -220,7 +225,7 @@ export default function (ctx: Context, inject: any) {
   })
 
   ctx.$axios.onRequest((config: any) => {
-    const urls = ['/api/blocks/best', '/api/blocks/recent', '/api/transactions/recent']
+    const urls = ['/api/blocks/best', '/api/blocks/recent', '/api/transactions/recent', 'api/chain/status']
     if (urls.indexOf(config.url) >= 0) {
       config.progress = false
     }
