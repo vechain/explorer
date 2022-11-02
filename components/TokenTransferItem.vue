@@ -1,5 +1,5 @@
 <template>
-    <div  class="d-inline-block d-sm-flex align-items-center" v-if="transfer">
+    <div class="d-inline-block d-sm-flex align-items-center" v-if="transfer">
         <small class="mr-2">From</small>
         <AccountLink v-if="origin !== transfer.sender" :address="transfer.sender" size="sm" />
         <span v-else>
@@ -12,11 +12,9 @@
         </span>
         <small>
             <span class="mx-2">For</span>
-            <span class="text-monospace">
-                <strong>
-                    <Amount :amount="transfer.amount" :dec="transfer.decimals" :sym="transfer.symbol"/>
-                </strong>
-            </span>
+            <strong>
+                <Amount :amount="transfer.amount" :dec="transfer.decimals" :sym="transfer.symbol" />
+            </strong>
         </small>
     </div>
 </template>

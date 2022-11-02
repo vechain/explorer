@@ -14,7 +14,7 @@
                     >
                         <font-awesome-icon icon="arrow-left" />
                     </b-button>
-                    <span class="align-middle mx-2 text-monospace">{{item.number | numFmt}}</span>
+                    <span class="align-middle mx-2">{{item.number | numFmt}}</span>
                     <b-button
                         :disabled="!next"
                         size="sm"
@@ -33,7 +33,7 @@
             <ListItem>
                 <template slot="label">ID</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{item.id}}</span>
+                    <span>{{item.id}}</span>
                 </template>
             </ListItem>
             <ListItem>
@@ -49,7 +49,7 @@
             <ListItem>
                 <template slot="label">Gas Used</template>
                 <template slot="item-content">
-                    <span class="text-monospace">
+                    <span>
                         {{item.gasUsed | numFmt}}/{{item.gasLimit | numFmt}}
                         <small>({{item.gasUsed/item.gasLimit | percent}} Used)</small>
                     </span>
@@ -58,7 +58,7 @@
             <ListItem>
                 <template slot="label">Total Score</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{item.totalScore | numFmt}} (+{{item.score}})</span>
+                    <span>{{item.totalScore | numFmt}} (+{{item.score}})</span>
                 </template>
             </ListItem>
             <ListItem>
@@ -97,19 +97,19 @@
                 <ListItem>
                     <template slot="label">State Root</template>
                     <template slot="item-content">
-                        <span class="text-monospace font-weight-lighter">{{item.stateRoot}}</span>
+                        <span>{{item.stateRoot}}</span>
                     </template>
                 </ListItem>
                 <ListItem>
                     <template slot="label">Txs Root</template>
                     <template slot="item-content">
-                        <span class="text-monospace font-weight-lighter">{{item.txsRoot}}</span>
+                        <span>{{item.txsRoot}}</span>
                     </template>
                 </ListItem>
                 <ListItem>
                     <template slot="label">Receipts Root</template>
                     <template slot="item-content">
-                        <span class="text-monospace font-weight-lighter">{{item.receiptsRoot}}</span>
+                        <span>{{item.receiptsRoot}}</span>
                     </template>
                 </ListItem>
             </template>

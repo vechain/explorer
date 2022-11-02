@@ -159,7 +159,6 @@
                     <template slot="label">Code</template>
                     <template slot="item-content">
                         <b-form-textarea
-                            class="text-monospace"
                             readonly
                             v-model="account.code"
                             rows="3"
@@ -184,7 +183,7 @@
                 <ListItem>
                     <template slot="label">Signed blocks</template>
                     <template slot="item-content">
-                        <span class="text-monospace">{{authority.signed | numFmt}}</span>
+                        <span>{{authority.signed | numFmt}}</span>
                     </template>
                 </ListItem>
                 <ListItem>
