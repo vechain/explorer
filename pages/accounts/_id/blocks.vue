@@ -35,7 +35,6 @@
             <template v-slot:cell(index)="row">{{(currentPage - 1) * perPage + row.index + 1}}</template>
             <template v-slot:cell(blcok)="row">
                 <nuxt-link
-                    class="text-monospace"
                     :to="{name: 'blocks-id', params: {
                   id: row.item.id
                 }}"

@@ -1,6 +1,6 @@
 <template>
     <blockquote class="blockquote mb-0 balance">
-        <p class="mb-0 text-monospace">
+        <p class="mb-0">
             <small>
                 <nuxt-link
                     :to="{
@@ -17,7 +17,7 @@
                 </nuxt-link>
             </small>
         </p>
-        <footer v-if="isMainnet" class="blockquote-footer text-monospace">
+        <footer v-if="isMainnet" class="blockquote-footer">
             <small v-if="btc"> {{ balance | calcBtc(btc) }} BTC</small>
             <small v-else>--</small>
         </footer>

@@ -21,7 +21,7 @@
             <ListItem>
                 <template slot="label">ID</template>
                 <template slot="item-content">
-                    <span class="text-monospace font-weight-lighter">{{tx.txID}}</span>
+                    <span>{{tx.txID}}</span>
                     <b-tooltip :triggers="[]" target="tx-id-btn" ref="tx-id-btn-tip">Copied</b-tooltip>
                     <b-button
                         id="tx-id-btn"
@@ -58,7 +58,7 @@
             <ListItem>
                 <template slot="label">Gas Used</template>
                 <template slot="item-content">
-                    <span class="text-monospace">{{tx.gasUsed | numFmt}}/{{tx.gas | numFmt}}</span>
+                    <span>{{tx.gasUsed | numFmt}}/{{tx.gas | numFmt}}</span>
                     <sup>
                         <strong>price coef {{tx.gasPriceCoef}}</strong>
                     </sup>
@@ -148,12 +148,12 @@
                 <ListItem>
                     <template slot="label">BlockRef</template>
                     <template slot="item-content">
-                        <span class="text-monospace font-weight-lighter">
+                        <span>
                             <nuxt-link
                                 :to="{name: 'search', query: {content: blockRefNum(tx.blockRef)}}"
                             >{{tx.blockRef | bNum | numFmt}}</nuxt-link>
                         </span>
-                        <span class="text-monospace font-weight-lighter">({{tx.blockRef}})</span>
+                        <span>({{tx.blockRef}})</span>
                     </template>
                 </ListItem>
                 <ListItem>
@@ -163,7 +163,7 @@
                 <ListItem>
                     <template slot="label">Nonce</template>
                     <template slot="item-content">
-                        <span class="text-monospace font-weight-lighter">{{tx.nonce}}</span>
+                        <span>{{tx.nonce}}</span>
                     </template>
                 </ListItem>
                 <ListItem>
@@ -176,9 +176,7 @@
                 <ListItem>
                     <template slot="label">Chain Tag</template>
                     <template slot="item-content">
-                        <span
-                            class="text-monospace font-weight-lighter"
-                        >0x{{tx.chainTag.toString(16)}}</span>
+                        <span>0x{{tx.chainTag.toString(16)}}</span>
                     </template>
                 </ListItem>
             </template>

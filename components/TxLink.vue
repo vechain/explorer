@@ -1,6 +1,5 @@
 <template>
     <nuxt-link
-        class="text-monospace"
         :to="{
             name: 'transactions-id',
             params: {

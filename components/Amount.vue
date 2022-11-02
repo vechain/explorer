@@ -1,6 +1,6 @@
 <template>
     <span :class="{small: sm}">
-        <span v-b-tooltip.hover="strBalance" class="text-monospace">{{amount | hexToVal(dec) | balance}}</span>
+        <span v-b-tooltip.hover="strBalance">{{amount | hexToVal(dec) | balance}}</span>
         <small v-if="sym && showSym" class="text-secondary">{{sym}}</small>
     </span>
 </template>

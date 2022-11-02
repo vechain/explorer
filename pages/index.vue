@@ -27,9 +27,8 @@
                                     class="d-flex d-sm-block justify-content-between"
                                 >
                                     <div class="d-flex d-sm-block">
-                                        Block #
+                                        Block 
                                         <router-link
-                                            class="text-monospace"
                                             :to="{name:'blocks-id', params: {id: b.id}}"
                                         >{{b.number | numFmt}}</router-link>
                                     </div>
@@ -43,7 +42,7 @@
                                 >
                                     <div class="d-flex d-sm-block">{{b.txCount}} Txs</div>
                                     <div
-                                        class="d-flex d-sm-block small text-monospace"
+                                        class="d-flex d-sm-block small"
                                     >
                                         <small v-b-tooltip.hover="tooltipGas(b.gasUsed, b.gasLimit)">{{b.gasUsed/b.gasLimit | percent}} Used</small>
                                     </div>
