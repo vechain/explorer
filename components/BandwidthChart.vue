@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 import { Vue, Component, Watch } from 'vue-property-decorator'
-import { Chart } from 'chart.js'
+import Chart from 'chart.js'
 
 const gasLimitSamplesKey = 'gasLimitSamples'
 type GasLimitSample = {
@@ -67,7 +67,7 @@ export default class BandwidthChart extends Vue {
         }
 
         const data = {
-            labels,
+            labels: labels.map((l, i) => !!(i % 2) ? l : ''),
             datasets: [{
                 ...refLineStyle,
                 label: 'Mid',
@@ -85,9 +85,9 @@ export default class BandwidthChart extends Vue {
                 data: gls.map(() => low / 10),
                 borderDash: [6, 2],
             }, {
-                data: limits.map(s => s / 10),
+                data: limits.map(s =>  s / 10),
                 fill: false,
-                pointRadius: 0,
+                pointRadius: 1,
                 borderColor: '#007bff',
                 pointHitRadius: 8,
                 borderWidth: 2,
@@ -103,11 +103,11 @@ export default class BandwidthChart extends Vue {
                         drawBorder: false
                     },
                     ticks: {
-                        fontSize: 10,
+                        fontSize: 10
                     },
                     scaleLabel: {
                         display: false
-                    },
+                    }
                 }],
                 yAxes: [{
                     gridLines: {
@@ -133,12 +133,14 @@ export default class BandwidthChart extends Vue {
                 display: false
             },
             tooltips: {
+                intersect: false,
+                mode: 'x' as Chart.InteractionMode,
                 callbacks: {
                     label: (tooltipItem: any) => {
                         return prettyN(tooltipItem.yLabel) + 'gps'
                     },
                     title: (tooltipItem: any) => {
-                        return `${tooltipItem[0].xLabel}`
+                        return `${labels[tooltipItem[0].index]}`
                     }
                 }
             }
