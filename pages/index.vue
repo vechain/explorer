@@ -2,12 +2,12 @@
     <b-container class="mt-4">
         <b-row align-v="stretch" class="shadow-sm border py-2 bg-white mb-3 mx-0 mx-sm-3">
             <b-col lg="6" class="px-2 px-sm-3 align-self-center">
-                <Status :infos="status"/>
+                <Status :infos="status" />
             </b-col>
             <b-col lg="6" class="px-0 px-sm-3 align-self-center">
                 <div class="text-truncate text-muted ml-3 small mb-2">Bandwidth</div>
                 <div style="height: 100px; text-align: center;">
-                    <b-spinner v-show="!chartLoaded" type="grow" middle/>
+                    <b-spinner v-show="!chartLoaded" type="grow" middle />
                     <BandwidthChart class="px-2" v-show="chartLoaded" @loaded="chartLoaded = true" />
                 </div>
             </b-col>
@@ -20,44 +20,35 @@
                 </h5>
                 <b-list-group class="shadow-sm" v-if="recentBlocks">
                     <transition-group tag="div" name="stack" class="position-relative">
-                        <b-list-group-item v-for="b in recentBlocks" :key="b.id" class="stack-item">
+                        <b-list-group-item v-for="b in recentBlocks" :key="b.id"
+                            class="stack-item item-height">
                             <b-row no-gutters>
-                                <b-col
-                                    cols="sm-5"
-                                    class="d-flex d-sm-block justify-content-between"
-                                >
+                                <b-col cols="sm-5" class="d-flex d-sm-block justify-content-between">
                                     <div class="d-flex d-sm-block">
-                                        Block 
-                                        <router-link
-                                            :to="{name:'blocks-id', params: {id: b.id}}"
-                                        >{{b.number | numFmt}}</router-link>
+                                        Block
+                                        <router-link :to="{ name: 'blocks-id', params: { id: b.id } }">{{  b.number |
+                                        numFmt
+ }}
+                                        </router-link>
                                     </div>
-                                    <div
-                                        class="d-flex d-sm-block text-muted small text-truncate"
-                                    >{{b.timestamp | ago}}</div>
-                                </b-col>
-                                <b-col
-                                    cols="sm-3"
-                                    class="d-flex d-sm-block justify-content-between"
-                                >
-                                    <div class="d-flex d-sm-block">{{b.txCount}} Txs</div>
-                                    <div
-                                        class="d-flex d-sm-block small"
-                                    >
-                                        <small v-b-tooltip.hover="tooltipGas(b.gasUsed, b.gasLimit)">{{b.gasUsed/b.gasLimit | percent}} Used</small>
+                                    <div class="d-flex d-sm-block text-muted small text-truncate">{{  b.timestamp | ago 
+                                        }}
                                     </div>
                                 </b-col>
-                                <b-col
-                                    cols="sm-4"
-                                    title="Signer"
-                                    class="text-right small d-flex d-sm-block justify-content-between"
-                                >
+                                <b-col cols="sm-3" class="d-flex d-sm-block justify-content-between">
+                                    <div class="d-flex d-sm-block">{{  b.txCount  }} Txs</div>
+                                    <div class="d-flex d-sm-block small">
+                                        <small v-b-tooltip.hover="tooltipGas(b.gasUsed, b.gasLimit)">{{  b.gasUsed /
+                                        b.gasLimit
+                                        | percent
+
+                                            }} Used</small>
+                                    </div>
+                                </b-col>
+                                <b-col cols="sm-4" title="Signer"
+                                    class="text-right small d-flex d-sm-block justify-content-between">
                                     <span class="d-flex d-sm-inline text-secondary">Signer</span>
-                                    <AccountLink
-                                        class="d-flex d-sm-inline-block"
-                                        :address="b.signer"
-                                        :icon="false"
-                                    />
+                                    <AccountLink class="d-flex d-sm-inline-block" :address="b.signer" :icon="false" />
                                 </b-col>
                             </b-row>
                         </b-list-group-item>
@@ -71,12 +62,8 @@
                 </h5>
                 <b-list-group class="shadow-sm" v-if="recentTxs">
                     <transition-group tag="div" class="position-relative" name="stack">
-                        <b-list-group-item
-                            style="font-size:95%"
-                            v-for="(t) in recentTxs"
-                            :key="t.txID"
-                            class="stack-item"
-                        >
+                        <b-list-group-item v-for="(t) in recentTxs" :key="t.txID"
+                            class="stack-item item-height">
                             <b-row>
                                 <b-col cols="sm-7 d-flex d-sm-block flex-column">
                                     <div class="text-truncate">
@@ -84,21 +71,14 @@
                                         <RevertedIcon v-if="t.receipt.reverted" />
                                         <TxLink :id="t.txID" :short="false" />
                                     </div>
-                                    <span class="text-muted small">{{t.meta.blockTimestamp | ago}}</span>
+                                    <span class="text-muted small">{{  t.meta.blockTimestamp | ago  }}</span>
                                 </b-col>
-                                <b-col
-                                    cols="sm-5"
-                                    class="text-right flex-column mt-1 mt-sm-0 d-flex d-sm-block"
-                                >
+                                <b-col cols="sm-5" class="text-right flex-column mt-1 mt-sm-0 d-flex d-sm-block">
                                     <div class="d-sm-block text-sm-right small">
                                         <span class="text-secondary">Origin</span>
                                         <AccountLink :icon="false" :address="t.origin" />
                                     </div>
-                                    <Amount
-                                        class="d-sm-block"
-                                        :amount="t.clauses | countVal"
-                                        sym="VET"
-                                    />
+                                    <Amount class="d-sm-block" :amount="t.clauses | countVal" sym="VET" />
                                 </b-col>
                             </b-row>
                         </b-list-group-item>
@@ -192,16 +172,19 @@ export default class App extends Vue {
     transition: all 0.6s;
     transition-timing-function: ease;
 }
+
 .stack-enter {
     transform: scale(0.5, 0);
     transform-origin: 50% 0%;
     opacity: 0;
 }
+
 .stack-leave-active {
     position: absolute;
     left: 0px;
     right: 0px;
 }
+
 .stack-leave-to {
     opacity: 0;
 }
