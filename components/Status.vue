@@ -101,7 +101,7 @@ export default class Status extends Vue {
                     }
                 })(),
                 voting: voting.toLocaleString(),
-                epoch: voting > bestNum ? 'N/A' : (bestNum % 180 + '/180'),
+                epoch: voting > bestNum ? 'N/A' : ((bestNum % 180 + 1) + '/180'),
                 size: (() => {
                     if (processingLen === 3) {
                         return 14
