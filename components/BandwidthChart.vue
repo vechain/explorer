@@ -183,15 +183,15 @@ export default class BandwidthChart extends Vue {
     }
 
     samplePoints() {
-        const best = this.best
+        const num = Vue.filter('bNum')(this.best.id)
+        const timestamp = this.best.timestamp
         const points: number[] = []
         const gap = 720
-        const latestP = best.number - Math.floor((best.timestamp % 600) / 10)
+        const latestP = num - Math.floor((timestamp % 600) / 10)
 
         for (let i = 0; i < 12; i++) {
             points.unshift(latestP - i * gap)
         }
-
         this.points = points
     }
 

@@ -32,7 +32,7 @@
             <div style="background-color: #fff" v-show="isMounted">
                 <NuxtDynamic
                     :is="meta ? 'TxInfo' : 'TxUnpacking'"
-                    :bestNum="best.number"
+                    :bestNum="bestNum"
                     v-show="tab === 'info'"
                     :tx="tx"
                     :transfers="transfers"
@@ -102,7 +102,7 @@ export default class Transaction extends Vue {
         this.isMounted = true
     }
 
-    @Watch('best')
+    @Watch('bestNum')
     async onBest() {
         if (this.txDetail &&
             (
@@ -169,8 +169,8 @@ export default class Transaction extends Vue {
         ]
     }
 
-    get best(): DTO.Block {
-        return this.$store.state.best
+    get bestNum(): number {
+        return this.$store.getters.bestNum
     }
     get tab() {
         const temp = this.$route.hash.substr(1).toLowerCase()

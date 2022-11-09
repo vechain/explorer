@@ -20,15 +20,16 @@
                 </h5>
                 <b-list-group class="shadow-sm" v-if="recentBlocks">
                     <transition-group tag="div" name="stack" class="position-relative">
-                        <b-list-group-item v-for="b in recentBlocks" :key="b.id"
-                            class="stack-item item-height">
+                        <b-list-group-item v-for="b in recentBlocks" :key="b.id" class="stack-item item-height">
                             <b-row no-gutters>
                                 <b-col cols="sm-5" class="d-flex d-sm-block justify-content-between">
                                     <div class="d-flex d-sm-block">
                                         Block
                                         <router-link :to="{ name: 'blocks-id', params: { id: b.id } }">{{  b.number |
                                         numFmt
- }}
+
+
+                                            }}
                                         </router-link>
                                     </div>
                                     <div class="d-flex d-sm-block text-muted small text-truncate">{{  b.timestamp | ago 
@@ -41,6 +42,8 @@
                                         <small v-b-tooltip.hover="tooltipGas(b.gasUsed, b.gasLimit)">{{  b.gasUsed /
                                         b.gasLimit
                                         | percent
+
+
 
                                             }} Used</small>
                                     </div>
@@ -62,23 +65,22 @@
                 </h5>
                 <b-list-group class="shadow-sm" v-if="recentTxs">
                     <transition-group tag="div" class="position-relative" name="stack">
-                        <b-list-group-item v-for="(t) in recentTxs" :key="t.txID"
-                            class="stack-item item-height">
+                        <b-list-group-item v-for="(t) in recentTxs" :key="t.txID" class="stack-item item-height">
                             <b-row>
                                 <b-col cols="sm-7 d-flex d-sm-block flex-column">
                                     <div class="text-truncate">
                                         TxID:
-                                        <RevertedIcon v-if="t.receipt.reverted" />
+                                        <RevertedIcon v-if="t.reverted" />
                                         <TxLink :id="t.txID" :short="false" />
                                     </div>
-                                    <span class="text-muted small">{{  t.meta.blockTimestamp | ago  }}</span>
+                                    <span class="text-muted small">{{  t.timestamp | ago  }}</span>
                                 </b-col>
                                 <b-col cols="sm-5" class="text-right flex-column mt-1 mt-sm-0 d-flex d-sm-block">
                                     <div class="d-sm-block text-sm-right small">
                                         <span class="text-secondary">Origin</span>
                                         <AccountLink :icon="false" :address="t.origin" />
                                     </div>
-                                    <Amount class="d-sm-block" :amount="t.clauses | countVal" sym="VET" />
+                                    <Amount class="d-sm-block" :amount="t.totalValue" sym="VET" />
                                 </b-col>
                             </b-row>
                         </b-list-group-item>
@@ -116,28 +118,22 @@ import BandwidthChart from '@/components/BandwidthChart.vue'
     },
     layout: 'index',
     async asyncData(ctx: Context) {
-        const result = await ctx.$svc.recentBlocks()
-        const txs = await ctx.$svc.recentTxs()
-        const status = await ctx.$svc.chainStatus()
-        return { recentBlocks: result.blocks, recentTxs: txs.txs, status }
+        const { blocks, txs, status } = await ctx.$svc.summary()
+        return { recentBlocks: blocks, recentTxs: txs, status }
     }
 })
 export default class App extends Vue {
-    recentBlocks: any[] = []
-    recentTxs: any[] = []
+    recentBlocks: DTO.BlockSummary[] = []
+    recentTxs: DTO.TxSummary[] = []
     status: DTO.Status | null = null
     timer: any = null
     chartLoaded = false
 
     getRecents() {
-        this.$svc.recentBlocks().then(r => {
+        this.$svc.summary().then(r => {
             this.recentBlocks = r.blocks
-        })
-        this.$svc.recentTxs().then(r => {
             this.recentTxs = r.txs
-        })
-        this.$svc.chainStatus().then(r => {
-            this.status = r
+            this.status = r.status
         })
     }
 
