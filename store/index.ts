@@ -24,8 +24,8 @@ export const actions = {
 
       const tokenList = await ctx.$svc.tokens()
       ctx.store.commit('setTokens', tokenList)
-      const best: DTO.BlockDetail = await ctx.$svc.block('best')
-      actx.commit('setBest', best.block)
+      const best: DTO.Best = await ctx.$svc.best()
+      actx.commit('setBest', best)
     } catch (error) {
       console.log(error)
     }
@@ -90,6 +90,9 @@ export const getters = {
     } else {
       return []
     }
+  },
+  bestNum(state: App.State) {
+    return Vue.filter('bNum')(state.best?.id)
   }
 }
 
