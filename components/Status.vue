@@ -14,7 +14,7 @@
                     </div>
                 </b-col>
                 <b-col cols="8" class="py-2 pl-2 border-bottom">
-                    <div class="text-truncate text-muted small">Checkpoint</div>
+                    <div class="text-truncate text-muted small">Proposed Epoch</div>
                     <div :style="{fontSize: formatedStatus.size + 'px'}">{{  formatedStatus.processing  }}</div>
                 </b-col>
             </b-row>
@@ -28,11 +28,11 @@
                     </div>
                 </b-col>
                 <b-col cols="5" class="py-2 pl-2">
-                    <div class="text-truncate text-muted small">Scheduled Checkpoint</div>
+                    <div class="text-truncate text-muted small">Current Epoch</div>
                     <div>{{  formatedStatus.voting  }}</div>
                 </b-col>
                 <b-col cols="2" offset="1" class="py-2 my-sm-0">
-                    <div class="text-truncate text-muted small">Epoch</div>
+                    <div class="text-truncate text-muted small">Progress</div>
                     <div>{{  formatedStatus.epoch  }}</div>
                 </b-col>
             </b-row>
@@ -58,17 +58,17 @@
             </b-row>
             <b-row no-gutters>
                 <b-col class="px-1 py-2 border-bottom">
-                    <div class="text-truncate text-muted small">Check Point</div>
+                    <div class="text-truncate text-muted small">Proposed Epoch</div>
                     <div :style="{fontSize: formatedStatus.size + 'px'}">{{  formatedStatus.processing  }}</div>
                 </b-col>
             </b-row>
             <b-row no-gutters>
                 <b-col cols="6" md="5" class="py-2 px-1 border-right border-bottom">
-                    <div class="text-truncate text-muted small">Scheduled Check point</div>
+                    <div class="text-truncate text-muted small">Current Epoch</div>
                     <div>{{  formatedStatus.voting  }}</div>
                 </b-col>
                 <b-col class="py-2 pl-2 my-sm-0 border-bottom" cols="6" offset-md="1" md="2">
-                    <div class="text-truncate text-muted small">Epoch</div>
+                    <div class="text-truncate text-muted small">Process</div>
                     <div>{{  formatedStatus.epoch  }}</div>
                 </b-col>
             </b-row>
