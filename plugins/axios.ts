@@ -25,6 +25,7 @@ declare module 'vuex/types/index' {
   }
 }
 interface IfcSvc {
+  best(): Promise<DTO.Best>
   chainStatus(): Promise<DTO.Status>
   block(id: string | number): Promise<DTO.BlockDetail>
   blockTxs(id: string): Promise<DTO.BlockTxs>
@@ -32,8 +33,11 @@ interface IfcSvc {
   tokens(): Promise<DTO.Token[]>
   price(): Promise<DTO.Price | null>
   account(addr: string): Promise<DTO.AccountDetail>
-  recentTxs(limit?: number): Promise<{ txs: DTO.Tx[] }>
-  recentBlocks(limit?: number): Promise<{ blocks: DTO.Block[] }>
+  summary(): Promise<{
+    status: DTO.Status,
+    blocks: DTO.BlockSummary[],
+    txs: DTO.TxSummary[]
+  }>
   signedBlocks(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.SignedBlocks & { pageCount: number }>
   accountTxs(addr: string, page: number, action?: 'In' | 'Out', pageSize?: number, max?: number): Promise<DTO.AccountTxs & { pageCount: number }>
   accountTfs(addr: string, page: number, pageSize?: number, type?: string, max?: number): Promise<DTO.AccountTransfers & { pageCount: number }>
@@ -54,6 +58,10 @@ class Svc implements IfcSvc {
 
   async chainStatus(): Promise<DTO.Status> {
     return await this.axios.$get(`/api/chain/status`)
+  }
+
+  async best(): Promise<DTO.Best> {
+    return await this.axios.$get(`/api/chain/head`)
   }
 
   async blockTxs(id: string): Promise<DTO.BlockTxs> {
@@ -89,20 +97,8 @@ class Svc implements IfcSvc {
     return await this.axios.$get(`/api/accounts/${addr.toLowerCase()}`)
   }
 
-  async recentTxs(limit?: number): Promise<{ txs: DTO.Tx[] }> {
-    return await this.axios.$get(`/api/transactions/recent`, {
-      params: {
-        limit: limit ? limit : 10
-      }
-    })
-  }
-
-  async recentBlocks(limit?: number): Promise<{ blocks: DTO.Block[] }> {
-    return await this.axios.$get(`/api/blocks/recent`, {
-      params: {
-        limit: limit ? limit : 10
-      }
-    })
+  async summary(): Promise<{ status: DTO.Status; blocks: DTO.BlockSummary[]; txs: DTO.TxSummary[] }> {
+    return await this.axios.$get('/api/chain/summary')
   }
 
   async signedBlocks(addr: string, page: number, pageSize?: number, max?: number): Promise<DTO.SignedBlocks & { pageCount: number }> {
