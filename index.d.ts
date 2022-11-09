@@ -4,7 +4,7 @@ declare namespace App {
   }
 
   type State = {
-    best: DTO.Block | null
+    best: DTO.Best | null
     tokens: DTO.Token[] | null
     abis: {
       [key: string]: any
@@ -16,6 +16,12 @@ declare namespace App {
   }
 }
 declare namespace DTO {
+  type Best = {
+    id: string,
+    timestamp: number,
+    parentID: string
+  }
+
   type Status = {
     best: string | null,
     finalized: string | null,
@@ -135,6 +141,14 @@ declare namespace DTO {
     value: string
     data: string
   }
+  type TxSummary = {
+    txID: string
+    origin: string
+    totalValue: string
+    reverted: boolean
+    timestamp: number
+  }
+
   type Tx = {
     blockRef: string
     chainTag: number
@@ -162,6 +176,16 @@ declare namespace DTO {
   type BlockTxs = {
     meta: BlockMeta
     txs: Tx[]
+  }
+
+  type BlockSummary = {
+    id: string
+    number: number
+    timestamp: number
+    gasLimit: string
+    gasUsed: string
+    signer: string
+    txCount: number
   }
 
   type Block = {
