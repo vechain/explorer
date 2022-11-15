@@ -111,7 +111,15 @@ export default class Transaction extends Vue {
                 (this.txDetail.receipt.reverted && this.txDetail.receipt.vmError === null)
             )
         ) {
-            this.txDetail = await this.$svc.tx(this.txDetail.tx.txID)
+            const t = await this.$svc.tx(this.txDetail.tx.txID)
+            if (this.txDetail) {
+                this.txDetail.transfers = t.transfers
+                if(JSON.stringify(this.txDetail.receipt) !== JSON.stringify(t.receipt)) {
+                    this.txDetail.receipt = t.receipt
+                }
+            } else {
+                this.txDetail = t
+            }
         } else {
             return
         }
