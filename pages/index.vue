@@ -92,7 +92,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component, Watch } from 'vue-property-decorator'
 import { Context } from '@nuxt/types'
 import AccountLink from '@/components/AccountLink.vue'
 import IdentBox from '@/components/IdentBox.vue'
@@ -129,7 +129,12 @@ export default class App extends Vue {
     timer: any = null
     chartLoaded = false
 
-    getRecents() {
+    get best() {
+        return this.$store.state.best
+    }
+    
+    @Watch('best')
+    onBest() {
         this.$svc.summary().then(r => {
             this.recentBlocks = r.blocks
             this.recentTxs = r.txs
@@ -137,29 +142,8 @@ export default class App extends Vue {
         })
     }
 
-    startTimer() {
-        this.timer = setInterval(() => {
-            this.getRecents()
-        }, 10000)
-    }
-
     tooltipGas(gasUsed: string, gasLimit: string) {
         return Vue.filter('numFmt')(gasUsed) + ' / ' + Vue.filter('numFmt')(gasLimit)
-    }
-
-    clearTimer() {
-        if (this.timer) {
-            clearInterval(this.timer)
-            this.timer = null
-        }
-    }
-
-    mounted() {
-        this.startTimer()
-    }
-
-    beforeDestroy() {
-        this.clearTimer()
     }
 }
 </script>
