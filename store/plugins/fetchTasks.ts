@@ -16,7 +16,7 @@ export const fetchBest: Plugin<App.State> = (store: Store<App.State>) => {
           await doUpdate()
         }
       }, 2 * 1000)
-    // align with the next odd second, then ticks every 2 seconds
+    // align with the next even second, then ticks every 2 seconds
     }, 2 * 1000 - Date.now() % (2 * 1000))
   }
 }
