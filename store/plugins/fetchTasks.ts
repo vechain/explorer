@@ -10,11 +10,13 @@ export const fetchBest: Plugin<App.State> = (store: Store<App.State>) => {
     setTimeout(() => {
       doUpdate().catch()
       setInterval(async () => {
+        // checks best at second 0/2/4/6/8
         const now = Math.floor(Date.now() / 1000)
         if (store.state.best && now - store.state.best.timestamp >= BLOCK_INTERVAL) {
           await doUpdate()
         }
       }, 2 * 1000)
+    // align with the next odd second, then ticks every 2 seconds
     }, 2 * 1000 - Date.now() % (2 * 1000))
   }
 }
