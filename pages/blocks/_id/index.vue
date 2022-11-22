@@ -34,7 +34,7 @@
                 <template slot="label">Status</template>
                 <template slot="item-content">
                     <b-badge v-if="item.isFinalized" class="mr-2" variant="primary">Finalized</b-badge>
-                    <b-badge v-else class="mr-2" variant="secondary">Unfinalized</b-badge>
+                    <b-badge v-else class="mr-2" variant="secondary">Finalizing</b-badge>
                 </template>
             </ListItem>
             <ListItem>
