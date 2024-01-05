@@ -213,9 +213,9 @@ export default function (ctx: Context, inject: any) {
       return
     }
     if (error.response) {
-      ctx.redirect('/error', {
-        code: error.response.status.toString(),
-        msg: error.response.statusText
+      ctx.error({
+        statusCode: error.response.status,
+        message: error.response.statusText
       })
     }
   })
