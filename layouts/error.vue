@@ -19,8 +19,8 @@
             <p class="my-4">
                 This page is not working, please check the error below or contact
                 <a
-                    href="mailto:support@vechain.com"
-                >support@vechain.com</a> if the issue still occurs.
+                    href="mailto:support@vechain.org"
+                >support@vechain.org</a> if the issue still occurs.
             </p>
 
             <b-button squared variant="outline-primary" :to="{name: 'index'}">BACK TO HOMEPAGE</b-button>

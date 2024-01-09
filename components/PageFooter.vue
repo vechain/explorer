@@ -87,7 +87,7 @@ export default class PageFooter extends Vue {
             list: [
                 {
                     name: 'Contact us',
-                    link: 'mailto:support@vechain.com'
+                    link: 'mailto:support@vechain.org'
                 }
             ]
         }
