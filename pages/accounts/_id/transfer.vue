@@ -140,14 +140,17 @@ import { Route } from 'vue-router'
         const type = (ctx.query.token as string) || ''
 
         const result = await ctx.$svc.accountTfs(ctx.params.id, page, 10, type)
+        const account = await ctx.$svc.account(ctx.params.id)
         return {
             transferDetail: result,
-            currentPage: page
+            currentPage: page,
+            accountDetail: account
         }
     }
 })
 export default class AccountTransfer extends Vue {
     transferDetail: DTO.AccountTransfers & { pageCount: number } | null = null
+    accountDetail: DTO.AccountDetail | null = null
     currentPage = 1
     perPage = 10
     isAuthority = false
@@ -216,17 +219,32 @@ export default class AccountTransfer extends Vue {
     }
 
     get tokens() {
+        const tokens = [
+            {
+                symbol: 'VET',
+                decimals: 18,
+                imgUrl: require('~/assets/vet.png')
+            }
+        ]
         if (this.$store.state.tokens) {
-            return [
-                {
-                    symbol: 'VET',
-                    decimals: 18,
-                    imgUrl: require('~/assets/vet.png')
+            const bals = []
+            if (this.accountDetail && this.accountDetail.tokens) {
+                for (const t of this.accountDetail?.tokens) {
+                    bals.push(t.symbol)
                 }
-            ].concat(this.$store.state.tokens)
-        } else {
-            return []
+            }
+            for (const t of this.$store.state.tokens) {
+                if (bals.includes(t.symbol) || t.symbol === 'VTHO') {
+                    tokens.push({
+                        symbol: t.symbol,
+                        decimals: t.decimals,
+                        imgUrl: t.imgUrl
+                    })
+                }
+            }
         }
+
+        return tokens
     }
 
     get transfers() {
