@@ -44,8 +44,11 @@ Vue.filter('calcBtc', (hex: string, price: number, decimals?: number,) => {
 Vue.filter('hexToVal', (hex: string, decimals?: number) => {
   const temp = new BigNumber(hex)
 
+  if (decimals === undefined) {
+    decimals = 18
+  }
   return temp.isGreaterThan(0)
-    ? temp.div(new BigNumber('1e+' + (decimals || 18))).toString()
+    ? temp.div(new BigNumber('1e+' + decimals)).toString()
     : 0
 })
 
